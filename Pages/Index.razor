@@ -7,13 +7,36 @@
     <div class="row">
         <div class="col-lg-4 col-md-6">
             <!-- Left section -->
-            <input type="text" placeholder="Course Search.." @bind="@searchQuery" />
-            <ul class="list-group" style="max-height: 300px; overflow-y: scroll;">
-                @foreach (var course in GetSearchResults())
-                {
-                    <li class="list-group-item">@course</li>
-                }
-            </ul>
+            <input type="text" placeholder="Course Search.." @bind="@searchQuery" /> <br />
+            <div class="btn-group-vertical w-100" role="group" >
+                <button type="button" class="btn btn-light btn-lg btn-block">CPSC 231</button>
+                <button type="button" class="btn btn-light btn-lg btn-block">MATH 211</button>
+
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-light btn-lg btn-block dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      CPSC 329
+                    </button>
+                    <div class="dropdown-menu w-200" aria-labelledby="btnGroupDrop1">
+                      <p> <b>Explorations in Information Security</b><br /> A broad survey of topics in information security and privacy, with the purpose of cultivating an appropriate mindset for approaching security and privacy issues. Topics will be motivated by recreational puzzles. Legal and ethical considerations will be introduced as necessary. <br />This course may not be repeated for credit.<br /></p>
+                      <a class="dropdown-item" href="#">Prerequisites</a>
+                      <a class="dropdown-item" href="#">Antirequisites</a>
+                      <a class="dropdown-item" href="#">Credit Hours </a>
+                    </div>
+                </div>
+                <div class="btn-group" role="group">
+                     <button id="btnGroupDrop1" type="button" class="btn btn-light btn-lg btn-block dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      MATH 249
+                    </button>
+                    <div class="dropdown-menu w-200" aria-labelledby="btnGroupDrop1">
+                      <p> <b>Introductory Calculus</b>An introduction to single variable calculus. Limits, derivatives and integrals of algebraic, exponential, logarithmic and trigonometric functions play a central role. Additional topics include applications of differentiation; the fundamental theorem of calculus, improper integrals and applications of integration.<br />This course may not be repeated for credit. <br /></p>
+                      <a class="dropdown-item" href="#">Prerequisites</a>
+                      <a class="dropdown-item" href="#">Antirequisites</a>
+                      <a class="dropdown-item" href="#">Credit Hours </a>
+                    </div>
+                </div>
+              
+            </div
+            
         </div>
         <div class="col-lg-8 col-md-6">
             <!-- Right section -->
@@ -23,11 +46,13 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title"><b>Fall 2023</b></h5>
-                            <button type="button" class="btn btn-light btn-lg btn-block">CPSC 231</button> <br />
-                            <button type="button" class="btn btn-light btn-lg btn-block">PHIL 279</button> <br />
-                            <button type="button" class="btn btn-light btn-lg btn-block">MATH 211</button> <br />
-                            <button type="button" class="btn btn-light btn-lg btn-block">FILM 201</button> <br />
-                            <button type="button" class="btn btn-light btn-lg btn-block">SOCI 201</button> <br />
+                            <div class="btn-group-vertical w-100" role="group" >
+                                <button type="button" class="btn btn-light btn-lg btn-block">CPSC 231</button> <br />
+                                <button type="button" class="btn btn-light btn-lg btn-block">PHIL 279</button> <br />
+                                <button type="button" class="btn btn-light btn-lg btn-block">MATH 211</button> <br />
+                                <button type="button" class="btn btn-light btn-lg btn-block">FILM 201</button> <br />
+                                <button type="button" class="btn btn-light btn-lg btn-block">SOCI 201</button> <br />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -36,7 +61,9 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title"><b>Winter 2024</b></h5>
-                            <button type="button" class="btn btn-light btn-lg btn-block">CPSC 233</button> <br />
+                            <div class="btn-group-vertical w-100" role="group" >
+                                <button type="button" class="btn btn-light btn-lg btn-block">CPSC 233</button> <br />
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -9,8 +9,28 @@
             <!-- Left section -->
             <input type="text" placeholder="Course Search.." @bind="@searchQuery" /> <br />
             <div class="btn-group-vertical w-100" role="group" >
-                <button type="button" class="btn btn-light btn-lg btn-block">CPSC 231</button>
-                <button type="button" class="btn btn-light btn-lg btn-block">MATH 211</button>
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-light btn-lg btn-block dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      CPSC 231
+                    </button>
+                    <div class="dropdown-menu w-200" aria-labelledby="btnGroupDrop1">
+                      <p> <b> Introduction to Computer Science for Computer Science Majors I</b>Introduction to problem solving, the analysis and design of small-scale computational systems, and implementation using a procedural programming language. For computer science majors.<br /> <br />This course may not be repeated for credit.<br /></p>
+                      <a class="dropdown-item" href="#">Prerequisites</a>
+                      <a class="dropdown-item" href="#">Antirequisites</a>
+                      <a class="dropdown-item" href="#">Credit Hours </a>
+                    </div>
+                </div>
+                <div class="btn-group" role="group">
+                    <button id="btnGroupDrop1" type="button" class="btn btn-light btn-lg btn-block dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      MATH 211
+                    </button>
+                    <div class="dropdown-menu w-200" aria-labelledby="btnGroupDrop1">
+                      <p> <b>Linear Methods I</b> <br />An introduction to systems of linear equations, vectors in Euclidean space and matrix algebra. Additional topics include linear transformations, determinants, complex numbers, eigenvalues, and applications.<br /> <br />This course may not be repeated for credit.<br /></p>
+                      <a class="dropdown-item" href="#">Prerequisites</a>
+                      <a class="dropdown-item" href="#">Antirequisites</a>
+                      <a class="dropdown-item" href="#">Credit Hours </a>
+                    </div>
+                </div>
 
                 <div class="btn-group" role="group">
                     <button id="btnGroupDrop1" type="button" class="btn btn-light btn-lg btn-block dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -28,7 +48,7 @@
                       MATH 249
                     </button>
                     <div class="dropdown-menu w-200" aria-labelledby="btnGroupDrop1">
-                      <p> <b>Introductory Calculus</b>An introduction to single variable calculus. Limits, derivatives and integrals of algebraic, exponential, logarithmic and trigonometric functions play a central role. Additional topics include applications of differentiation; the fundamental theorem of calculus, improper integrals and applications of integration.<br />This course may not be repeated for credit. <br /></p>
+                      <p> <b>Introductory Calculus</b><br />An introduction to single variable calculus. Limits, derivatives and integrals of algebraic, exponential, logarithmic and trigonometric functions play a central role. Additional topics include applications of differentiation; the fundamental theorem of calculus, improper integrals and applications of integration.<br />This course may not be repeated for credit. <br /></p>
                       <a class="dropdown-item" href="#">Prerequisites</a>
                       <a class="dropdown-item" href="#">Antirequisites</a>
                       <a class="dropdown-item" href="#">Credit Hours </a>

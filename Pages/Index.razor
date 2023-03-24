@@ -1,8 +1,67 @@
 ﻿@page "/"
+@using System.Linq
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4 col-md-6">
+            <!-- Left section -->
+            <input type="text" placeholder="Course Search.." @bind="@searchQuery" />
+            <ul class="list-group" style="max-height: 300px; overflow-y: scroll;">
+                @foreach (var course in GetSearchResults())
+                {
+                    <li class="list-group-item">@course</li>
+                }
+            </ul>
+        </div>
+        <div class="col-lg-8 col-md-6">
+            <!-- Right section -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <!-- Left container -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><b>Fall 2023</b></h5>
+                            <button type="button" class="btn btn-light btn-lg btn-block">CPSC 231</button> <br />
+                            <button type="button" class="btn btn-light btn-lg btn-block">PHIL 279</button> <br />
+                            <button type="button" class="btn btn-light btn-lg btn-block">MATH 211</button> <br />
+                            <button type="button" class="btn btn-light btn-lg btn-block">FILM 201</button> <br />
+                            <button type="button" class="btn btn-light btn-lg btn-block">SOCI 201</button> <br />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <!-- Right container -->
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><b>Winter 2024</b></h5>
+                            <button type="button" class="btn btn-light btn-lg btn-block">CPSC 233</button> <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<input type="text" placeholder="Search..">
+@code {
+    private string searchQuery = "";
 
+    private List<string> courses = new List<string>
+    {
+        "Introduction to Computer Science",
+        "Data Structures and Algorithms",
+        "Web Development with ASP.NET Core",
+        "Database Systems",
+        "Mobile App Development",
+        "Software Engineering",
+        "Artificial Intelligence",
+        "Computer Networks"
+    };
+
+    private IEnumerable<string> GetSearchResults()
+    {
+        return courses.Where(c => c.ToLower().Contains(searchQuery.ToLower()));
+    }
+}

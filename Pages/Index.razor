@@ -20,14 +20,14 @@
             <div style="height:650px;overflow-y:scroll">
                 <table class="table">
                     <tbody>
-                        <Virtualize ItemsProvider="LoadEmployeeDetails" Context="employee">
+                        <Virtualize ItemsProvider="LoadCourseDetails" Context="course">
                             <ItemContent>
                                 <tr>
                                     <td>
                                         <SfCard>
 
                                             <CardHeader>Sample Card</CardHeader>
-                                            <CardContent>@employee.EmployeeId</CardContent>
+                                            <CardContent>@course.CourseId</CardContent>
                                         </SfCard>
                                     </td>
                                 </tr>
@@ -90,48 +90,48 @@
 
     public string searchQuery = "";
 
-    private List<EmployeeDetails> employees;
+    private List<CourseDetails> courses;
 
     protected override async Task OnInitializedAsync()
     {
-        employees = await GetEmployeeDetails();
+        courses = await GetCourseDetails();
     }
-    private async ValueTask<ItemsProviderResult<EmployeeDetails>> LoadEmployeeDetails(ItemsProviderRequest request)
+    private async ValueTask<ItemsProviderResult<CourseDetails>> LoadCourseDetails(ItemsProviderRequest request)
     {
-        var employees = await GetEmployeeDetails();
-        return new ItemsProviderResult<EmployeeDetails>(employees.Skip(request.StartIndex).Take(request.Count), employees.Count());
+        var courses = await GetCourseDetails();
+        return new ItemsProviderResult<CourseDetails>(courses.Skip(request.StartIndex).Take(request.Count), courses.Count());
     }
-    private async Task<List<EmployeeDetails>> GetEmployeeDetails()
+    private async Task<List<CourseDetails>> GetCourseDetails()
     {
-        List<EmployeeDetails> employeeList = new List<EmployeeDetails>();
+        List<CourseDetails> courseList = new List<CourseDetails>();
         List<string> roleList = new List<string>() { ".Net Developer", "Testing Engineer", "Graphic Designer", "Technical Writer", "Support Coordinator" };
         int roleArrayIndex = 0;
         int tempCount = 0;
-        int employeeDataCount = 100;
+        int courseDataCount = 100;
 
-        for (int i = 1; i <= employeeDataCount; i++)
+        for (int i = 1; i <= courseDataCount; i++)
         {
-            if (i > tempCount + employeeDataCount / roleList.Count())
+            if (i > tempCount + courseDataCount / roleList.Count())
             {
                 roleArrayIndex++;
                 tempCount = i - 1;
             }
 
-            var employeeDetails = new EmployeeDetails()
+            var courseDetails = new CourseDetails()
             {
-                EmployeeId = i,
-                Name = "Employee " + i.ToString(),
+                CourseId = i,
+                Name = "Course " + i.ToString(),
                 Role = roleList[roleArrayIndex]
             };
 
-            employeeList.Add(employeeDetails);
+            courseList.Add(courseDetails);
         }
-        return await Task.FromResult(employeeList);
+        return await Task.FromResult(courseList);
     }
 
-    public class EmployeeDetails
+    public class CourseDetails
     {
-        public int EmployeeId { get; set; }
+        public int CourseId { get; set; }
 
         public string Name { get; set; }
 

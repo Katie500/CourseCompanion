@@ -25,9 +25,9 @@
                                 <tr>
                                     <td>
                                         <SfCard>
-
-                                            <CardHeader>Sample Card</CardHeader>
-                                            <CardContent>@course.CourseId</CardContent>
+                                            <CardHeader>@course.Id</CardHeader>
+                                            <CardContent>@course.Title</CardContent>
+                                            
                                         </SfCard>
                                     </td>
                                 </tr>
@@ -96,6 +96,7 @@
     {
         courses = await GetCourseDetails();
     }
+
     private async ValueTask<ItemsProviderResult<CourseDetails>> LoadCourseDetails(ItemsProviderRequest request)
     {
         var courses = await GetCourseDetails();
@@ -104,24 +105,27 @@
     private async Task<List<CourseDetails>> GetCourseDetails()
     {
         List<CourseDetails> courseList = new List<CourseDetails>();
-        List<string> roleList = new List<string>() { ".Net Developer", "Testing Engineer", "Graphic Designer", "Technical Writer", "Support Coordinator" };
-        int roleArrayIndex = 0;
+        List<string> courseNameList = new List<string>() { "CPSC 231", "CPSC 233", "PHIL 314", "MATH 211", "MATH 265" };
+        List<string> courseTitleList = new List<string>() { "Intro to CPSC for CPSC Majors I", "Intro to CPSC for CPSC Majors II", "Information Technology Ethics", "Linear Methods I", "Introductory Calculus"};
+        int courseArrayIndex = 0;
         int tempCount = 0;
         int courseDataCount = 100;
 
         for (int i = 1; i <= courseDataCount; i++)
         {
-            if (i > tempCount + courseDataCount / roleList.Count())
+            if (i > tempCount + courseDataCount / courseNameList.Count())
             {
-                roleArrayIndex++;
+                courseArrayIndex++;
                 tempCount = i - 1;
             }
 
             var courseDetails = new CourseDetails()
             {
-                CourseId = i,
-                Name = "Course " + i.ToString(),
-                Role = roleList[roleArrayIndex]
+                Id = courseNameList[courseArrayIndex],
+                Title = courseTitleList[courseArrayIndex],
+
+                Description = "Introduction to problem solving, the analysis and design of small-scale computational systems, " +
+                "and implementation using a procedural programming language. For computer science majors.",
             };
 
             courseList.Add(courseDetails);
@@ -131,11 +135,12 @@
 
     public class CourseDetails
     {
-        public int CourseId { get; set; }
 
-        public string Name { get; set; }
+        public string Id { get; set; }
 
-        public string Role { get; set; }
+        public string Title { get; set; }
+
+        public string Description { get; set; }
     }
 
 }

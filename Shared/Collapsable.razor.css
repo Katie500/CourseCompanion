@@ -10,6 +10,7 @@
     text-align: left;
     font-stretch:narrower;
     display:flex;
+    justify-content:space-between;
     padding-right: 10px;
 }
 

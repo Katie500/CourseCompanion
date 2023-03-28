@@ -1,8 +1,9 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Web
 @using System.Linq
 @using Syncfusion.Blazor
 @using Syncfusion.Blazor.Cards
-@using CourseCompanion.Shared
+@inject HttpClient Http
 
 <PageTitle>Index</PageTitle>
 
@@ -13,29 +14,45 @@
 
             <!--Search Bar-->
             <div class="text-center bg-blue-100">
-                <input class="w-75 rounded m-6 p-6 h-8
-               border-blue-300" placeholder="Course search..." />
+                <input class="w-75 rounded m-6 p-6 h-8 border-blue-300" placeholder="Course search..." />
             </div>
 
             <!--Course Results List-->
             <div style="height:650px;overflow-y:scroll">
-                <table class="table">
-                    <tbody>
-                        <Virtualize ItemsProvider="LoadCourseDetails" Context="course">
-                            <ItemContent>
-                                <tr>
-                                    <td>
-                                        <SfCard>
-                                            <CardHeader>@course.Id</CardHeader>
-                                            <CardContent>@course.Title</CardContent>
-                                            
-                                        </SfCard>
-                                    </td>
-                                </tr>
-                            </ItemContent>
-                        </Virtualize>
-                    </tbody>
-                </table>
+                <div class="accordion" id="coursesAccordion">
+                    @foreach (var course in courses)
+                    {
+                        var isExpanded = course == courses.FirstOrDefault();
+                        <div class="card">
+                            <div class="card-header" id="heading@course.Id">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@course.Id" aria-expanded="@(isExpanded ? "true" : "false")" aria-controls="collapse@course.Id">
+                                        <div class="d-flex justify-content-between align-items-center w-100 text-left">
+                                            <div>
+                                                <h5 class="mb-0">@course.Id</h5>
+                                                <p class="mb-0">@course.Title</p>
+                                            </div>
+                                            <div>
+                                                <i class="fa @(isExpanded ? "fa-chevron-up" : "fa-chevron-down")"></i>
+                                            </div>
+                                        </div>
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapse@course.Id" class="collapse @(isExpanded ? "show" : "")" aria-labelledby="heading@course.Id" data-bs-parent="#coursesAccordion">
+                                <div class="card-body">
+                                    <p>@course.Description</p>
+                                    <p>Instructor: @course.Instructor</p>
+                                    <p>Levels: @course.Levels</p>
+                                    <p>Credits: @course.Credits</p>
+                                    <p>Category: @course.Category</p>
+                                    <p>Semester: @course.Semester</p>
+                                    <p>Faculty: @course.Faculty</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
 
@@ -86,38 +103,27 @@
     </div>
 </div>
 
-
 @code {
 
-    public string searchQuery = "";
-
-    private List<CourseDetails> courses;
+    private CourseDetails[]? courses;
 
     protected override async Task OnInitializedAsync()
     {
-        courses = await GetCourseDetails();
+        courses = await Http.GetFromJsonAsync<CourseDetails[]>("sample-data/courses.json");
     }
 
-    private async ValueTask<ItemsProviderResult<CourseDetails>> LoadCourseDetails(ItemsProviderRequest request)
+    public class CourseDetails
     {
-        var courses = await GetCourseDetails();
-        return new ItemsProviderResult<CourseDetails>(courses.Skip(request.StartIndex).Take(request.Count), courses.Count());
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Instructor { get; set; }
+        public int Levels { get; set; }
+        public int Credits { get; set; }
+        public string Category { get; set; }
+        public string Semester { get; set; }
+        public string Faculty { get; set; }
     }
-    
-    private async Task<List<CourseDetails>> GetCourseDetails()
-{
-    List<CourseDetails> courseList = new List<CourseDetails>();
-    CourseDatabase courseDatabase = new CourseDatabase();
-
-    for (int i = 0; i < courseDatabase.Courses.Count(); i++)
-    {
-        var courseDetails = courseDatabase.Courses[i];
-        courseList.Add(courseDetails);
-    }
-
-    return await Task.FromResult(courseList);
-}
-
 
 }
 <style>

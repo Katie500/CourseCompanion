@@ -2,6 +2,7 @@
 @using System.Linq
 @using Syncfusion.Blazor
 @using Syncfusion.Blazor.Cards
+@inject HttpClient Http
 
 <PageTitle>Index</PageTitle>
 
@@ -20,7 +21,7 @@
             <div style="height:650px;overflow-y:scroll">
                 <table class="table">
                     <tbody>
-                        <Virtualize ItemsProvider="LoadCourseDetails" Context="course">
+                        @* <Virtualize ItemsProvider="LoadCourseDetails" Context="course">
                             <ItemContent>
                                 <tr>
                                     <td>
@@ -32,7 +33,22 @@
                                     </td>
                                 </tr>
                             </ItemContent>
-                        </Virtualize>
+                        </Virtualize> *@
+
+                        @foreach (var course in courses)
+                        {
+                            <tr>
+                                <td>
+                                    <SfCard>
+                                        <CardHeader>@course.Id</CardHeader>
+                                        <CardContent>@course.Title</CardContent>
+                                        <CardContent>@course.Title</CardContent>
+                                    </SfCard>
+                                </td>
+                            </tr>
+                        }
+
+
                     </tbody>
                 </table>
             </div>
@@ -87,34 +103,33 @@
 
 @code {
 
-    public string searchQuery = "";
-
-    private List<CourseDetails> courses;
+    private CourseDetails[]? courses;
 
     protected override async Task OnInitializedAsync()
     {
-        courses = await GetCourseDetails();
+        @* courses = await GetCourseDetails(); *@
+        courses = await Http.GetFromJsonAsync<CourseDetails[]>("sample-data/courses.json");
     }
-
+@* 
     private async ValueTask<ItemsProviderResult<CourseDetails>> LoadCourseDetails(ItemsProviderRequest request)
     {
         var courses = await GetCourseDetails();
         return new ItemsProviderResult<CourseDetails>(courses.Skip(request.StartIndex).Take(request.Count), courses.Count());
     }
-    
+     *@
+@* 
     private async Task<List<CourseDetails>> GetCourseDetails()
-{
-    List<CourseDetails> courseList = new List<CourseDetails>();
-    CourseDatabase courseDatabase = new CourseDatabase();
-
-    for (int i = 0; i < courseDatabase.Courses.Count(); i++)
     {
-        var courseDetails = courseDatabase.Courses[i];
-        courseList.Add(courseDetails);
-    }
+        List<CourseDetails> courseList = new List<CourseDetails>();
+        CourseDatabase courseDatabase = new CourseDatabase();
 
-    return await Task.FromResult(courseList);
-}
+        for (int i = 0; i < courseDatabase.Courses.Count(); i++)
+        {
+            courseList.Add(courseDatabase.Courses[i]);
+        }
+
+        return await Task.FromResult(courseList);
+    }
 
 public class CourseDatabase
 {
@@ -950,7 +965,7 @@ public class CourseDatabase
         Faculty = "Science"
         },
     };
-}
+} *@
 
     public class CourseDetails
     {

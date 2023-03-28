@@ -1,8 +1,6 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components.Web
 @using System.Linq
-@using Syncfusion.Blazor
-@using Syncfusion.Blazor.Cards
 @inject HttpClient Http
 
 <PageTitle>Index</PageTitle>
@@ -20,9 +18,18 @@
             <!--Course Results List-->
             <div style="height:650px;overflow-y:scroll">
                 <div class="accordion" id="coursesAccordion">
+
+                    @if (courses == null)
+                        {
+                        <p><em>Loading...</em></p>
+                        }
+                        else
+                        {
+
+
                     @foreach (var course in courses)
-                    {
-                        var isExpanded = course == courses.FirstOrDefault();
+                        {
+                            var isExpanded = course == courses.FirstOrDefault();
                         <div class="card">
                             <div class="card-header" id="heading@course.Id">
                                 <h5 class="mb-0">
@@ -51,7 +58,8 @@
                                 </div>
                             </div>
                         </div>
-                    }
+                        }
+                      }
                 </div>
             </div>
         </div>
@@ -114,21 +122,15 @@
 
     public class CourseDetails
     {
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string Instructor { get; set; }
+        public string? Id { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+        public string? Instructor { get; set; }
         public int Levels { get; set; }
         public int Credits { get; set; }
-        public string Category { get; set; }
-        public string Semester { get; set; }
-        public string Faculty { get; set; }
+        public string? Category { get; set; }
+        public string? Semester { get; set; }
+        public string? Faculty { get; set; }
     }
 
 }
-<style>
-    .e-card {
-        background-color: antiquewhite;
-        height: 80px;
-    }
-</style>

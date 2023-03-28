@@ -1,0 +1,43 @@
+﻿.content {
+    padding: 10px;
+}
+
+#button-container {
+    display: flex;
+    margin: 20px 22% 40px;
+}
+
+.e-card {
+    border-radius: 10px;
+    background-color: antiquewhite;
+    height: auto;
+    width: 340px;
+    padding: 5px;
+    padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    .e-card .e-card-actions .e-card-btn {
+        padding-left: 20px;
+        background-color: wheat;
+    }
+
+    .e-card .e-card-separator {
+        padding-right: 500px;
+    }
+
+    .e-card .e-card-header .e-card-header-caption .e-card-header-title {
+        font-size: large;
+        font-weight: bolder;
+        color: black;
+    }
+
+    .e-card .e-card-horizontal .e-card-stacked {
+        justify-content: flex-start;
+        margin: auto;
+    }
+
+.e-plus-icon::before {
+    content: '\e823';
+}

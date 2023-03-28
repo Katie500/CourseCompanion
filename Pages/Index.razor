@@ -7,22 +7,18 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-4 col-md-6">
+        <div class="col-lg-4 col-md-6 text-center">
             <!-- Left section -->
+
             <!--Search Bar-->
             <div class="text-center bg-blue-100">
-                <input class="rounded m-6 p-6 h-8
+                <input class="w-75 rounded m-6 p-6 h-8
                border-blue-300" placeholder="Course search..." />
             </div>
 
             <!--Course Results List-->
-            <div style="height:500px;overflow-y:scroll">
+            <div style="height:650px;overflow-y:scroll">
                 <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Course Results</th>
-                        </tr>
-                    </thead>
                     <tbody>
                         <Virtualize ItemsProvider="LoadEmployeeDetails" Context="employee">
                             <ItemContent>
@@ -42,9 +38,9 @@
             </div>
         </div>
 
-        <div class="col-lg-8 col-md-6">
+        <div class="col-lg-8 col-md-6 text-center">
             <!-- Right section -->
-            <div class="row">
+            <div class="row text-center">
                 <div class="col-lg-6">
                     <!-- Left container -->
                     <div class="card bg-gradient bg-opacity-25 bg-info">
@@ -62,7 +58,7 @@
 
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-6 text-center">
                     <!-- Right container -->
                     <div class="card bg-opacity-25 bg-warning">
                         <div class="card-body">
@@ -76,19 +72,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <br /><br /><br /><br /><br /><br /><br />
-                        <button type="button" class="btn btn-danger">Reset</button>
-                        <button type="button" class="btn btn-danger">Export</button>
+                    <div class="col-lg-6 text-center">
+                        <br /><br />
+                        <button type="button" class="btn btn-primary btn-outline-primary text-center">Go To Spring/Summer</button>
+                        <br /><br /><br /><br /><br /><br />
+                        <button type="button" class="btn btn-danger text-center">Reset</button>
+                        <button type="button" class="btn btn-danger text-center">Export</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-    <div>
-    </div>
 </div>
+
 
 @code {
 
@@ -149,5 +145,3 @@
         height: 300px;
     }
 </style>
-
-}

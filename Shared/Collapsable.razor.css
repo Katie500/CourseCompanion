@@ -9,6 +9,8 @@
     display: table-cell;
     text-align: left;
     font-stretch:narrower;
+    display:flex;
+    padding-right: 10px;
 }
 
 .collapsable .value {

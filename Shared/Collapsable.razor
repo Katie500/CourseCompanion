@@ -9,15 +9,19 @@
         </div>
     }
     <div class="title" @onclick="@Toggle">
+
+        @Title
+
         @if (Collapsed)
         {
-            <span class="oi oi-chevron-bottom mr-1" style="text-align: right"></span>
+            <span class="oi oi-chevron-bottom mr-1"></span>
         }
         else
         {
-            <span class="oi oi-chevron-top mr-1" style="text-align: right"></span>
+            <span class="oi oi-chevron-top mr-1"></span>
         }
-        @Title
+
+
     </div>
 
 </div>

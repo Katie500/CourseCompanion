@@ -7,6 +7,13 @@
     margin: 20px 22% 40px;
 }
 
+.card-content{
+    background-color: antiquewhite;
+    font-size: smaller;
+    display: table-cell;
+    text-align: left;
+}
+
 .e-card {
     border-radius: 10px;
     background-color: antiquewhite;
@@ -16,6 +23,7 @@
     padding-left: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
+
 }
 
     .e-card .e-card-actions .e-card-btn {
@@ -27,9 +35,10 @@
         padding-right: 500px;
     }
 
-    .e-card .e-card-header .e-card-header-caption .e-card-header-title {
-        font-size: large;
+    .e-card .e-card-header {
+        font-size: larger;
         font-weight: bolder;
+        font-stretch: condensed;
         color: black;
     }
 

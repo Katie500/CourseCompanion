@@ -19,15 +19,21 @@
 
             <div class="e-card">
                 <SfCard @key="course.Id">
-                    <CardHeader Title="@course.Id"></CardHeader>
-                    <Collapsable Title="@course.Title" Collapsed="true">
-                        <body>
-                            <p>
-                                @course.Description
-                                @course.Semester
-                            </p>
-                        </body>
 
+                    <div class="e-card-header">
+                        <CardHeader Title="@course.Id"></CardHeader>
+                    </div>
+                   
+                    <Collapsable Title="@course.Title" Collapsed="true">
+                        <div class="card-content">
+                            <p style="background-color:antiquewhite">
+
+                                @course.Description<br>
+                                <b>Prerequisite(s):</b> @course.Antirequisites
+                                <b>Antirequisite(s):</b> @course.Antirequisites 
+
+                            </p>
+                        </div>
                     </Collapsable>
 
                 </SfCard>
@@ -59,7 +65,9 @@
         public string? Category { get; set; }
         public string? Semester { get; set; }
         public string? Faculty { get; set; }
+        public string? Prerequisites { get; set; }
+        public string? Antirequisites { get; set; }
     }
 
-}
+    }
 

@@ -1,15 +1,19 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components.Web
 @using System.Linq
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Cards
+@using Syncfusion.Blazor.Buttons
+@using CourseCompanion.Shared
 @inject HttpClient Http
 
 <PageTitle>Index</PageTitle>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-4 col-md-6 text-center">
+        <div class="col-lg-4 col-md-6">
             <!-- Left section -->
-
             <!--Search Bar-->
             <div class="text-center bg-blue-100">
                 <input class="w-75 rounded m-6 p-6 h-8 border-blue-300" placeholder="Course search..." />
@@ -17,50 +21,7 @@
 
             <!--Course Results List-->
             <div style="height:650px;overflow-y:scroll">
-                <div class="accordion" id="coursesAccordion">
-
-                    @if (courses == null)
-                        {
-                        <p><em>Loading...</em></p>
-                        }
-                        else
-                        {
-
-
-                    @foreach (var course in courses)
-                        {
-                            var isExpanded = course == courses.FirstOrDefault();
-                        <div class="card">
-                            <div class="card-header" id="heading@course.Id">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@course.Id" aria-expanded="@(isExpanded ? "true" : "false")" aria-controls="collapse@course.Id">
-                                        <div class="d-flex justify-content-between align-items-center w-100 text-left">
-                                            <div>
-                                                <h5 class="mb-0">@course.Id</h5>
-                                                <p class="mb-0">@course.Title</p>
-                                            </div>
-                                            <div>
-                                                <i class="fa @(isExpanded ? "fa-chevron-up" : "fa-chevron-down")"></i>
-                                            </div>
-                                        </div>
-                                    </button>
-                                </h5>
-                            </div>
-                            <div id="collapse@course.Id" class="collapse @(isExpanded ? "show" : "")" aria-labelledby="heading@course.Id" data-bs-parent="#coursesAccordion">
-                                <div class="card-body">
-                                    <p>@course.Description</p>
-                                    <p>Instructor: @course.Instructor</p>
-                                    <p>Levels: @course.Levels</p>
-                                    <p>Credits: @course.Credits</p>
-                                    <p>Category: @course.Category</p>
-                                    <p>Semester: @course.Semester</p>
-                                    <p>Faculty: @course.Faculty</p>
-                                </div>
-                            </div>
-                        </div>
-                        }
-                      }
-                </div>
+                <CourseCards />
             </div>
         </div>
 
@@ -113,24 +74,7 @@
 
 @code {
 
-    private CourseDetails[]? courses;
-
-    protected override async Task OnInitializedAsync()
-    {
-        courses = await Http.GetFromJsonAsync<CourseDetails[]>("sample-data/courses.json");
+    
     }
 
-    public class CourseDetails
-    {
-        public string? Id { get; set; }
-        public string? Title { get; set; }
-        public string? Description { get; set; }
-        public string? Instructor { get; set; }
-        public int Levels { get; set; }
-        public int Credits { get; set; }
-        public string? Category { get; set; }
-        public string? Semester { get; set; }
-        public string? Faculty { get; set; }
-    }
 
-}

@@ -1,10 +1,5 @@
 ﻿.content {
-    padding: 10px;
-}
-
-#button-container {
-    display: flex;
-    margin: 20px 22% 40px;
+    padding: 0.5rem;
 }
 
 .card-content{
@@ -15,36 +10,28 @@
 }
 
 .e-card {
-    border-radius: 10px;
+    border-radius: 0.5rem;
     background-color: antiquewhite;
     height: auto;
-    width: 340px;
-    padding: 5px;
-    padding-left: 10px;
+    width: 22rem;
+    padding: 0.25rem;
+    padding-left: 1rem;
     overflow: hidden;
     text-overflow: ellipsis;
 
 }
 
     .e-card .e-card-actions .e-card-btn {
-        padding-left: 20px;
+        padding-left: 1.5rem;
         background-color: wheat;
     }
 
-    .e-card .e-card-separator {
-        padding-right: 500px;
-    }
-
     .e-card .e-card-header {
-        font-size: larger;
+        font-size: 140%;
         font-weight: bolder;
         font-stretch: condensed;
         color: black;
-    }
 
-    .e-card .e-card-horizontal .e-card-stacked {
-        justify-content: flex-start;
-        margin: auto;
     }
 
 .e-plus-icon::before {

@@ -2,10 +2,61 @@
     padding: 0.5rem;
 }
 
-.card-content{
+h1 {
+    color: green;
+}
+
+.btn-span {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.btn-circle.btn-sm {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 1rem;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.bar {
+    float: left;
+    width: 10%;
+}
+
+.green {
+    background-color: #a8ff00;
+}
+
+.greener {
+    background-color: #7ad800;
+}
+
+.greenest {
+    background-color: #3eb603;
+}
+
+.greenerest {
+    background-color: #2c7e03;
+}
+
+.card-content {
     background-color: antiquewhite;
     font-size: smaller;
     display: table-cell;
+    display: flex;
+    justify-content: space-between;
     text-align: left;
 }
 
@@ -13,12 +64,12 @@
     border-radius: 0.5rem;
     background-color: antiquewhite;
     height: auto;
-    width: 22rem;
+    width: contain;
     padding: 0.25rem;
     padding-left: 1rem;
     overflow: hidden;
     text-overflow: ellipsis;
-
+    box-shadow: 0.2rem 0.3rem 0.5rem 0 rgba(0, 0, 0, 0.2);
 }
 
     .e-card .e-card-actions .e-card-btn {

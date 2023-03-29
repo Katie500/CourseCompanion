@@ -3,6 +3,7 @@
     padding-right: 0.2rem;
     background-color: antiquewhite;
     overflow: hidden;
+    transition: height ease-in-out;
 }
 
 .collapsable .title {

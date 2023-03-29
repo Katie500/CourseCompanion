@@ -15,7 +15,7 @@
 
         @foreach (var course in courses)
         {
-        <div style="scroll-padding-top: 1rem; padding-bottom: 1rem;">
+        <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.5rem">
 
             <div class="e-card">
                 <SfCard @key="course.Id">
@@ -23,23 +23,31 @@
                     <div class="e-card-header">
                         <CardHeader Title="@course.Id"></CardHeader>
                     </div>
-                   
-                    <Collapsable Title="@course.Title" Collapsed="true">
-                        <div class="card-content">
-                            <p style="background-color:antiquewhite">
 
-                                @course.Description<br><br>
+
+                    <Collapsable Title="@course.Title" Collapsed="true">
+
+                    <div class="card-content">
+                            <p style="background-color:antiquewhite; line-height:1.2rem">
+
+                                <b>Description:</b> @course.Description<br>
+
+                                <b>Instructor:</b> @course.Instructor<br>
+
                                 <b>Prerequisite(s):</b> @course.Prerequisites <br>
-                                <b>Antirequisite(s):</b> @course.Antirequisites 
+                                <b>Antirequisite(s):</b> @course.Antirequisites<br>
+                                <b>Credits:</b> @course.Credits
 
                             </p>
-                        </div>
+                    </div>
+
                     </Collapsable>
 
                 </SfCard>
+
             </div>
-                
-            </div>
+
+        </div>
         }
     }
 </div>

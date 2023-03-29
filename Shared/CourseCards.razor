@@ -20,9 +20,12 @@
             <div class="e-card">
                 <SfCard @key="course.Id">
 
+                    <span class="right">@course.Semester</span>
+
                     <div class="e-card-header">
-                        <CardHeader Title="@course.Id"></CardHeader>
+                        @course.Id
                     </div>
+                    
 
 
                     <Collapsable Title="@course.Title" Collapsed="true">

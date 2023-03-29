@@ -54,9 +54,6 @@ h1 {
 .card-content {
     background-color: antiquewhite;
     font-size: smaller;
-    display: table-cell;
-    display: flex;
-    justify-content: space-between;
     text-align: left;
 }
 
@@ -67,6 +64,7 @@ h1 {
     width: contain;
     padding: 0.25rem;
     padding-left: 1rem;
+    padding-right: 1.5rem;
     overflow: hidden;
     text-overflow: ellipsis;
     box-shadow: 0.2rem 0.3rem 0.5rem 0 rgba(0, 0, 0, 0.2);
@@ -82,8 +80,17 @@ h1 {
         font-weight: bolder;
         font-stretch: condensed;
         color: black;
-
     }
+
+.right {
+    float: right;
+    font-stretch: condensed;
+    color: rgb(51, 51, 51);
+}
+
+.left {
+    float: left;
+}
 
 .e-plus-icon::before {
     content: '\e823';

@@ -4,7 +4,7 @@
 @using Syncfusion.Blazor.Buttons
 @inject HttpClient Http
 
-<div class="courseAccordian" id="courseCards">
+<div class="container">
 
     @if (courses == null)
     {
@@ -15,22 +15,22 @@
 
         @foreach (var course in courses)
         {
-        <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.5rem">
+        <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
+
+            <div class="plus-btn">+</div>
 
             <div class="e-card">
                 <SfCard @key="course.Id">
 
-                    <span class="right">@course.Semester</span>
+                    <span class="right" style="padding-right:1rem">@course.Semester</span>
 
                     <div class="e-card-header">
                         @course.Id
                     </div>
-                    
-
 
                     <Collapsable Title="@course.Title" Collapsed="true">
 
-                    <div class="card-content">
+                        <div class="card-content">
                             <p style="background-color:antiquewhite; line-height:1.2rem">
 
                                 <b>Description:</b> @course.Description<br>
@@ -42,7 +42,7 @@
                                 <b>Credits:</b> @course.Credits
 
                             </p>
-                    </div>
+                        </div>
 
                     </Collapsable>
 

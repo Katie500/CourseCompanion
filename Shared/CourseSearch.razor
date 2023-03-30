@@ -1,13 +1,108 @@
-﻿
+﻿@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Cards
+@using Syncfusion.Blazor.Buttons
+@inject HttpClient Http
+
 <!--Search Bar-->
 <div class="text-center bg-blue-100">
     <div style="margin-bottom: 1rem">
-        <input class="rounded m-6 p-6 h-8 border-blue-300" style="width:85%" placeholder="Course search..." />
+        <input class="rounded m-6 p-6 h-8 border-blue-300" style="width:85%"
+        @bind="SearchText"  placeholder="Course search..."/>
+        @* @bind-value:event="oninput"  *@
+        <button type="button" @onclick="Filter">Search</button>
     </div>
-    
+</div>
+
+<!--Course Results List-->
+<div style="height:84vh;overflow-y:scroll">
+    <div class="container">
+        @if (courses == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else if (filterCourses == null) {
+            <p><em>No Matched Courses.</em></p>
+        }
+        else
+        {
+            @foreach (var course in filterCourses)
+            {
+            <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
+                <div class="plus-btn">+</div>
+                <div class="e-card">
+                    <SfCard @key="course.Id">
+                        <span class="right" style="padding-right:1rem">@course.Semester</span>
+                        <div class="e-card-header">
+                            @course.Id
+                        </div>
+                        <Collapsable Title="@course.Title" Collapsed="true">
+                            <div class="card-content">
+                                <p style="background-color:antiquewhite; line-height:1.2rem">
+                                    <b>Description:</b> @course.Description<br>
+                                    <b>Instructor:</b> @course.Instructor<br>
+                                    <b>Prerequisite(s):</b> @course.Prerequisites <br>
+                                    <b>Antirequisite(s):</b> @course.Antirequisites<br>
+                                    <b>Credits:</b> @course.Credits
+                                </p>
+                            </div>
+                        </Collapsable>
+                    </SfCard>
+                </div>
+            </div>
+            }
+        }
+    </div>
 </div>
 
 @code {
+    public string SearchText = "";
+
+    private CourseDetails[]? filterCourses;
+    private CourseDetails[]? courses;
+
+    private void Filter () {
+        FilterCourses(SearchText);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("testing for OnInit: " + SearchText);
+        courses = await Http.GetFromJsonAsync<CourseDetails[]>("sample-data/courses.json");
+        filterCourses = courses;
+    }
+
+    private void FilterCourses(string searchText)
+    {
+        Console.WriteLine("testing for FilterCourses: " + searchText);
+
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            CourseDetails[] courseIDs = courses.Where(c => c.Id.Contains(searchText)).ToArray();
+            CourseDetails[] courseTitles = courses.Where(c => c.Title.Contains(searchText)).ToArray();
+            filterCourses = courseIDs.Concat(courseTitles).ToArray();
+        }
+        else
+        {
+            filterCourses = courses;
+        }
+    }
+
+    public class CourseDetails
+    {
+        public string? Id { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+        public string? Instructor { get; set; }
+        public int Levels { get; set; }
+        public int Credits { get; set; }
+        public string? Category { get; set; }
+        public string? Semester { get; set; }
+        public string? Faculty { get; set; }
+        public string? Prerequisites { get; set; }
+        public string? Antirequisites { get; set; }
+    }
+
 
 }
 

@@ -1,48 +1,23 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿<!-- Top navigation bar -->
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
+        <!-- University of Calgary logo -->
         <a class="navbar-brand">
             <img src="/assets/UC-horz-rgb.png" title="University of Calgary" style='position: absolute; left:0px; top:0px; height: 100%; width: 100%; object-fit: contain'/>
         </a>
+        <!-- Button to toggle navigation menu -->
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </div>
 
+
+@* Filter Bar *@
+
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-
-        <div class="text-box">
-            <a href="#" class="btn btn-white btn-animate"><b>Filters</b></a>
-        </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-plus" aria-hidden="true"></span> Semester
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Eligible
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-plus" aria-hidden="true"></span> Major Field
-            </NavLink>
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-plus" aria-hidden="true"></span> Faculty Breadth
-            </NavLink>
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-plus" aria-hidden="true"></span> Other Requirements
-            </NavLink>
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-plus" aria-hidden="true"></span> Open Options
-            </NavLink>
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-plus" aria-hidden="true"></span> Level
-            </NavLink>
-        </div>
+        <Filter />
 
         <div class="px-3">
             <button type="button" class="btn btn-secondary btn-outline-light text-center" href="#">Need Help? Click Here!</button>

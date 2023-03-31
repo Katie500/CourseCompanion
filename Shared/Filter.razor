@@ -1,0 +1,362 @@
+<!--Filter Bar-->
+@using System.Linq
+@using System.Collections.Generic
+
+<!-- Text box with 'Filters' button -->
+<div class="text-box">
+    <a href="#" class="btn btn-white btn-animate"><b>Filters</b></a>
+</div>
+
+
+<!-- Semester filter container -->
+<div class="nav-item px-3">
+    <!-- Semester filter button -->
+    <button class="nav-link btn btn-primary" @onclick="ToggleSemesterFilter">
+        <span class="oi oi-plus" aria-hidden="true"></span> Semester
+    </button>
+    <!-- Semester filter options -->
+    @if (showSemesterFilter)
+    {
+        <div>
+            @foreach (var semester in semesterOptions)
+            {
+                <label class="form-check">
+                    <input class="form-check-input" type="checkbox" value="@semester" @bind="semesterSelected[index]">
+                    <span class="form-check-label">
+                        @semester
+                    </span>
+                </label>
+                index++;
+            }
+        </div>
+    }
+</div> <!-- close nav-item px-3 for Semester Filter -->
+
+
+<!-- Eligible filter container -->
+<div class="nav-item px-3">
+    <!-- Eligible filter button -->
+    <button class="nav-link btn btn-primary" @onclick="ToggleEligibleFilter">
+        <span class="oi oi-plus" aria-hidden="true"></span> Eligible
+    </button>
+</div> <!-- close nav-item px-3 for Eligible Filter -->
+
+
+<!-- Major fields filter container -->
+<div class="nav-item px-3">
+    <!-- Major fields filter button -->
+    <button class="nav-link btn btn-primary" @onclick="ToggleMajorFieldsFilter">
+        <span class="oi oi-plus" aria-hidden="true"></span> Major Field
+    </button>
+    <!-- Major fields filter options -->
+    @if (showMajorFieldsFilter)
+    {
+        <div>
+            @for (int i = 0; i < majorFields.Length; i++)
+            {
+                <label class="form-check">
+                    <input class="form-check-input" type="checkbox" value="@majorReqs[i]" @bind="majorFieldsSelected[i]">
+                    <span class="form-check-label">
+                        @majorFields[i]
+                    </span>
+                </label>
+            }
+        </div>
+    }
+</div> <!-- close nav-item px-3 for Major fields Filter -->
+
+
+<!-- Faculty breadth filter container -->
+<div class="nav-item px-3">
+    <!-- Faculty breadth filter button -->
+    <button class="nav-link btn btn-primary" @onclick="ToggleFacultyBreadthFilter">
+        <span class="oi oi-plus" aria-hidden="true"></span> Faculty Breadth
+    </button>
+    <!-- Faculty breadth filter options -->
+    @if (showFacultyBreadthFilter)
+    {
+        <div>
+            <label class="form-check">
+                <input class="form-check-input" type="checkbox" value="" @bind="facultyBreadthSelected">
+                <span class="form-check-label">
+                    Non-Science
+                </span>
+            </label>
+        </div>
+    }
+</div> <!-- close nav-item px-3 for Faculty Breadth Filter -->
+
+<!-- Other Requirements filter container -->
+<div class="nav-item px-3">
+    <button class="nav-link btn btn-primary" @onclick="ToggleOtherReqFilter">
+        <span class="oi oi-plus" aria-hidden="true"></span> Other Requirements
+    </button>
+    @if (showOtherReqFilter)
+    {
+        <div>
+            @for (int i = 0; i < otherReqSelected.Length; i++)
+            {
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="@($"otherReq{i}")" checked="@otherReqSelected[i]" @onchange="e => otherReqSelected[i] = e.Value.Value">
+                    <label class="form-check-label" for="@($"otherReq{i}")">@otherReqOptions[i]</label>
+                </div>
+            }
+        </div>
+    }
+                            
+    <!-- Apply and clear filters buttons -->
+    <button class="btn btn-secondary btn-sm mt-2" @onclick="ApplyFilters">Apply Filters</button>
+    <button class="btn btn-outline-secondary btn-sm mt-2 ms-2" @onclick="ClearFilters">Clear Filters</button>
+</div> <!-- close nav-item px-3 for Other Requirements Filter -->
+                        
+<!-- Open Options filter container -->
+<div class="nav-item px-3">
+    <button class="nav-link btn btn-primary" @onclick="ToggleOpenOptionsFilter">
+        <span class="oi oi-plus" aria-hidden="true"></span> Open Options
+    </button>
+    @if (showOpenOptionsFilter)
+    {
+        <div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="openOption" checked="@openOptionSelected" @onchange="e => openOptionSelected = e.Value.Value">
+                <label class="form-check-label" for="openOption">Show open options only</label>
+            </div>
+            <!-- Apply and clear filters buttons -->
+            <button class="btn btn-secondary btn-sm mt-2" @onclick="ApplyFilters">Apply Filters</button>
+            <button class="btn btn-outline-secondary btn-sm mt-2 ms-2" @onclick="ClearFilters">Clear Filters</button>
+        </div>
+    }
+</div> <!-- close nav-item px-3 for Open Options Filter -->
+
+<!-- Level filter container -->
+<div class="nav-item px-3">
+    <button class="nav-link btn btn-primary" @onclick="ToggleLevelsFilter">
+        <span class="oi oi-plus" aria-hidden="true"></span> Level
+    </button>
+    @if (showLevelsFilter)
+    {
+        <div>
+            @for (int i = 0; i < levelOptions.Length; i++)
+            {
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="@($"level{i}")" checked="@levelsSelected[i]" @onchange="e => levelsSelected[i] = e.Value.Value">
+                    <label class="form-check-label" for="@($"level{i}")">@levelOptions[i]</label>
+                </div>
+            }
+            <!-- Apply and clear filters buttons -->
+            <button class="btn btn-secondary btn-sm mt-2" @onclick="ApplyFilters">Apply Filters</button>
+            <button class="btn btn-outline-secondary btn-sm mt-2 ms-2" @onclick="ClearFilters">Clear Filters</button>
+        </div>
+    }
+</div> <!-- close nav-item px-3 for Level Filter -->
+
+
+
+@code {
+
+    // Filter Bar
+    private bool collapseNavMenu = true;
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    // Semester filter
+    private bool showSemesterFilter;
+    private bool[] semesterSelected = new bool[2];
+    private readonly string[] semesterOptions = new string[] { "Fall 2023", "Winter 2024" };
+
+    // Eligible filter
+    private bool eligibleSelected;
+
+
+    // Major Fields filter
+    private bool showMajorFieldsFilter;
+    private bool[] majorFieldsSelected = new bool[2];
+    private readonly string[] majorFields = new string[] { "Computer Science Required", "Mathematics Required" };
+    private string[] majorReqs = new string[] { "CPSC", "MATH" };
+
+    // Faculty Breadth filter
+    private bool showFacultyBreadthFilter;
+    private bool facultyBreadthSelected;
+
+ 
+    // Other Requirements filter
+    private bool showOtherReqFilter;
+    private bool[] otherReqSelected = new bool[2];
+    private readonly string[] otherReqOptions = new string[] { "Non-Computer Science", "Non-Mathematics" };
+
+    // Open Options filter
+    private bool showOpenOptionsFilter;
+    private bool openOptionsSelected;
+
+    // Levels filter
+    private bool showLevelsFilter;
+    private bool[] levelsSelected = new bool[6];
+    private readonly string[] levelOptions = new string[] { "All Levels", "200 Levels", "300 Levels", "400 Levels", "500 Levels", "600 Levels" };
+
+    // Other Requirements filter
+    private bool showOtherReqFilter;
+    private bool[] otherReqSelected = new bool[2];
+    private readonly string[] otherReqOptions = new string[] { "Non-Computer Science", "Non-Mathematics" };
+    private readonly string[] otherReqValues = new string[] { "Non-Computer Science", "Non-Mathematics" };
+
+
+    private void ToggleMajorFieldsFilter()
+    {
+        showMajorFieldsFilter = !showMajorFieldsFilter;
+    }
+
+    private void ToggleFacultyBreadthFilter()
+    {
+        showFacultyBreadthFilter = !showFacultyBreadthFilter;
+    }
+
+    private void ToggleOtherReqFilter()
+    {
+        showOtherReqFilter = !showOtherReqFilter;
+    }
+
+    private void ToggleOpenOptionsFilter()
+    {
+        showOpenOptionsFilter = !showOpenOptionsFilter;
+    }
+
+    private void ToggleLevelsFilter()
+    {
+        showLevelsFilter = !showLevelsFilter;
+    }
+
+    private void ClearAllFilters()
+    {
+        // Clear all filters
+        semesterSelected = new bool[2];
+        eligibleSelected = false;
+        majorFieldsSelected = new bool[2];
+        facultyBreadthSelected = false;
+        otherReqSelected = new bool[2];
+        openOptionsSelected = false;
+        levelsSelected = new bool[6];
+        filterCourses = courses;
+    }
+
+    private void ApplyFilters()
+    {
+        // Filter by semester
+        var selectedSemesters = new List<string>();
+        for (int i = 0; i < semesterSelected.Length; i++)
+        {
+            if (semesterSelected[i])
+            {
+                selectedSemesters.Add(semesterOptions[i]);
+            }
+        }
+
+        if (selectedSemesters.Count > 0)
+        {
+            filterCourses = filterCourses.Where(c => selectedSemesters.Contains(c.Semester)).ToArray();
+        }
+
+        // Filter by eligibility
+        if (eligibleSelected)
+        {
+            filterCourses = filterCourses.Where(c => c.IsEligible).ToArray();
+        }
+
+        // Filter by major fields
+        var selectedMajorFields = new List<string>();
+        for (int i = 0; i < majorFieldsSelected.Length; i++)
+        {
+            if (majorFieldsSelected[i])
+            {
+                selectedMajorFields.Add(majorReqs[i]);
+            }
+        }
+
+        if (selectedMajorFields.Count > 0)
+        {
+            filterCourses = filterCourses.Where(c => c.MajorReq.Intersect(selectedMajorFields).Any()).ToArray();
+        }
+
+        // Filter by faculty breadth
+        if (facultyBreadthSelected)
+        {
+            filterCourses = filterCourses.Where(c => c.Faculty != "Science").ToArray();
+        }
+
+        // Filter by other requirements
+        var selectedOtherReq = new List<string>();
+        for (int i = 0; i < otherReqSelected.Length; i++)
+               // Filter by other requirements
+        var selectedOtherReq = new List<string>();
+        for (int i = 0; i < otherReqSelected.Length; i++)
+        {
+            if (otherReqSelected[i])
+            {
+                if (otherReqValues[i] == "Non-Computer Science")
+                {
+                    filterCourses = filterCourses.Where(c => !c.Id.Contains("CPSC")).ToArray();
+                }
+                else if (otherReqValues[i] == "Non-Mathematics")
+                {
+                    filterCourses = filterCourses.Where(c => !c.Id.Contains("MATH")).ToArray();
+                }
+                selectedOtherReq.Add(otherReqValues[i]);
+            }
+        }
+        if (selectedOtherReq.Count > 0)
+        {
+            filters.Add(new FilterCriteria { Title = "Other Requirements", Values = selectedOtherReq });
+        }
+
+        // Filter by open options
+        if (openOptionSelected)
+        {
+            filterCourses = filterCourses.Where(c => !c.MajorReq.Contains("Computer Science") && !c.MajorReq.Contains("Mathematics") && !c.Id.Contains("CPSC") && !c.Id.Contains("MATH")).ToArray();
+            filters.Add(new FilterCriteria { Title = "Open Options", Values = new List<string> { "Yes" } });
+        }
+
+        // Filter by levels
+        var selectedLevels = new List<string>();
+        for (int i = 0; i < levelSelected.Length; i++)
+        {
+            if (levelSelected[i])
+            {
+                string selectedLevel = levelValues[i];
+                if (selectedLevel == "All Levels")
+                {
+                    // do nothing
+                }
+                else if (int.TryParse(selectedLevel.Substring(0, 3), out int level))
+                {
+                    filterCourses = filterCourses.Where(c => c.Levels == level).ToArray();
+                }
+                selectedLevels.Add(selectedLevel);
+            }
+        }
+        if (selectedLevels.Count > 0)
+        {
+            filters.Add(new FilterCriteria { Title = "Levels", Values = selectedLevels });
+        }
+
+        // Set the filtered courses
+        filteredCourses = filterCourses;
+        currentFilters = filters;
+    }
+
+    // Clear all filters
+    private void ClearFilters()
+    {
+        filteredCourses = courses;
+        currentFilters.Clear();
+        semesterSelected = new bool[2];
+        eligibleSelected = false;
+        majorFieldSelected = new bool[2];
+        facultyBreadthSelected = false;
+        otherReqSelected = new bool[2];
+        openOptionSelected = false;
+        levelSelected = new bool[6];
+    }
+}

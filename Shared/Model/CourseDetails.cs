@@ -8,6 +8,9 @@ namespace CourseCompanion.Shared.Model
         public string? Instructor { get; set; }
         public int Levels { get; set; }
         public int Credits { get; set; }
+
+        // IsEligible
+        // MajorReq
         public string? Category { get; set; }
         public string? Semester { get; set; }
         public string? Faculty { get; set; }

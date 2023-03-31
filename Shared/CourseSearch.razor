@@ -58,11 +58,16 @@
 
         if (!string.IsNullOrEmpty(searchText))
         {
-            CourseDetails[] courseIDs = courses.Where(c => 
+            CourseDetails[] courseIDs = courses.Where(c =>
                     c.Id.Contains(searchText,StringComparison.OrdinalIgnoreCase)).ToArray();
-            CourseDetails[] courseTitles = courses.Where(c => 
+
+            CourseDetails[] courseTitles = courses.Where(c =>
                     c.Title.Contains(searchText,StringComparison.OrdinalIgnoreCase)).ToArray();
             filterCourses = courseIDs.Concat(courseTitles).ToArray();
+
+            CourseDetails[] courseLevels = courses.Where(c =>
+                    (c.Levels.ToString()).Contains(searchText.TrimEnd(new Char[] { '0' }))).ToArray();
+            filterCourses = courseIDs.Concat(courseLevels).ToArray();
         }
         else
         {

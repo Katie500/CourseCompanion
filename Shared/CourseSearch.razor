@@ -1,16 +1,17 @@
-﻿@using Syncfusion.Blazor
+﻿
+@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Cards
 @using Syncfusion.Blazor.Buttons
+@using Microsoft.AspNetCore.Components
 @inject HttpClient Http
 
 <!--Search Bar-->
 <div class="text-center bg-blue-100">
     <div style="margin-bottom: 1rem">
         <input class="rounded m-6 p-6 h-8 border-blue-300" style="width:85%"
-        @bind="SearchText"  placeholder="Course search..."/>
-        @* @bind-value:event="oninput"  *@
-        <button type="button" @onclick="Filter">Search</button>
+        @bind="SearchText" @oninput="HandleInput" placeholder="Course search..."/>
+        @* <button type="button" @onclick="Filter">Search</button> *@
     </div>
 </div>
 
@@ -21,8 +22,9 @@
         {
             <p><em>Loading...</em></p>
         }
-        else if (filterCourses == null) {
-            <p><em>No Matched Courses.</em></p>
+        else if (filterCourses == null) 
+        {
+            <p><em>No Matched Courses...</em></p>
         }
         else
         {
@@ -61,25 +63,28 @@
     private CourseDetails[]? filterCourses;
     private CourseDetails[]? courses;
 
-    private void Filter () {
+    private void HandleInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        SearchText = e.Value.ToString();
         FilterCourses(SearchText);
     }
-
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("testing for OnInit: " + SearchText);
+        Console.WriteLine("OnInitializedAsync() called...");
         courses = await Http.GetFromJsonAsync<CourseDetails[]>("sample-data/courses.json");
         filterCourses = courses;
     }
 
     private void FilterCourses(string searchText)
     {
-        Console.WriteLine("testing for FilterCourses: " + searchText);
+        Console.WriteLine("FilterCourses({0}) called...", searchText);
 
         if (!string.IsNullOrEmpty(searchText))
         {
-            CourseDetails[] courseIDs = courses.Where(c => c.Id.Contains(searchText)).ToArray();
-            CourseDetails[] courseTitles = courses.Where(c => c.Title.Contains(searchText)).ToArray();
+            CourseDetails[] courseIDs = courses.Where(c => 
+                    c.Id.Contains(searchText,StringComparison.OrdinalIgnoreCase)).ToArray();
+            CourseDetails[] courseTitles = courses.Where(c => 
+                    c.Title.Contains(searchText,StringComparison.OrdinalIgnoreCase)).ToArray();
             filterCourses = courseIDs.Concat(courseTitles).ToArray();
         }
         else
@@ -102,6 +107,7 @@
         public string? Prerequisites { get; set; }
         public string? Antirequisites { get; set; }
     }
+
 
 
 }

@@ -12,7 +12,6 @@
     }
     else
     {
-
         @foreach (var course in courses)
         {
         <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
@@ -58,12 +57,33 @@
 
 @code {
 
+    @* [Parameter]
+    public Action<string> OnSearchTextChanged { get; set; }
+    
+    [Parameter]
+    public string SearchText { get; set; } = ""; *@
+
+    private CourseDetails[]? filterCourses;
     private CourseDetails[]? courses;
 
     protected override async Task OnInitializedAsync()
     {
         courses = await Http.GetFromJsonAsync<CourseDetails[]>("sample-data/courses.json");
     }
+   
+@*  private void FilterCourses(string searchText)
+    {
+        Console.WriteLine("triggered\n");
+
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            filterCourses = courses.Where(c => c.Title.Contains(searchText)).ToArray();
+        }
+        else
+        {
+            filterCourses = courses;
+        }
+    } *@
 
     public class CourseDetails
     {
@@ -80,5 +100,5 @@
         public string? Antirequisites { get; set; }
     }
 
-    }
+}
 

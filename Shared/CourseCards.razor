@@ -4,15 +4,16 @@
 
 <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
     <div class="plus-btn">+</div>
-    <div class="e-card">
+    <div class="e-card" style="background-color:@CardColor(@Course.Semester)">
         <SfCard @key="Course.Id">
             <span class="right" style="padding-right:1rem">@Course.Semester</span>
             <div class="e-card-header">
                 @Course.Id
             </div>
-            <Collapsable Title="@Course.Title" Collapsed="true">
-                <div class="card-content">
-                    <p style="background-color:antiquewhite; line-height:1.2rem">
+            <Collapsable Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
+                <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
+
+                    <p class="p-card-content">
                         <b>Description:</b> @Course.Description<br>
                         <b>Instructor:</b> @Course.Instructor<br>
                         <b>Prerequisite(s):</b> @Course.Prerequisites <br>
@@ -27,7 +28,18 @@
 
 @code {
     [Parameter]
-    public CourseDetails Course { get; set; }
+    public CourseDetails? Course { get; set; }
 
-}
+    private string? CardColor(string semester)
+    {
+
+        @if (semester.Contains("Fall")) { return "lightcyan"; }
+        if (semester.Contains("Winter")) { return "cornsilk"; }
+        if (semester.Contains("Spring")) { return "thistle"; }
+        if (semester.Contains("Summer")) { return "lightsalmon"; }
+        else { return "antiquewhite"; }
+
+    }
+
+    }
 

@@ -7,11 +7,9 @@
 <div class="text-center bg-blue-100">
     <div style="margin-bottom: 1rem">
         <input class="rounded m-6 p-6 h-8 border-blue-300" style="width:85%"
-<<<<<<< HEAD
-               @bind="SearchText" @oninput="HandleInput" placeholder="Course search..." />
-=======
+
         @bind="SearchText" @oninput="HandleInput" placeholder="Course search..."/>
->>>>>>> 55cb7e0b6f9d0584af2a0387f662301ea552d063
+
     </div>
 </div>
 
@@ -24,7 +22,7 @@
         }
         else if (filterCourses.Length == 0)
         {
-            <p><em>No Matched Courses...</em></p>
+            <p><em>No Courses Found.</em></p>
         }
         else
         {
@@ -71,14 +69,14 @@
             CourseDetails[] courseLevels = courses.Where(c =>
                      (c.Levels.ToString()).Contains(searchText.TrimEnd(new Char[] { '0' }))).ToArray();
             filterCourses = filterCourses.Concat(courseLevels).ToArray();
+
+            CourseDetails[] courseSemester = courses.Where(c =>
+                     c.Semester.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToArray();
+            filterCourses = courseIDs.Concat(courseSemester).ToArray();
         }
         else
         {
             filterCourses = courses;
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 55cb7e0b6f9d0584af2a0387f662301ea552d063

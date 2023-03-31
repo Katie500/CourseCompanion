@@ -19,10 +19,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\assets\" />
+    <Folder Include="Shared\Model\" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Properties\appsettings.json">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Shared\Model\" />
   </ItemGroup>
 </Project>

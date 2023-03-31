@@ -15,6 +15,7 @@
   <ItemGroup>
     <Content Remove="wwwroot\assets\" />
     <Content Remove="wwwroot\favicon.ico" />
+    <Content Remove="Shared\Temp.razor" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\assets\" />

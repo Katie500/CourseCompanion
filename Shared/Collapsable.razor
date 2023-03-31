@@ -28,7 +28,7 @@
 
 @if (!Collapsed)
 {
-    <div class="collapsable-panel">
+    <div class="collapsable-panel" style="@BgColor">
         @ChildContent
     </div>
 }
@@ -38,7 +38,7 @@
     [Parameter] public bool Collapsed { get; set; }
     [Parameter] public string? Title { get; set; }
     [Parameter] public string? Value { get; set; }
-
+    [Parameter] public string? BgColor { get; set; }
     void Toggle()
     {
         Collapsed = !Collapsed;

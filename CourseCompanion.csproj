@@ -16,13 +16,18 @@
     <Content Remove="wwwroot\assets\" />
     <Content Remove="wwwroot\favicon.ico" />
     <Content Remove="Shared\Temp.razor" />
+    <Content Remove="wwwroot\sample-data\courses.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\assets\" />
+    <Folder Include="Shared\Model\" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Properties\appsettings.json">
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Shared\Model\" />
   </ItemGroup>
 </Project>

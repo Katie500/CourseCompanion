@@ -47,14 +47,12 @@ h1 {
 }
 
 .card-content {
-    background-color: antiquewhite;
     font-size: smaller;
     text-align: left;
 }
 
 .e-card {
     border-radius: 0.5rem;
-    background-color: antiquewhite;
     height: auto;
     width: contain;
     padding: 0.25rem;
@@ -65,10 +63,6 @@ h1 {
     box-shadow: 0.2rem 0.3rem 0.5rem 0 rgba(0, 0, 0, 0.2);
 }
 
-    .e-card .e-card-actions .e-card-btn {
-        padding-left: 1.5rem;
-        background-color: wheat;
-    }
 
     .e-card .e-card-header {
         font-size: 140%;

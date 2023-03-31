@@ -1,4 +1,5 @@
-﻿namespace CourseCompanion.Shared.Model
+namespace CourseCompanion.Shared.Model
+
 {
     public class CourseDetails
     {

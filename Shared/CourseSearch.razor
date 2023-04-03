@@ -3,12 +3,11 @@
 @using CourseCompanion.Shared.Model
 @using CourseCompanion.Shared.CourseCards
 @inject HttpClient Http
-
 <!--Search Bar-->
 <div class="text-center bg-blue-100">
     <div style="margin-bottom: 1rem">
         <input class="rounded m-6 p-6 h-8 border-blue-300" style="width:85%"
-        @bind="SearchText" @oninput="HandleInput" placeholder="Course search..."/>
+               @bind="SearchText" @oninput="HandleInput" placeholder="Course search..." />
 
     </div>
 </div>
@@ -29,8 +28,8 @@
             @foreach (var course in filterCourses)
             {
                 <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
-                <button class="plus-btn" @onclick="AddCourse">+</button>
-                <CourseCards Course="@course" />
+                    <button class="plus-btn" @onclick="AddCourse">+</button>
+                    <CourseCards Course="@course" />
                 </div>
             }
         }
@@ -82,7 +81,8 @@
                      c.Semester.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToArray();
             filterCourses = filterCourses.Concat(courseSemester).ToArray();
 
-        } if (string.IsNullOrEmpty(searchText))
+        }
+        if (string.IsNullOrEmpty(searchText))
         {
             filterCourses = courses;
         }
@@ -109,12 +109,12 @@
             if (exactSearch) { filterCourses = exactMatch; }
 
             // otherwise we have a search that's not an exact match
-            if(!exactSearch)
+            if (!exactSearch)
             {
 
                 // search is for a full level (ex. math 300)
-                if(searchText.EndsWith("0"))
-            {
+                if (searchText.EndsWith("0"))
+                {
                     // user typed the format: <dept> <level> (cpsc 400)
                     if (split[1].Contains("0"))
                     {
@@ -138,23 +138,27 @@
                     }
 
 
-            }
+                }
                 // the last case is that we have a search that's not in the list at all and not a level search
-                else {
+                else
+                {
                     filterCourses = courses;
                 }
             }
 
         }
-     }
     }
 
-
-    private void AddCourse() {
+    private void AddCourse()
+    {
         @* communicate with <Semester /> *@
-        @* such that it passes the course to Planner, then planner is going to 
-        pass to Semester.registeredCourses *@
+        @* such that it passes the course to Planner, then planner is going to
+            pass to Semester.registeredCourses *@
         Console.WriteLine("AddCourse()....");
     }
+
+}
+
+
 }
 

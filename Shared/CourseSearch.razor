@@ -41,6 +41,7 @@
 
     public CourseDetails[]? filterCourses;
     private CourseDetails[]? courses;
+
     private string[] split = { "", "" };
     public string dept = "";
     public string level = "";
@@ -49,6 +50,14 @@
     {
         SearchText = e.Value.ToString();
         FilterCourses(SearchText);
+    }
+
+    private void AddCourse()
+    {
+        @* communicate with <Semester /> *@
+        @* such that it passes the course to Planner, then planner is going to
+            pass to Semester.registeredCourses *@
+        Console.WriteLine("AddCourse()....");
     }
 
     protected override async Task OnInitializedAsync()
@@ -88,7 +97,6 @@
         }
 
         // very dumb way for string entries like "cpsc 400" to show all 400 lvl cpsc courses
-        // needs to be exactly 7, and contain space to not mess up a full semester name search (Winter)
         if (searchText.Length == 8)
         {
 
@@ -147,14 +155,6 @@
             }
 
         }
-    }
-
-    private void AddCourse()
-    {
-        @* communicate with <Semester /> *@
-        @* such that it passes the course to Planner, then planner is going to
-            pass to Semester.registeredCourses *@
-        Console.WriteLine("AddCourse()....");
     }
 
 }

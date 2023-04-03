@@ -24,7 +24,6 @@
             </Collapsable>
         </SfCard>
     </div>
-@* </div> *@
 
 @code {
     [Parameter]
@@ -33,7 +32,7 @@
     private string? CardColor(string semester)
     {
 
-        @if (semester.Contains("Fall")) { return "lightcyan"; }
+        if (semester.Contains("Fall")) { return "lightcyan"; }
         if (semester.Contains("Winter")) { return "cornsilk"; }
         if (semester.Contains("Spring")) { return "thistle"; }
         if (semester.Contains("Summer")) { return "lightsalmon"; }

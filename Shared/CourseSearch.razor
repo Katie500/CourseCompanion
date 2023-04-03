@@ -38,8 +38,11 @@
 @code {
     public string? SearchText = "";
 
-    private CourseDetails[]? filterCourses;
+    public CourseDetails[]? filterCourses;
     private CourseDetails[]? courses;
+    private string[] split = { "", "" };
+    public string dept = "";
+    public string level = "";
 
     private void HandleInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
     {
@@ -54,14 +57,16 @@
         filterCourses = courses;
     }
 
-    private void FilterCourses(string? searchText)
+    private void FilterCourses(string searchText)
     {
         Console.WriteLine("FilterCourses({0}) called...", searchText);
 
-        if (!string.IsNullOrEmpty(searchText))
+        // general search
+        if (!string.IsNullOrEmpty(searchText) && searchText.Length != 8)
         {
             CourseDetails[] courseIDs = courses.Where(c =>
                     c.Id.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToArray();
+            filterCourses = filterCourses.Concat(courseIDs).ToArray();
 
             CourseDetails[] courseTitles = courses.Where(c =>
                     c.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToArray();
@@ -74,10 +79,70 @@
             CourseDetails[] courseSemester = courses.Where(c =>
                      c.Semester.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToArray();
             filterCourses = filterCourses.Concat(courseSemester).ToArray();
-        }
-        else
+
+        } if (string.IsNullOrEmpty(searchText))
         {
             filterCourses = courses;
         }
+
+        // very dumb way for string entries like "cpsc 400" to show all 400 lvl cpsc courses
+        // needs to be exactly 7, and contain space to not mess up a full semester name search (Winter)
+        if (searchText.Length == 8)
+        {
+
+            // create a list of possible exact matches
+            CourseDetails[] exactMatch = courses
+                .Where(c => c.Id.Equals(searchText, StringComparison.OrdinalIgnoreCase))
+                .ToArray();
+
+            // check if the courses exists in the main list
+            bool exactSearch = courses
+                .Any(c => c.Id.Equals(searchText, StringComparison.OrdinalIgnoreCase));
+
+            // parse the user string
+            char[] delim = new char[] { ' ' };
+            split = searchText.Split(new char[0]);
+
+            // if there's an exact match, just return that (to account for seng 300 case)
+            if (exactSearch) { filterCourses = exactMatch; }
+
+            // otherwise we have a search that's not an exact match
+            if(!exactSearch)
+            {
+
+                // search is for a full level (ex. math 300)
+                if(searchText.EndsWith("0"))
+            {
+                    // user typed the format: <dept> <level> (cpsc 400)
+                    if (split[1].Contains("0"))
+                    {
+                        dept = split[0];
+                        level = split[1];
+                    }
+                    // otherwise format is: <level> <dept> (400 cpsc)
+                    if (!split[1].Contains("0"))
+                    {
+                        dept = split[1];
+                        level = split[0];
+                    }
+
+                    // otherwise we search for dept and level only
+                    if (Int32.Parse(level) % 100 == 0)
+                    {
+                        filterCourses = (courses
+                        .Where(c => c.Id.StartsWith(dept, StringComparison.OrdinalIgnoreCase))
+                        .Where(c => c.Level.ToString().Equals(level)))
+                        .ToArray();
+                    }
+
+
+            }
+                // the last case is that we have a search that's not in the list at all and not a level search
+                else {
+                    filterCourses = courses;
+                }
+            }
+
+        }
+     }
     }
-}

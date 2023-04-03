@@ -5,7 +5,7 @@
 @inject HttpClient Http
 
 <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
-    <div class="plus-btn">+</div>
+    <button class="plus-btn" @onclick="AddCourse">+</button>
     <div class="e-card" style="background-color:@CardColor(@Course.Semester)">
         <SfCard @key="Course.Id">
             <span class="right" style="padding-right:1rem">@Course.Semester</span>
@@ -41,6 +41,13 @@
         if (semester.Contains("Summer")) { return "lightsalmon"; }
         else { return "antiquewhite"; }
 
+    }
+
+    private void AddCourse() {
+        @* communicate with <Semester /> *@
+        @* such that it passes the course to Planner, then planner is going to 
+        pass to Semester.registeredCourses *@
+        Console.WriteLine("AddCourse()....");
     }
 
 }

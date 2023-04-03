@@ -4,10 +4,8 @@
 @namespace CourseCompanion.Shared.CourseCards
 @inject HttpClient Http
 
-@* <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
-    <button class="plus-btn" @onclick="AddCourse">+</button> *@
     <div class="e-card" style="background-color:@CardColor(@Course.Semester)">
-        <SfCard @key="Course.Id">
+        <SfCard @key="@Course.Id">
             <span class="right" style="padding-right:1rem">@Course.Semester</span>
             <div class="e-card-header">
                 @Course.Id

@@ -8,7 +8,6 @@
 <div class="text-center bg-blue-100">
     <div style="margin-bottom: 1rem">
         <input class="rounded m-6 p-6 h-8 border-blue-300" style="width:85%"
-
         @bind="SearchText" @oninput="HandleInput" placeholder="Course search..."/>
 
     </div>
@@ -29,7 +28,10 @@
         {
             @foreach (var course in filterCourses)
             {
+                <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
+                <button class="plus-btn" @onclick="AddCourse">+</button>
                 <CourseCards Course="@course" />
+                </div>
             }
         }
     </div>
@@ -79,5 +81,12 @@
         {
             filterCourses = courses;
         }
+    }
+
+    private void AddCourse() {
+        @* communicate with <Semester /> *@
+        @* such that it passes the course to Planner, then planner is going to 
+        pass to Semester.registeredCourses *@
+        Console.WriteLine("AddCourse()....");
     }
 }

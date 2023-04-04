@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components
 @using CourseCompanion.Shared.Model
 @using CourseCompanion.Shared.CourseCards
+@using CourseCompanion.Shared.Services
 @inject HttpClient Http
 <!--Search Bar-->
 <div class="text-center bg-blue-100">
@@ -28,7 +29,6 @@
             @foreach (var course in filterCourses)
             {
                 <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
-                    <button class="plus-btn" @onclick="AddCourse">+</button>
                     <CourseCards Course="@course" />
                 </div>
             }
@@ -37,6 +37,7 @@
 </div>
 
 @code {
+
     public string? SearchText = "";
 
     public CourseDetails[]? filterCourses;
@@ -46,18 +47,11 @@
     public string dept = "";
     public string level = "";
 
+    // handle input for searches
     private void HandleInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
     {
         SearchText = e.Value.ToString();
         FilterCourses(SearchText);
-    }
-
-    private void AddCourse()
-    {
-        @* communicate with <Semester /> *@
-        @* such that it passes the course to Planner, then planner is going to
-            pass to Semester.registeredCourses *@
-        Console.WriteLine("AddCourse()....");
     }
 
     protected override async Task OnInitializedAsync()
@@ -67,6 +61,10 @@
         filterCourses = courses;
     }
 
+    /*
+    Main search function
+    Takes in searchText and filters the list based on certain criteria
+    */
     private void FilterCourses(string searchText)
     {
         Console.WriteLine("FilterCourses({0}) called...", searchText);
@@ -158,4 +156,3 @@
     }
 
 }
-

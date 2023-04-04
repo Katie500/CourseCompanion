@@ -1,33 +1,38 @@
 ﻿@using Syncfusion.Blazor.Cards
 @using Microsoft.AspNetCore.Components
 @using CourseCompanion.Shared.Model
+@using CourseCompanion.Shared.Services
 @namespace CourseCompanion.Shared.CourseCards
 @inject HttpClient Http
+@inject ICourseService CourseService
 
-    <div class="e-card" style="background-color:@CardColor(@Course.Semester)">
-        <SfCard @key="@Course.Id">
-            <span class="right" style="padding-right:1rem">@Course.Semester</span>
-            <div class="e-card-header">
-                @Course.Id
+<div class="e-card" style="background-color:@CardColor(@Course.Semester)">
+    <SfCard @bind-courseKey="@Course">
+        <button class="plus-btn" @onclick="SendCourse">+</button>
+        <span class="right" style="padding-right:1rem">@Course.Semester</span>
+        <div class="e-card-header">
+            @Course.Id
+        </div>
+        <Collapsable Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
+            <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
+
+                <p class="p-card-content">
+                    <b>Description:</b> @Course.Description<br>
+                    <b>Instructor:</b> @Course.Instructor<br>
+                    <b>Prerequisite(s):</b> @Course.Prerequisites <br>
+                    <b>Antirequisite(s):</b> @Course.Antirequisites<br>
+                    <b>Credits:</b> @Course.Credits
+                </p>
             </div>
-            <Collapsable Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
-                <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
-
-                    <p class="p-card-content">
-                        <b>Description:</b> @Course.Description<br>
-                        <b>Instructor:</b> @Course.Instructor<br>
-                        <b>Prerequisite(s):</b> @Course.Prerequisites <br>
-                        <b>Antirequisite(s):</b> @Course.Antirequisites<br>
-                        <b>Credits:</b> @Course.Credits
-                    </p>
-                </div>
-            </Collapsable>
-        </SfCard>
-    </div>
+        </Collapsable>
+    </SfCard>
+</div>
 
 @code {
     [Parameter]
     public CourseDetails? Course { get; set; }
+
+    Planner planner = new Planner();
 
     private string? CardColor(string semester)
     {
@@ -40,11 +45,22 @@
 
     }
 
-    private void AddCourse() {
-        @* communicate with <Semester /> *@
-        @* such that it passes the course to Planner, then planner is going to 
-        pass to Semester.registeredCourses *@
-        Console.WriteLine("AddCourse()....");
+    /*  communicates with Planner,
+        such that it passes the course to Planner, then planner is going to
+        pass to Semester.registeredCourses */
+    private void AddCourse()
+    {
+
+        Console.WriteLine("course name: " + Course.Id);
+        //CourseService.SendCourse(Course);
+        //planner.ParseCourse(Course);
+
+    }
+
+    private void SendCourse()
+    {
+        CourseService.SendCourse(Course);
+
     }
 
 }

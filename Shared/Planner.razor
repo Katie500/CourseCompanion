@@ -2,9 +2,11 @@
 @using Syncfusion.Blazor
 @using Syncfusion.Blazor.Navigations
 @using Microsoft.AspNetCore.Components
+@using CourseCompanion.Shared.Services
 @using CourseCompanion.Shared.Model
 @using CourseCompanion.Shared.CourseCards
 @inject HttpClient Http
+@inject ICourseService CourseService
 
 <div class="row text-center">
     <div class="col-lg-6">
@@ -14,10 +16,10 @@
                 <h5 class="card-title bg-gradient bg-opacity-50 bg-info text-center"><b>Fall 2023</b></h5>
                 <div class="btn-group-vertical w-100" role="group">
 
-                    @*@foreach (var course in courses)
+                    @foreach (var fallCourse in fallCourses)
                     {
-                        <CourseCards Course="@course" />
-                    }*@
+                        <CourseCards Course="@fallCourse" />
+                    }
                 </div>
             </div>
         </div>
@@ -29,10 +31,10 @@
             <div class="card-body">
                 <h5 class="card-title bg-opacity-50 bg-warning text-center"><b>Winter 2024</b></h5>
                 <div class="btn-group-vertical w-100 " role="group">
-                    @*@foreach (var course in courses)
+                    @foreach (var winterCourse in winterCourses)
                     {
-                        <CourseCards Course="@course" />
-                    }*@
+                        <CourseCards Course="@winterCourse" />
+                    }
 
                 </div>
             </div>
@@ -53,27 +55,43 @@
 @code{
 
     [Parameter]
-    public CourseDetails? SelectedCourse { get; set; }
+    public CourseDetails? addedCourse { get; set; }
 
-    public CourseDetails[]? courses;
-    public CourseDetails[]? fallCourses;
-    public CourseDetails[]? winterCourses;
+    private List<CourseDetails> fallCourses = new();
+    private List<CourseDetails> winterCourses = new();
+    private List<CourseDetails> springCourses = new();
+    private List<CourseDetails> summerCourses = new();
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        courses = await Http.GetFromJsonAsync<CourseDetails[]>("sample-data/coursesTests.json");
-        fallCourses = courses;
-        //winterCourses = await Http.GetFromJsonAsync<CourseDetails[]>("sample-data/coursesTests.json");
+        // subscribe to OnMessage event
+        CourseService.OnCourseAdd += CourseHandler;
+    }
+    
+    private void CourseHandler(CourseDetails addedCourse)
+    {
+        ParseCourse(addedCourse);
 
+        StateHasChanged();
     }
 
-    @* receive a CourseDetail from CourseCards, implement a function where if the course is fall,
-        it stores to the fallCourses, same for winterCourses *@
-    private void ParseCourse()
+    /* receives a CourseDetail object from CourseCards, implement a function where if the course is fall,
+     it stores to the fallCourses, same for winterCourses */
+    public void ParseCourse(CourseDetails addCourse)
     {
-        if ((SelectedCourse.Semester).Equals(""))
-        {
-        }
+
+        // add courses based on semester
+        if ((addCourse.Semester).Contains("fall", StringComparison.OrdinalIgnoreCase))
+        { fallCourses.Add(addCourse); }
+        if ((addCourse.Semester).Contains("winter", StringComparison.OrdinalIgnoreCase))
+        { winterCourses.Add(addCourse); }
+        if ((addCourse.Semester).Contains("spring", StringComparison.OrdinalIgnoreCase))
+        { springCourses.Add(addCourse); }
+        if ((addCourse.Semester).Contains("summer", StringComparison.OrdinalIgnoreCase))
+        { summerCourses.Add(addCourse); }
+
+        Console.WriteLine(addCourse.Id + " added to " + addCourse.Semester);
+        Console.WriteLine("there are " + fallCourses.Count + " courses in fall");
     }
 
 }

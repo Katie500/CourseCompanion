@@ -5,6 +5,7 @@
 @using CourseCompanion.Shared.Services
 @using CourseCompanion.Shared.Model
 @using CourseCompanion.Shared.CourseCards
+
 @inject HttpClient Http
 @inject ICourseService CourseService
 
@@ -64,8 +65,8 @@
 
     protected override void OnInitialized()
     {
-        // subscribe to OnMessage event
-        CourseService.OnCourseAdd += CourseHandler;
+        // subscribe to OnCourseEvent
+        CourseService.OnCourseEvent += CourseHandler;
     }
     
     private void CourseHandler(CourseDetails addedCourse)
@@ -91,7 +92,6 @@
         { summerCourses.Add(addCourse); }
 
         Console.WriteLine(addCourse.Id + " added to " + addCourse.Semester);
-        Console.WriteLine("there are " + fallCourses.Count + " courses in fall");
     }
 
 }

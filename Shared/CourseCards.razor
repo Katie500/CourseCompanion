@@ -3,6 +3,7 @@
 @using CourseCompanion.Shared.Model
 @using CourseCompanion.Shared.Services
 @namespace CourseCompanion.Shared.CourseCards
+
 @inject HttpClient Http
 @inject ICourseService CourseService
 
@@ -32,8 +33,6 @@
     [Parameter]
     public CourseDetails? Course { get; set; }
 
-    Planner planner = new Planner();
-
     private string? CardColor(string semester)
     {
 
@@ -45,22 +44,16 @@
 
     }
 
-    /*  communicates with Planner,
-        such that it passes the course to Planner, then planner is going to
-        pass to Semester.registeredCourses */
-    private void AddCourse()
-    {
-
-        Console.WriteLine("course name: " + Course.Id);
-        //CourseService.SendCourse(Course);
-        //planner.ParseCourse(Course);
-
-    }
-
+    // send the added course
     private void SendCourse()
     {
         CourseService.SendCourse(Course);
 
+    }
+
+    private void RemoveCourse()
+    {
+        CourseService.RemoveCourse(Course);
     }
 
 }

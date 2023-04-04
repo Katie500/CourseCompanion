@@ -3,7 +3,10 @@
 @using CourseCompanion.Shared.Model
 @using CourseCompanion.Shared.CourseCards
 @using CourseCompanion.Shared.Services
+
 @inject HttpClient Http
+@inject ICourseService CourseService
+
 <!--Search Bar-->
 <div class="text-center bg-blue-100">
     <div style="margin-bottom: 1rem">
@@ -59,6 +62,31 @@
         Console.WriteLine("OnInitializedAsync() called...");
         courses = await Http.GetFromJsonAsync<CourseDetails[]>("sample-data/courses.json");
         filterCourses = courses;
+    }
+
+    protected override void OnInitialized()
+    {
+        // subscribe to OnCourseEvent
+        CourseService.OnCourseEvent += CourseHandler;
+    }
+
+    private void CourseHandler(CourseDetails removedCourse)
+    {
+
+        RemoveAddedCourse(removedCourse);
+
+        StateHasChanged();
+    }
+
+    private void RemoveAddedCourse(CourseDetails removedCourse)
+    {
+        Console.WriteLine("removed course " + removedCourse.Id);
+        CourseDetails[] newList = (filterCourses
+            .Where(c => c != removedCourse))
+            .ToArray();
+
+        filterCourses = newList;
+
     }
 
     /*

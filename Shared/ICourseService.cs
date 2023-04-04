@@ -5,18 +5,25 @@ namespace CourseCompanion.Shared.Services
 {
     public interface ICourseService
     {
-        event Action<CourseDetails> OnCourseAdd;
+        event Action<CourseDetails> OnCourseEvent;
         void SendCourse(CourseDetails courseAdded);
+        void RemoveCourse(CourseDetails courseRemoved);
     }
 
     public class CourseService : ICourseService
     {
-        public event Action<CourseDetails> OnCourseAdd;
+        public event Action<CourseDetails> OnCourseEvent;
 
         public void SendCourse(CourseDetails courseAdded)
         {
-            OnCourseAdd?.Invoke(courseAdded);
+            OnCourseEvent?.Invoke(courseAdded);
         }
+
+        public void RemoveCourse(CourseDetails courseRemoved)
+        {
+            OnCourseEvent?.Invoke(courseRemoved);
+        }
+
     }
 }
 

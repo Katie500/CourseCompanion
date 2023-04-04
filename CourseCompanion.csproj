@@ -20,6 +20,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\assets\" />
     <Folder Include="Shared\Model\" />
+    <Folder Include="Shared\Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Properties\appsettings.json">
@@ -28,5 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Shared\Model\" />
+    <None Remove="Shared\Services\" />
   </ItemGroup>
 </Project>

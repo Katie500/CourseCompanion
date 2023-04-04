@@ -7,9 +7,9 @@
 @inject HttpClient Http
 @inject ICourseService CourseService
 
-<div class="e-card" style="background-color:@CardColor(@Course.Semester)">
+<div class="e-card" style="background-color:@CardColor(Course.Semester); border-left:1rem solid @BarColor(Course.Category)">
     <SfCard @bind-courseKey="@Course">
-        <button class="plus-btn" @onclick="SendCourse">+</button>
+        <div class="plus-btn" @onclick="SendCourse">+</div>
         <span class="right" style="padding-right:1rem">@Course.Semester</span>
         <div class="e-card-header">
             @Course.Id
@@ -44,6 +44,17 @@
 
     }
 
+    private string? BarColor(string category)
+    {
+
+        if (category.Contains("Major")) { return "midnightblue"; }
+        if (category.Contains("Other")) { return "orchid"; }
+        if (category.Contains("Open")) { return "lightgreen"; }
+        if (category.Contains("Faculty")) { return "goldenrod"; }
+        else { return "antiquewhite"; }
+
+    }
+
     // send the added course
     private void SendCourse()
     {
@@ -51,6 +62,7 @@
 
     }
 
+    // send the removed course
     private void RemoveCourse()
     {
         CourseService.RemoveCourse(Course);

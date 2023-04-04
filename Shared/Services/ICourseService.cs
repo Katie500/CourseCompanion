@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*
+ Service message layout referenced from:
+https://jasonwatmore.com/post/2020/07/30/aspnet-core-blazor-webassembly-communication-between-components
+ */
+
+using System;
 using CourseCompanion.Shared.Model;
 
 namespace CourseCompanion.Shared.Services

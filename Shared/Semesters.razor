@@ -9,12 +9,14 @@
 @inject HttpClient Http
 @inject ICourseService CourseService
 
+
+
 <div class="row text-center">
     <div class="col-lg-6">
         <!-- Left container -->
         <div class="card bg-gradient bg-opacity-25 bg-info">
             <div class="card-body">
-                <h5 class="card-title bg-gradient bg-opacity-50 bg-info text-center"><b>Fall 2023</b></h5>
+                <h5 class="card-title bg-gradient bg-opacity-50 bg-info text-center"><b>@sem1</b></h5>
                 <div class="btn-group-vertical w-100" role="group">
 
                     @foreach (var fallCourse in fallCourses)
@@ -30,7 +32,7 @@
         <!-- Right container -->
         <div class="card bg-opacity-25 bg-warning">
             <div class="card-body">
-                <h5 class="card-title bg-opacity-50 bg-warning text-center"><b>Winter 2024</b></h5>
+                <h5 class="card-title bg-opacity-50 bg-warning text-center"><b>@sem2</b></h5>
                 <div class="btn-group-vertical w-100 " role="group">
                     @foreach (var winterCourse in winterCourses)
                     {
@@ -44,7 +46,7 @@
         <!-- Buttons -->
         <div class="col-lg-6 text-center">
             <br /><br />
-            <button type="button" class="btn btn-primary btn-outline-primary text-center">Go To Spring/Summer</button>
+            <button type="button" class="btn btn-primary btn-outline-primary text-center" @onclick="clearSem">@sem_button</button>
             <br /><br /><br /><br /><br /><br />
             <button type="button" class="btn btn-danger text-center">Reset</button>
             <button type="button" class="btn btn-danger text-center">Export</button>
@@ -54,6 +56,13 @@
 
 
 @code{
+
+    //semesters
+    String sem1 = "Fall 2023";
+    String sem2 = "Winter 2024";
+
+    String sem_button = "Go To Spring/Summer";
+   
 
     [Parameter]
     public CourseDetails? addedCourse { get; set; }
@@ -91,6 +100,35 @@
         { summerCourses.Add(addCourse); }
 
         Console.WriteLine(addCourse.Id + " added to " + addCourse.Semester);
+    }
+
+    public void clearSem ()
+    {
+        //clear semesters
+        fallCourses.Clear();
+        winterCourses.Clear();
+
+        springCourses.Clear();
+        summerCourses.Clear();
+
+        //change label of semesters
+        if(sem1 == "Spring 2024"){
+            sem1 = "Fall 2023";
+        }else{
+            sem1 = "Spring 2024";
+        }
+
+        if(sem2 == "Summer 2024"){
+            sem2 = "Winter 2024";
+        }else{
+            sem2 = "Summer 2024";
+        }
+
+        if(sem_button == "Go To Fall/Winter"){
+            sem_button = "Go To Spring/Summer";
+        }else{
+            sem_button = "Go To Fall/Winter";
+        }
     }
 
 }

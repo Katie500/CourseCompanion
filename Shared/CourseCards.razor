@@ -11,10 +11,9 @@
     <SfCard @bind-courseKey="@Course">
         <div class="plus-btn" @onclick="SendCourse">+</div>
         <span class="right" style="padding-right:1rem">@Course.Semester</span>
-        <div class="e-card-header">
-            @Course.Id
-        </div>
-        <Collapsable Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
+        <div class="e-card-header"> @Course.Id </div>
+
+        <Collapsible Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
             <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
 
                 <p class="p-card-content">
@@ -25,7 +24,7 @@
                     <b>Credits:</b> @Course.Credits
                 </p>
             </div>
-        </Collapsable>
+        </Collapsible>
     </SfCard>
 </div>
 
@@ -55,17 +54,17 @@
 
     }
 
-    // send the added course
+    // send the added course to the semester containers
     private void SendCourse()
     {
-        CourseService.SendCourse(Course);
+        CourseService.SendCourse_toSem(Course);
 
     }
 
-    // send the removed course
+    // send the removed course to CourseSearch
     private void RemoveCourse()
     {
-        CourseService.RemoveCourse(Course);
+        CourseService.RemoveCourse_fromMain(Course);
     }
 
 }

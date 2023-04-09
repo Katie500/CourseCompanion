@@ -7,14 +7,13 @@
 @inject HttpClient Http
 @inject ICourseService CourseService
 
-<div class="e-card" style="background-color:@CardColor(@Course.Semester)">
+<div class="e-card" style="background-color:@CardColor(@Course.Semester); border-left:1rem solid @BarColor(Course.Category)">
     <SfCard @bind-courseKey="@Course">
-        <button class="plus-btn" @onclick="SendCourse">+</button>
+        <div class="trash-btn" @onclick="DeleteCourse"> <i class="fa fa-trash-o" style="font-size:1.5rem"></i></div>
         <span class="right" style="padding-right:1rem">@Course.Semester</span>
-        <div class="e-card-header">
-            @Course.Id
-        </div>
-        <Collapsable Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
+        <div class="e-card-header"> @Course.Id </div>
+
+        <Collapsible Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
             <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
 
                 <p class="p-card-content">
@@ -25,7 +24,7 @@
                     <b>Credits:</b> @Course.Credits
                 </p>
             </div>
-        </Collapsable>
+        </Collapsible>
     </SfCard>
 </div>
 
@@ -44,15 +43,40 @@
 
     }
 
-    // send the added course
-    private void SendCourse()
+    private string? BarColor(string category)
     {
-        CourseService.SendCourse(Course);
+
+        if (category.Contains("Major")) { return "midnightblue"; }
+        if (category.Contains("Other")) { return "orchid"; }
+        if (category.Contains("Open")) { return "lightgreen"; }
+        if (category.Contains("Faculty")) { return "goldenrod"; }
+        else { return "antiquewhite"; }
 
     }
 
-    private void RemoveCourse()
+    protected override void OnInitialized()
     {
-        CourseService.RemoveCourse(Course);
+        // subscribe to OnCourseEvent
+        CourseService.OnCourseEvent += CourseHandler;
     }
+
+    private void CourseHandler(CourseDetails removedCourse)
+    {
+        StateHasChanged();
+    }
+
+    // remove the course from the appropriate lists and place it back into the main list
+    private void DeleteCourse()
+    {
+        CourseService.RemoveCourse_fromMain(Course);
+    }
+
+    /// <summary>
+    /// TODO:
+    /// fix the icourseservice to send/receive to the right places
+    /// ie
+    /// plus button: remove from main list, send course to sem
+    /// remove button: remove from sem list, send to main list
+    /// </summary>
+
 }

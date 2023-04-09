@@ -9,9 +9,11 @@
 @inject HttpClient Http
 @inject ICourseService CourseService
 
-<div class="row text-center">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="row">
     <div class="col-lg-6">
-        <!-- Left container -->
+        <!-- Left semester container -->
         <div class="card bg-gradient bg-opacity-25 bg-info">
             <div class="card-body">
                 <h5 class="card-title bg-gradient bg-opacity-50 bg-info text-center"><b>Fall 2023</b></h5>
@@ -19,7 +21,7 @@
 
                     @foreach (var fallCourse in fallCourses)
                     {
-                        <CourseCards Course="@fallCourse" />
+                        <SemesterCards Course="@fallCourse" />
                     }
                 </div>
             </div>
@@ -27,14 +29,14 @@
     </div>
 
     <div class="col-lg-6 text-center">
-        <!-- Right container -->
+        <!-- Right semester container -->
         <div class="card bg-opacity-25 bg-warning">
             <div class="card-body">
                 <h5 class="card-title bg-opacity-50 bg-warning text-center"><b>Winter 2024</b></h5>
                 <div class="btn-group-vertical w-100 " role="group">
                     @foreach (var winterCourse in winterCourses)
                     {
-                        <CourseCards Course="@winterCourse" />
+                        <SemesterCards Course="@winterCourse" />
                     }
 
                 </div>

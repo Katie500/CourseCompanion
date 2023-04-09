@@ -20,10 +20,7 @@
         {
             <span class="oi oi-chevron-top mr-1"></span>
         }
-
-
     </div>
-
 </div>
 
 @if (!Collapsed)
@@ -39,6 +36,8 @@
     [Parameter] public string? Title { get; set; }
     [Parameter] public string? Value { get; set; }
     [Parameter] public string? BgColor { get; set; }
+    [Parameter] public bool Semester { get; set; }
+
     void Toggle()
     {
         Collapsed = !Collapsed;

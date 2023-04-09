@@ -8,13 +8,26 @@
 .collapsable .title {
     display: table-cell;
     text-align: left;
-    font-size:medium;
+    font-size: medium;
     font-stretch: narrower;
     display: flex;
     justify-content: space-between;
     padding-right: 0.8rem;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.collapsable .semester {
+    display: table-cell;
+    text-align: left;
+    font-size: medium;
+    font-stretch: narrower;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 2rem;
 }
 
 .collapsable .value {

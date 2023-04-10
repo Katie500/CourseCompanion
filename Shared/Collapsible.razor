@@ -8,19 +8,27 @@
             <span class="badge badge-success">@Value</span>
         </div>
     }
+
     <div class="title" @onclick="@Toggle">
 
         @Title
 
         @if (Collapsed)
         {
-            <span class="oi oi-chevron-bottom mr-1"></span>
+            <div class="arrow">
+                <span class="oi oi-chevron-bottom mr-1"></span>
+            </div>
+            
         }
         else
         {
-            <span class="oi oi-chevron-top mr-1"></span>
+            <div class="arrow">
+                <span class="oi oi-chevron-top mr-1"></span>
+            </div>
+        
         }
     </div>
+
 </div>
 
 @if (!Collapsed)

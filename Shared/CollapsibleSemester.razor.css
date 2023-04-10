@@ -6,14 +6,12 @@
 }
 
 .collapsible .title {
-    display: table-cell;
     text-align: left;
     font-size: medium;
     font-stretch: narrower;
     display: flex;
-    justify-content: space-between;
     padding-right: 0.8rem;
-    overflow: hidden;
+    overflow:hidden;
     text-overflow: ellipsis;
 }
 
@@ -22,7 +20,6 @@
     text-align: left;
     font-size: medium;
     font-stretch: narrower;
-    display: flex;
     justify-content: space-between;
     padding-right: 0.8rem;
     overflow: hidden;
@@ -34,3 +31,22 @@
     display: table-cell;
     text-align: right;
 }
+
+.trash-icon:hover{
+    cursor:pointer;
+    color:grey;
+    border-radius:0.5rem;
+    fill-opacity:70;
+    width:fit-content;
+    height:fit-content;
+    transition-duration:0.2s;
+}
+
+.arrow {
+    margin-left:auto;
+}
+    .arrow:hover {
+        cursor: pointer;
+        color: grey;
+        transition-duration:0.2s
+    }

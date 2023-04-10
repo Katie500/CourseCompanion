@@ -34,3 +34,8 @@
     display: table-cell;
     text-align: right;
 }
+
+.arrow:hover {
+    cursor: pointer;
+    color: grey;
+}

@@ -11,36 +11,23 @@ namespace CourseCompanion.Shared.Services
     public interface ICourseService
     {
         event Action<CourseDetails> OnCourseEvent;
-        void SendCourse_toMain(CourseDetails courseAdded);
-        void SendCourse_toSem(CourseDetails courseAdded);
-        void RemoveCourse_fromMain(CourseDetails courseRemoved);
-        void RemoveCourse_fromSem(CourseDetails courseRemoved);
+        void SendCourse(CourseDetails courseAdded);
+        void RemoveCourse(CourseDetails courseRemoved);
     }
 
     public class CourseService : ICourseService
     {
         public event Action<CourseDetails> OnCourseEvent;
 
-        public void SendCourse_toMain(CourseDetails courseAdded)
+        public void SendCourse(CourseDetails courseAdded)
         {
             OnCourseEvent?.Invoke(courseAdded);
         }
 
-        public void SendCourse_toSem(CourseDetails courseAdded)
-        {
-            OnCourseEvent?.Invoke(courseAdded);
-        }
-
-        public void RemoveCourse_fromMain(CourseDetails courseRemoved)
+        public void RemoveCourse(CourseDetails courseRemoved)
         {
             OnCourseEvent?.Invoke(courseRemoved);
         }
-
-        public void RemoveCourse_fromSem(CourseDetails courseRemoved)
-        {
-            OnCourseEvent?.Invoke(courseRemoved);
-        }
-
     }
 }
 

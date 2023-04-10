@@ -1,11 +1,11 @@
-﻿.collapsable-panel {
+﻿.collapsible-panel {
     padding-top: 0.3rem;
     padding-right: 0.2rem;
     overflow: hidden;
     transition: height ease-in-out;
 }
 
-.collapsable .title {
+.collapsible .title {
     display: table-cell;
     text-align: left;
     font-size: medium;
@@ -17,7 +17,7 @@
     text-overflow: ellipsis;
 }
 
-.collapsable .semester {
+.collapsible .semester {
     display: table-cell;
     text-align: left;
     font-size: medium;
@@ -30,7 +30,7 @@
     padding-right: 2rem;
 }
 
-.collapsable .value {
+.collapsible .value {
     display: table-cell;
     text-align: right;
 }

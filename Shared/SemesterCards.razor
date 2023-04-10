@@ -6,10 +6,9 @@
 @inject HttpClient Http
 @inject ICourseService CourseService
 
-<div class="container" style="padding:0; padding-bottom:0.5rem">
-    <div class="e-card" style="background-color:@CardColor(@Course.Semester); border-left:1rem solid @BarColor(Course.Category)">
+<div class="container" style="padding:0; padding-top:0.5rem; padding-bottom:0.5rem">
+    <div class="e-card" style="background-color:ghostwhite; border-left:1rem solid @BarColor(Course.Category)">
         <SfCard @bind-courseKey="@Course">
-            <span class="right" style="padding-right:1rem">@Course.Semester</span>
             <div class="e-card-header"> @Course.Id </div>
             <CollapsibleSemester Course=@Course Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
                 <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
@@ -34,10 +33,10 @@
 
     private string? CardColor(string semester)
     {
-        if (semester.Contains("Fall")) { return "lightcyan"; }
-        if (semester.Contains("Winter")) { return "cornsilk"; }
-        if (semester.Contains("Spring")) { return "thistle"; }
-        if (semester.Contains("Summer")) { return "lightsalmon"; }
+        if (semester.Contains("Fall")) { return "ghostwhite"; }
+        if (semester.Contains("Winter")) { return "ghostwhite"; }
+        if (semester.Contains("Spring")) { return "ghostwhite"; }
+        if (semester.Contains("Summer")) { return "ghostwhite"; }
         else { return "antiquewhite"; }
     }
 

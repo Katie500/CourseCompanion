@@ -14,32 +14,27 @@
 <div class="row">
     <div class="col-lg-6">
         <!-- Left semester container -->
-        <div class="card bg-gradient bg-opacity-25 bg-info">
-            <div class="card-body">
-                <h5 class="card-title bg-gradient bg-opacity-50 bg-info text-center"><b>Fall 2023</b></h5>
-                <div class="btn-group-vertical w-100" role="group">
-
+        <div class="card bg-gradient bg-opacity-25 bg-info" style="padding-bottom:1rem">
+            <h5 class="card-title bg-gradient bg-opacity-50 bg-info text-center"><b>Fall 2023</b></h5>
+                <div class="container" style="position:relative">
                     @foreach (var fallCourse in fallCourses)
                     {
                         <SemesterCards Course="@fallCourse" />
+                        
                     }
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-lg-6 text-center">
+    <div class="col-lg-6">
         <!-- Right semester container -->
         <div class="card bg-opacity-25 bg-warning">
-            <div class="card-body">
-                <h5 class="card-title bg-opacity-50 bg-warning text-center"><b>Winter 2024</b></h5>
-                <div class="btn-group-vertical w-100 " role="group">
-                    @foreach (var winterCourse in winterCourses)
-                    {
-                        <SemesterCards Course="@winterCourse" />
-                    }
-
-                </div>
+            <h5 class="card-title bg-opacity-50 bg-warning text-center"><b>Winter 2024</b></h5>
+            <div class="container" style="position:relative">
+                @foreach (var winterCourse in winterCourses)
+                {
+                    <SemesterCards Course="@winterCourse" />
+                }
             </div>
         </div>
 

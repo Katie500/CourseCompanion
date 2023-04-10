@@ -34,37 +34,33 @@
 
     private string? CardColor(string semester)
     {
-
         if (semester.Contains("Fall")) { return "lightcyan"; }
         if (semester.Contains("Winter")) { return "cornsilk"; }
         if (semester.Contains("Spring")) { return "thistle"; }
         if (semester.Contains("Summer")) { return "lightsalmon"; }
         else { return "antiquewhite"; }
-
     }
 
     private string? BarColor(string category)
     {
-
         if (category.Contains("Major")) { return "midnightblue"; }
         if (category.Contains("Other")) { return "orchid"; }
         if (category.Contains("Open")) { return "lightgreen"; }
         if (category.Contains("Faculty")) { return "goldenrod"; }
         else { return "antiquewhite"; }
-
     }
 
     // send the added course to the semester containers
     private void SendCourse()
     {
-        CourseService.SendCourse_toSem(Course);
+        CourseService.SendCourse(Course);
 
     }
 
     // send the removed course to CourseSearch
     private void RemoveCourse()
     {
-        CourseService.RemoveCourse_fromMain(Course);
+        // do stuff
     }
 
 }

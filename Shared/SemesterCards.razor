@@ -2,31 +2,32 @@
 @using Microsoft.AspNetCore.Components
 @using CourseCompanion.Shared.Model
 @using CourseCompanion.Shared.Services
-@namespace CourseCompanion.Shared.CourseCards
 
 @inject HttpClient Http
 @inject ICourseService CourseService
 
-<div class="e-card" style="background-color:@CardColor(@Course.Semester); border-left:1rem solid @BarColor(Course.Category)">
-    <SfCard @bind-courseKey="@Course">
-        <div class="trash-btn" @onclick="DeleteCourse"> <i class="fa fa-trash-o" style="font-size:1.5rem"></i></div>
-        <span class="right" style="padding-right:1rem">@Course.Semester</span>
-        <div class="e-card-header"> @Course.Id </div>
+<div class="container" style="padding:0; padding-bottom:0.5rem">
+    <div class="e-card" style="background-color:@CardColor(@Course.Semester); border-left:1rem solid @BarColor(Course.Category)">
+        <SfCard @bind-courseKey="@Course">
+            <div class="trash-btn" @onclick="DeleteCourse"> <i class="fa fa-trash-o" style="font-size:1.5rem"></i></div>
+            <span class="right" style="padding-right:1rem">@Course.Semester</span>
+            <div class="e-card-header"> @Course.Id </div>
+            <Collapsible Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
+                <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
 
-        <Collapsible Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
-            <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
-
-                <p class="p-card-content">
-                    <b>Description:</b> @Course.Description<br>
-                    <b>Instructor:</b> @Course.Instructor<br>
-                    <b>Prerequisite(s):</b> @Course.Prerequisites <br>
-                    <b>Antirequisite(s):</b> @Course.Antirequisites<br>
-                    <b>Credits:</b> @Course.Credits
-                </p>
-            </div>
-        </Collapsible>
-    </SfCard>
+                    <p class="p-card-content">
+                        <b>Description:</b> @Course.Description<br>
+                        <b>Instructor:</b> @Course.Instructor<br>
+                        <b>Prerequisite(s):</b> @Course.Prerequisites <br>
+                        <b>Antirequisite(s):</b> @Course.Antirequisites<br>
+                        <b>Credits:</b> @Course.Credits
+                    </p>
+                </div>
+            </Collapsible>
+        </SfCard>
+    </div>
 </div>
+
 
 @code {
     [Parameter]
@@ -34,25 +35,22 @@
 
     private string? CardColor(string semester)
     {
-
         if (semester.Contains("Fall")) { return "lightcyan"; }
         if (semester.Contains("Winter")) { return "cornsilk"; }
         if (semester.Contains("Spring")) { return "thistle"; }
         if (semester.Contains("Summer")) { return "lightsalmon"; }
         else { return "antiquewhite"; }
-
     }
 
     private string? BarColor(string category)
     {
-
         if (category.Contains("Major")) { return "midnightblue"; }
         if (category.Contains("Other")) { return "orchid"; }
         if (category.Contains("Open")) { return "lightgreen"; }
         if (category.Contains("Faculty")) { return "goldenrod"; }
         else { return "antiquewhite"; }
-
     }
+
 
     protected override void OnInitialized()
     {
@@ -68,7 +66,7 @@
     // remove the course from the appropriate lists and place it back into the main list
     private void DeleteCourse()
     {
-        CourseService.RemoveCourse_fromMain(Course);
+        CourseService.RemoveCourse(Course);
     }
 
     /// <summary>
@@ -78,5 +76,4 @@
     /// plus button: remove from main list, send course to sem
     /// remove button: remove from sem list, send to main list
     /// </summary>
-
 }

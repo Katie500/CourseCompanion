@@ -14,21 +14,23 @@
 <div class="row">
     <div class="col-lg-6">
         <!-- Left semester container -->
-        <div class="card bg-gradient bg-opacity-25 bg-info"style="padding-bottom:1rem">
+        <div class="card bg-gradient bg-opacity-25 bg-info" style="padding-bottom:0.1rem">
             <h5 class="card-title bg-gradient bg-opacity-50 bg-info text-center"><b>Fall 2023</b></h5>
             <div class="container" style="position:relative; max-height:70vh; overflow-y:scroll">
                 @foreach (var fallCourse in fallCourses)
                 {
-                <SemesterCards Course="@fallCourse" />
-
+                    <SemesterCards Course="@fallCourse" />
                 }
             </div>
+                <p style="position:relative; color:grey; bottom:-1rem; text-align:right; padding-right: 0.2rem">
+                    @fall_TotalCredits units
+                </p>
         </div>
-        </div>
+    </div>
 
     <div class="col-lg-6">
         <!-- Right semester container -->
-        <div class="card bg-opacity-25 bg-warning" style="padding-bottom:1rem">
+        <div class="card bg-opacity-25 bg-warning" style="padding-bottom:0.1rem">
             <h5 class="card-title bg-opacity-50 bg-warning text-center"><b>Winter 2024</b></h5>
             <div class="container" style="position:relative; max-height:70vh; overflow-y:scroll">
                 @foreach (var winterCourse in winterCourses)
@@ -36,15 +38,18 @@
                     <SemesterCards Course="@winterCourse" />
                 }
             </div>
+                <p style="position:relative; color:grey; bottom:-1rem; text-align:right; padding-right: 0.2rem">
+                    @winter_TotalCredits units
+                </p>
         </div>
+    </div>
 
         <!-- Buttons -->
         <div class="col-lg-6 text-center">
-            <button type="button" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 2.5rem; right: 25rem; margin-left: inherit">Go To Spring/Summer</button>
-            <button type="button" class="btn btn-danger text-center" style="position:absolute; bottom:2.5rem; right:16rem; margin-left:inherit">Reset</button>
-            <button type="button" class="btn btn-danger text-center" style="position: absolute; bottom: 2.5rem; right: 10rem; margin-left: inherit">Export</button>
+            <button type="button" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 2rem; right: 25rem; margin-left: inherit">Go To Spring/Summer</button>
+            <button type="button" class="btn btn-danger text-center" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
+            <button type="button" class="btn btn-danger text-center" style="position: absolute; bottom: 2rem; right: 10rem; margin-left: inherit">Export</button>
         </div>
-    </div>
 </div>
 
 
@@ -58,12 +63,17 @@
     private List<CourseDetails> springCourses = new();
     private List<CourseDetails> summerCourses = new();
 
+    public int fall_TotalCredits = 0;
+    public int winter_TotalCredits = 0;
+    public int spring_TotalCredits = 0;
+    public int summer_TotalCredits = 0;
+
     protected override void OnInitialized()
     {
         // subscribe to OnCourseEvent
         CourseService.OnCourseEvent += CourseHandler;
     }
-    
+
     private void CourseHandler(CourseDetails addedCourse)
     {
         ParseCourse(addedCourse);
@@ -77,13 +87,13 @@
 
         // add courses based on semester
         if ((addCourse.Semester).Contains("fall", StringComparison.OrdinalIgnoreCase))
-        { fallCourses.Add(addCourse); }
+        { fallCourses.Add(addCourse); fall_TotalCredits += addCourse.Credits; }
         if ((addCourse.Semester).Contains("winter", StringComparison.OrdinalIgnoreCase))
-        { winterCourses.Add(addCourse); }
+        { winterCourses.Add(addCourse); winter_TotalCredits += addCourse.Credits; }
         if ((addCourse.Semester).Contains("spring", StringComparison.OrdinalIgnoreCase))
-        { springCourses.Add(addCourse); }
+        { springCourses.Add(addCourse); spring_TotalCredits += addCourse.Credits; }
         if ((addCourse.Semester).Contains("summer", StringComparison.OrdinalIgnoreCase))
-        { summerCourses.Add(addCourse); }
+        { summerCourses.Add(addCourse); summer_TotalCredits += addCourse.Credits; }
 
         Console.WriteLine(addCourse.Id + " added to " + addCourse.Semester);
     }

@@ -47,7 +47,7 @@
         <!-- Buttons -->
         <div class="col-lg-6 text-center">
             <button type="button" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 2rem; right: 25rem; margin-left: inherit">Go To Spring/Summer</button>
-            <button type="button" class="btn btn-danger text-center" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
+            <button type="button" @onclick="ClearLists" class="btn btn-danger text-center" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
             <button type="button" class="btn btn-danger text-center" style="position: absolute; bottom: 2rem; right: 10rem; margin-left: inherit">Export</button>
         </div>
 </div>
@@ -78,6 +78,18 @@
     {
         ParseCourse(addedCourse);
         StateHasChanged();
+    }
+
+    // user clicked the reset button
+    private void ClearLists()
+    {
+        // TODO: UI popup with confirmation
+        // clear all the semester lists and place them back into the main list (resetting it is also fine)
+        fallCourses.Clear();
+        winterCourses.Clear();
+        springCourses.Clear();
+        summerCourses.Clear();
+        
     }
 
     /* receives a CourseDetail object from CourseCards, implement a function where if the course is fall,

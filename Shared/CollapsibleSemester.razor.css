@@ -1,0 +1,36 @@
+﻿.collapsible-panel {
+    padding-top: 0.3rem;
+    padding-right: 0.2rem;
+    overflow: hidden;
+    transition: height ease-in-out;
+}
+
+.collapsible .title {
+    display: table-cell;
+    text-align: left;
+    font-size: medium;
+    font-stretch: narrower;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.collapsible .semester {
+    display: table-cell;
+    text-align: left;
+    font-size: medium;
+    font-stretch: narrower;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 2rem;
+}
+
+.collapsible .value {
+    display: table-cell;
+    text-align: right;
+}

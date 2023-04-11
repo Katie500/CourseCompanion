@@ -43,12 +43,21 @@
         </div>
     </div>
 
+<<<<<<< HEAD
     <!-- Buttons -->
     <div class="col-lg-6 text-center">
         <button type="button" @onclick="SwitchSem" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 2rem; right: 25rem; margin-left: inherit">@sem_button</button>
         <button type="button" @onclick="ClearLists" class="btn btn-danger text-center" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
         <button type="button" class="btn btn-danger text-center" style="position: absolute; bottom: 2rem; right: 10rem; margin-left: inherit">Export</button>
     </div>
+=======
+        <!-- Buttons -->
+        <div class="col-lg-6 text-center">
+            <button type="button" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 2rem; right: 25rem; margin-left: inherit">Go To Spring/Summer</button>
+            <button type="button" @onclick="ClearLists" class="btn btn-danger text-center" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
+            <button type="button" class="btn btn-danger text-center" style="position: absolute; bottom: 2rem; right: 10rem; margin-left: inherit">Export</button>
+        </div>
+>>>>>>> b8232c25ff4940d0d72c0e045b6afa697819a96e
 
 </div>
 
@@ -79,7 +88,7 @@
         // subscribe to OnCourseEvent
         CourseService.OnCourseEvent += CourseHandler;
     }
-
+    
     private void CourseHandler(CourseDetails addedCourse)
     {
         ParseCourse(addedCourse);
@@ -95,12 +104,20 @@
         winterCourses.Clear();
         springCourses.Clear();
         summerCourses.Clear();
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> b8232c25ff4940d0d72c0e045b6afa697819a96e
         fall_TotalCredits = 0;
         winter_TotalCredits = 0;
         spring_TotalCredits = 0;
         summer_TotalCredits = 0;
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> b8232c25ff4940d0d72c0e045b6afa697819a96e
     }
 
     /* receives a CourseDetail object from CourseCards, implement a function where if the course is fall,
@@ -109,6 +126,18 @@
     {
 
         // add courses based on semester
+<<<<<<< HEAD
+=======
+        if ((addCourse.Semester).Contains("fall", StringComparison.OrdinalIgnoreCase))
+
+        { fallCourses.Add(addCourse); }
+        if ((addCourse.Semester).Contains("winter", StringComparison.OrdinalIgnoreCase))
+        { winterCourses.Add(addCourse); }
+        if ((addCourse.Semester).Contains("spring", StringComparison.OrdinalIgnoreCase))
+        { springCourses.Add(addCourse); }
+        if ((addCourse.Semester).Contains("summer", StringComparison.OrdinalIgnoreCase))
+        { summerCourses.Add(addCourse); }
+>>>>>>> b8232c25ff4940d0d72c0e045b6afa697819a96e
 
         { fallCourses.Add(addCourse); fall_TotalCredits += addCourse.Credits; }
         if ((addCourse.Semester).Contains("winter", StringComparison.OrdinalIgnoreCase))
@@ -121,6 +150,7 @@
         Console.WriteLine(addCourse.Id + " added to " + addCourse.Semester);
     }
 
+<<<<<<< HEAD
     public void SwitchSem()
     {
         // TODO: change lists shown, container colors and semester filter
@@ -140,3 +170,35 @@
     }
 
 }
+=======
+    public void clearSem ()
+    {
+        //clear semesters
+        fallCourses.Clear();
+        winterCourses.Clear();
+
+        springCourses.Clear();
+        summerCourses.Clear();
+
+        //change label of semesters
+        if(sem1 == "Spring 2024"){
+            sem1 = "Fall 2023";
+        }else{
+            sem1 = "Spring 2024";
+        }
+
+        if(sem2 == "Summer 2024"){
+            sem2 = "Winter 2024";
+        }else{
+            sem2 = "Summer 2024";
+        }
+
+        if(sem_button == "Go To Fall/Winter"){
+            sem_button = "Go To Spring/Summer";
+        }else{
+            sem_button = "Go To Fall/Winter";
+        }
+    }
+
+}
+>>>>>>> b8232c25ff4940d0d72c0e045b6afa697819a96e

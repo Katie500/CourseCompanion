@@ -8,9 +8,15 @@
 @inject ICourseService CourseService
 
 <div class="container" style="padding:0; padding-top:0.5rem; padding-bottom:0.5rem">
-    <div class="e-card" style="background-color:ghostwhite; border-left:1rem solid @BarColor(Course.Category)">
+    <div class="e-card" style="background-color:ghostwhite; border-left:1rem solid @BarColor(@Course.Category)">
+
+        <div class="error-icon">
+            <i class="fa fa-exclamation"> </i>
+        </div>
+
         <SfCard @bind-courseKey="@Course">
             <div class="e-card-header"> @Course.Id </div>
+
             <CollapsibleSemester Course=@Course Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
                 <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
 

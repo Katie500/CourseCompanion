@@ -58,7 +58,6 @@
     //semesters
     String sem1 = "Fall 2023";
     String sem2 = "Winter 2024";
-
     String sem_button = "Go To Spring/Summer";
 
     [Parameter]
@@ -79,7 +78,7 @@
         // subscribe to OnCourseEvent
         CourseService.OnCourseEvent += CourseHandler;
     }
-    
+
     private void CourseHandler(CourseDetails addedCourse)
     {
         ParseCourse(addedCourse);
@@ -110,6 +109,7 @@
 
         // add courses based on semester
 
+        if ((addCourse.Semester).Contains("fall", StringComparison.OrdinalIgnoreCase))
         { fallCourses.Add(addCourse); fall_TotalCredits += addCourse.Credits; }
         if ((addCourse.Semester).Contains("winter", StringComparison.OrdinalIgnoreCase))
         { winterCourses.Add(addCourse); winter_TotalCredits += addCourse.Credits; }
@@ -124,19 +124,20 @@
     public void SwitchSem()
     {
         // TODO: change lists shown, container colors and semester filter
+
         // clear semesters
         ClearLists();
 
         //change label of semesters
         if (sem1 == "Spring 2024") { sem1 = "Fall 2023"; }
-            else { sem1 = "Spring 2024"; }
+        else { sem1 = "Spring 2024"; }
 
         if (sem2 == "Summer 2024")
         { sem2 = "Winter 2024"; }
-            else { sem2 = "Summer 2024"; }
+        else { sem2 = "Summer 2024"; }
 
         if (sem_button == "Go To Fall/Winter") { sem_button = "Go To Spring/Summer"; }
-            else { sem_button = "Go To Fall/Winter"; }
+        else { sem_button = "Go To Fall/Winter"; }
     }
 
 }

@@ -9,7 +9,7 @@
 
 <div class="e-card" style="background-color:@CardColor(Course.Semester); border-left:1rem solid @BarColor(Course.Category)">
     <SfCard @bind-courseKey="@Course">
-        <div class="plus-btn" @onclick="SendCourse">+</div>
+        <div class="plus-btn" @onclick="SendCourse"><i class="fa fa-plus"></i></div>
         <span class="right" style="padding-right:1rem">@Course.Semester</span>
         <div class="e-card-header"> @Course.Id </div>
         
@@ -54,7 +54,6 @@
     private void SendCourse()
     {
         CourseService.SendCourse(Course);
-
     }
 
     // TODO: send the removed course to CourseSearch

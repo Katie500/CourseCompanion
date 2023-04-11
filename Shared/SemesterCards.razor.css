@@ -6,15 +6,16 @@
     position: relative;
 }
 
-.trash-btn {
-    position: absolute;
-    right: 0.2rem;
+.error-icon {
+    position:absolute;
+    border:none;
+    left: -1rem;
     width: 2.2rem;
-    top: -0.5rem;
+    top: 0rem;
     height: 2.2rem;
     background-color: crimson;
-    color: black;
-    font-size: 140%;
+    color: white;
+    font-size: 150%;
     font-weight: bolder;
     border-radius: 3rem;
     padding-bottom: 1rem;
@@ -22,14 +23,46 @@
     transition-duration: 0.2s;
 }
 
-    .trash-btn:hover {
-        background-color: firebrick;
-        color: black;
+    .error-icon:hover {
+        background-color: darkred;
     }
 
-    .trash-btn:active {
-        background-color: firebrick;
-        transform: translateY(0.2rem);
+    .error-icon:hover:before {
+        opacity: 1;
+        visibility: visible;
+    }
+
+/* Container Tooltip */
+.tooltip {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 40px;
+    cursor: pointer;
+}
+
+/* Style text tooltip */
+.tooltipText {
+    background-color: #fff;
+    position: absolute;
+    bottom: 130%;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    opacity: 0;
+    transition: all .5s;
+}
+
+    .tooltipText::after {
+        content: '';
+        border-width: 5px;
+        border-style: solid;
+        border-color: #fff transparent transparent transparent;
+        position: absolute;
+        top: 100%;
+        left: 40%;
+        margin-left: 5%;
     }
 
 .card-content {

@@ -28,7 +28,6 @@ namespace CourseCompanion.Shared.Services
         {
             OnCourseEvent?.Invoke(courseRemoved);
         }
-
     }
 }
 

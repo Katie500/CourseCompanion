@@ -7,12 +7,13 @@
 @inject HttpClient Http
 @inject ICourseService CourseService
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <!--Search Bar-->
 <div class="text-center bg-blue-100">
     <div style="margin-bottom: 1rem">
         <input class="rounded m-6 p-6 h-8 border-blue-300" style="width:85%"
                @bind="SearchText" @oninput="HandleInput" placeholder="Course search..." />
-
     </div>
 </div>
 

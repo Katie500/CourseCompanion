@@ -9,49 +9,48 @@
 @inject HttpClient Http
 @inject ICourseService CourseService
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
-<div class="row text-center">
+<div class="row">
     <div class="col-lg-6">
-        <!-- Left container -->
-        <div class="card bg-gradient bg-opacity-25 bg-info">
-            <div class="card-body">
-                <h5 class="card-title bg-gradient bg-opacity-50 bg-info text-center"><b>@sem1</b></h5>
-                <div class="btn-group-vertical w-100" role="group">
-
-                    @foreach (var fallCourse in fallCourses)
-                    {
-                        <CourseCards Course="@fallCourse" />
-                    }
-                </div>
+        <!-- Left semester container -->
+        <div class="card bg-gradient bg-opacity-25 bg-info" style="padding-bottom:0.1rem">
+            <h5 class="card-title bg-gradient bg-opacity-50 bg-info text-center"><b>Fall 2023</b></h5>
+            <div class="container" style="position:relative; max-height:70vh; overflow-y:scroll">
+                @foreach (var fallCourse in fallCourses)
+                {
+                    <SemesterCards Course="@fallCourse" />
+                }
             </div>
+                <p style="position:relative; color:grey; bottom:-1rem; text-align:right; padding-right: 0.2rem">
+                    @fall_TotalCredits units
+                </p>
         </div>
     </div>
 
-    <div class="col-lg-6 text-center">
-        <!-- Right container -->
-        <div class="card bg-opacity-25 bg-warning">
-            <div class="card-body">
-                <h5 class="card-title bg-opacity-50 bg-warning text-center"><b>@sem2</b></h5>
-                <div class="btn-group-vertical w-100 " role="group">
-                    @foreach (var winterCourse in winterCourses)
-                    {
-                        <CourseCards Course="@winterCourse" />
-                    }
-
-                </div>
+    <div class="col-lg-6">
+        <!-- Right semester container -->
+        <div class="card bg-opacity-25 bg-warning" style="padding-bottom:0.1rem">
+            <h5 class="card-title bg-opacity-50 bg-warning text-center"><b>Winter 2024</b></h5>
+            <div class="container" style="position:relative; max-height:70vh; overflow-y:scroll">
+                @foreach (var winterCourse in winterCourses)
+                {
+                    <SemesterCards Course="@winterCourse" />
+                }
             </div>
+                <p style="position:relative; color:grey; bottom:-1rem; text-align:right; padding-right: 0.2rem">
+                    @winter_TotalCredits units
+                </p>
         </div>
+    </div>
 
         <!-- Buttons -->
         <div class="col-lg-6 text-center">
-            <br /><br />
-            <button type="button" class="btn btn-primary btn-outline-primary text-center" @onclick="clearSem">@sem_button</button>
-            <br /><br /><br /><br /><br /><br />
-            <button type="button" class="btn btn-danger text-center">Reset</button>
-            <button type="button" class="btn btn-danger text-center">Export</button>
+            <button type="button" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 2rem; right: 25rem; margin-left: inherit">Go To Spring/Summer</button>
+            <button type="button" @onclick="ClearLists" class="btn btn-danger text-center" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
+            <button type="button" class="btn btn-danger text-center" style="position: absolute; bottom: 2rem; right: 10rem; margin-left: inherit">Export</button>
         </div>
-    </div>
+
 </div>
 
 
@@ -62,7 +61,6 @@
     String sem2 = "Winter 2024";
 
     String sem_button = "Go To Spring/Summer";
-   
 
     [Parameter]
     public CourseDetails? addedCourse { get; set; }
@@ -71,6 +69,11 @@
     private List<CourseDetails> winterCourses = new();
     private List<CourseDetails> springCourses = new();
     private List<CourseDetails> summerCourses = new();
+
+    public int fall_TotalCredits = 0;
+    public int winter_TotalCredits = 0;
+    public int spring_TotalCredits = 0;
+    public int summer_TotalCredits = 0;
 
     protected override void OnInitialized()
     {
@@ -84,6 +87,23 @@
         StateHasChanged();
     }
 
+    // user clicked the reset button
+    private void ClearLists()
+    {
+        // TODO: UI popup with confirmation
+        // clear all the semester lists and place them back into the main list (resetting it is also fine)
+        fallCourses.Clear();
+        winterCourses.Clear();
+        springCourses.Clear();
+        summerCourses.Clear();
+        
+        fall_TotalCredits = 0;
+        winter_TotalCredits = 0;
+        spring_TotalCredits = 0;
+        summer_TotalCredits = 0;
+        
+    }
+
     /* receives a CourseDetail object from CourseCards, implement a function where if the course is fall,
      it stores to the fallCourses, same for winterCourses */
     public void ParseCourse(CourseDetails addCourse)
@@ -91,6 +111,7 @@
 
         // add courses based on semester
         if ((addCourse.Semester).Contains("fall", StringComparison.OrdinalIgnoreCase))
+
         { fallCourses.Add(addCourse); }
         if ((addCourse.Semester).Contains("winter", StringComparison.OrdinalIgnoreCase))
         { winterCourses.Add(addCourse); }
@@ -98,6 +119,14 @@
         { springCourses.Add(addCourse); }
         if ((addCourse.Semester).Contains("summer", StringComparison.OrdinalIgnoreCase))
         { summerCourses.Add(addCourse); }
+
+        { fallCourses.Add(addCourse); fall_TotalCredits += addCourse.Credits; }
+        if ((addCourse.Semester).Contains("winter", StringComparison.OrdinalIgnoreCase))
+        { winterCourses.Add(addCourse); winter_TotalCredits += addCourse.Credits; }
+        if ((addCourse.Semester).Contains("spring", StringComparison.OrdinalIgnoreCase))
+        { springCourses.Add(addCourse); spring_TotalCredits += addCourse.Credits; }
+        if ((addCourse.Semester).Contains("summer", StringComparison.OrdinalIgnoreCase))
+        { summerCourses.Add(addCourse); summer_TotalCredits += addCourse.Credits; }
 
         Console.WriteLine(addCourse.Id + " added to " + addCourse.Semester);
     }

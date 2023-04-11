@@ -11,21 +11,20 @@
     <SfCard @bind-courseKey="@Course">
         <div class="plus-btn" @onclick="SendCourse">+</div>
         <span class="right" style="padding-right:1rem">@Course.Semester</span>
-        <div class="e-card-header">
-            @Course.Id
-        </div>
-        <Collapsable Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
+        <div class="e-card-header"> @Course.Id </div>
+        
+        <Collapsible Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
             <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
 
                 <p class="p-card-content">
                     <b>Description:</b> @Course.Description<br>
-                    <b>Instructor:</b> @Course.Instructor<br>
+                    <b>Inbstructor:</b> @Course.Instructor<br>
                     <b>Prerequisite(s):</b> @Course.Prerequisites <br>
                     <b>Antirequisite(s):</b> @Course.Antirequisites<br>
                     <b>Credits:</b> @Course.Credits
                 </p>
             </div>
-        </Collapsable>
+        </Collapsible>
     </SfCard>
 </div>
 
@@ -35,37 +34,33 @@
 
     private string? CardColor(string semester)
     {
-
         if (semester.Contains("Fall")) { return "lightcyan"; }
         if (semester.Contains("Winter")) { return "cornsilk"; }
         if (semester.Contains("Spring")) { return "thistle"; }
         if (semester.Contains("Summer")) { return "lightsalmon"; }
         else { return "antiquewhite"; }
-
     }
 
     private string? BarColor(string category)
     {
-
         if (category.Contains("Major")) { return "midnightblue"; }
         if (category.Contains("Other")) { return "orchid"; }
         if (category.Contains("Open")) { return "lightgreen"; }
         if (category.Contains("Faculty")) { return "goldenrod"; }
         else { return "antiquewhite"; }
-
     }
 
-    // send the added course
+    // send the added course to the semester containers
     private void SendCourse()
     {
         CourseService.SendCourse(Course);
 
     }
 
-    // send the removed course
+    // TODO: send the removed course to CourseSearch
     private void RemoveCourse()
     {
-        CourseService.RemoveCourse(Course);
+        // do stuff
     }
 
 }

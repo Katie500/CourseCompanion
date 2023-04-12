@@ -1,0 +1,83 @@
+﻿@using Syncfusion.Blazor.Cards
+@using Microsoft.AspNetCore.Components
+@using CourseCompanion.Shared.Model
+@using CourseCompanion.Shared.CourseCards
+@inject HttpClient Http
+
+<!--Search Bar-->
+<div class="text-center bg-blue-100">
+    <div style="margin-bottom: 1rem">
+        <input class="rounded m-6 p-6 h-8 border-blue-300" style="width:85%"
+
+        @bind="SearchText" @oninput="HandleInput" placeholder="Course search..."/>
+
+    </div>
+</div>
+
+<!--Course Results List-->
+<div style="height:84vh;overflow-y:scroll">
+    <div class="container">
+        @if (filterCourses == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else if (filterCourses.Length == 0)
+        {
+            <p><em>No Courses Found.</em></p>
+        }
+        else
+        {
+            @foreach (var course in filterCourses)
+            {
+                <CourseCards Course="@course" />
+            }
+        }
+    </div>
+</div>
+
+@code {
+    public string? SearchText = "";
+
+    private CourseDetails[]? filterCourses;
+    private CourseDetails[]? courses;
+
+    private void HandleInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        SearchText = e.Value.ToString();
+        FilterCourses(SearchText);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("OnInitializedAsync() called...");
+        courses = await Http.GetFromJsonAsync<CourseDetails[]>("sample-data/courses.json");
+        filterCourses = courses;
+    }
+
+    private void FilterCourses(string? searchText)
+    {
+        Console.WriteLine("FilterCourses({0}) called...", searchText);
+
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            CourseDetails[] courseIDs = courses.Where(c =>
+                    c.Id.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToArray();
+
+            CourseDetails[] courseTitles = courses.Where(c =>
+                    c.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToArray();
+            filterCourses = courseIDs.Concat(courseTitles).ToArray();
+
+            CourseDetails[] courseLevel = courses.Where(c =>
+                     (c.Level.ToString()).Contains(searchText.TrimEnd(new Char[] { '0' }))).ToArray();
+            filterCourses = filterCourses.Concat(courseLevel).ToArray();
+
+            CourseDetails[] courseSemester = courses.Where(c =>
+                     c.Semester.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToArray();
+            filterCourses = filterCourses.Concat(courseSemester).ToArray();
+        }
+        else
+        {
+            filterCourses = courses;
+        }
+    }
+}

@@ -1,18 +1,20 @@
 ﻿@using Syncfusion.Blazor.Cards
 @using Microsoft.AspNetCore.Components
 @using CourseCompanion.Shared.Model
+@using CourseCompanion.Shared.State
 @using CourseCompanion.Shared.Services
 @namespace CourseCompanion.Shared.CourseCards
 
 @inject HttpClient Http
+@inject StateContainer State
 @inject ICourseService CourseService
 
 <div class="e-card" style="background-color:@CardColor(Course.Semester); border-left:1rem solid @BarColor(Course.Category)">
-    <SfCard @bind-courseKey="@Course">
-        <div class="plus-btn" @onclick="SendCourse"><i class="fa fa-plus"></i></div>
+    <SfCard @key="@Course">
+        <div class="plus-btn" @onclick="AddCourse"><i class="fa fa-plus"></i></div>
         <span class="right" style="padding-right:1rem">@Course.Semester</span>
         <div class="e-card-header"> @Course.Id </div>
-        
+
         <Collapsible Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
             <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
 
@@ -50,10 +52,14 @@
         else { return "antiquewhite"; }
     }
 
-    // send the added course to the semester containers
-    private void SendCourse()
+    // course added to semesters
+    // then removed from the filtered list
+    private void AddCourse()
     {
-        CourseService.SendCourse(Course);
+        Console.WriteLine("sent " + Course.Id + " from CourseCards");
+        State.RemoveCourse_fromFilteredList(Course);
+        State.AddCourse_toSemesterList(Course);     // send the course to the semester list
+        CourseService.CourseEvent(Course);          // notify SemesterContainers that the list was updated
     }
 
     // TODO: send the removed course to CourseSearch

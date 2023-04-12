@@ -2,10 +2,8 @@
 @using Microsoft.AspNetCore.Components.Web
 @using System.Linq
 @using Syncfusion.Blazor
-@using Syncfusion.Blazor.Navigations
-@using Syncfusion.Blazor.Cards
-@using Syncfusion.Blazor.Buttons
 @using CourseCompanion.Shared
+
 @inject HttpClient Http
 
 <PageTitle>Course Companion</PageTitle>
@@ -16,83 +14,17 @@
             <!-- Left section -->
             <!--Course Search-->
             <CourseSearch />
-
         </div>
 
-        <div class="col-lg-8 col-md-6 text-center">
+        <div class="col-lg-8 col-md-6">
             <!-- Right section -->
-            <div class="row text-center">
-                <div class="col-lg-6">
-                    <!-- Left container -->
-                    <div class="card bg-gradient bg-opacity-25 bg-info">
-                        <div class="card-body">
-                            <h5 class="card-title bg-gradient bg-opacity-50 bg-info text-center"><b>Fall 2023</b></h5>
-                            <div class="btn-group-vertical w-100" role="group">
-                                <button type="button" class="btn btn-light btn-lg btn-block">CPSC 231</button> <br />
-                                <button type="button" class="btn btn-light btn-lg btn-block">PHIL 279</button> <br />
-                                <button type="button" class="btn btn-light btn-lg btn-block">MATH 211</button> <br />
-                                <button type="button" class="btn btn-light btn-lg btn-block">FILM 201</button> <br />
-                                <button type="button" class="btn btn-light btn-lg btn-block">SOCI 201</button> <br />
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-6 text-center">
-                    <!-- Right container -->
-                    <div class="card bg-opacity-25 bg-warning">
-                        <div class="card-body">
-                            <h5 class="card-title bg-opacity-50 bg-warning text-center"><b>Winter 2024</b></h5>
-                            <div class="btn-group-vertical w-100 " role="group">
-                                <button type="button" class="btn btn-light btn-lg btn-block">CPSC 233</button> <br />
-                                <button type="button" class="btn btn-light btn-lg btn-block">PHIL 314</button> <br />
-                                <button type="button" class="btn btn-light btn-lg btn-block">MATH 265</button> <br />
-                                <button type="button" class="btn btn-light btn-lg btn-block">FILM 203</button> <br />
-                                <button type="button" class="btn btn-light btn-lg btn-block">SPAN 201</button> <br />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 text-center">
-                        <br /><br />
-                        <button type="button" class="btn btn-primary btn-outline-primary text-center">Go To Spring/Summer</button>
-                        <br /><br /><br /><br /><br /><br />
-                        <button type="button" class="btn btn-danger text-center">Reset</button>
-                        <button type="button" class="btn btn-danger text-center">Export</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+            <SemesterContainers />
         </div>
     </div>
 </div>
 
 @code {
+
 }
 
 

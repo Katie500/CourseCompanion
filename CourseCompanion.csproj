@@ -16,11 +16,11 @@
     <Content Remove="wwwroot\assets\" />
     <Content Remove="wwwroot\favicon.ico" />
     <Content Remove="Shared\Temp.razor" />
-    <Content Remove="wwwroot\sample-data\courses.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\assets\" />
     <Folder Include="Shared\Model\" />
+    <Folder Include="Shared\Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Properties\appsettings.json">
@@ -29,5 +29,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Shared\Model\" />
+    <None Remove="Shared\Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shared\CourseCards.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </None>
   </ItemGroup>
 </Project>

@@ -1,0 +1,47 @@
+[
+  {
+    "Id": "CPSC 203",
+    "Title": "Introduction to Problem Solving using Application Software",
+    "Description": "This course is an introduction to problem-solving techniques using popular application software suites. Students will learn to analyze problems and apply appropriate tools and techniques to solve them. The course will cover topics such as word processing, spreadsheets, databases, and presentation software.",
+    "Instructor": "John Smith",
+    "Level": 200,
+    "Credits": 3,
+    "Category": "Major Field",
+    "Semester": "Fall 2023",
+    "Faculty": "Science",
+    "Prerequisites": "",
+    "Antirequisites": "CPSC 233, CPSC 255",
+    "Required": false,
+    "Eligible": true
+  },
+  {
+    "Id": "CPSC 231",
+    "Title": "Introduction to Problem Solving using Application Software",
+    "Description": "This course is an introduction to problem-solving techniques using popular application software suites. Students will learn to analyze problems and apply appropriate tools and techniques to solve them. The course will cover topics such as word processing, spreadsheets, databases, and presentation software.",
+    "Instructor": "John Smith",
+    "Level": 200,
+    "Credits": 3,
+    "Category": "Major Field",
+    "Semester": "Fall 2023",
+    "Faculty": "Science",
+    "Prerequisites": "",
+    "Antirequisites": "CPSC 231, CPSC 255",
+    "Required": true,
+    "Eligible": true
+  },
+  {
+    "Id": "CPSC 217",
+    "Title": "Introduction to Computer Science for Multidisciplinary Studies I",
+    "Description": "This course provides an introduction to the fundamentals of computer science and programming. Students will learn basic programming concepts and techniques, such as control structures, data types, and functions. They will also gain experience with a modern programming language, such as Python or Java.",
+    "Instructor": "Jane Doe",
+    "Level": 200,
+    "Credits": 3,
+    "Category": "Major Field",
+    "Semester": "Fall 2023",
+    "Faculty": "Science",
+    "Prerequisites": "CPSC 201, CPSC 231. CPSC 233",
+    "Antirequisites": "CPSC 203, CPSC 255",
+    "Required": false,
+    "Eligible": false
+  }
+]

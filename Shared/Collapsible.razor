@@ -1,34 +1,39 @@
 ﻿<!--Referenced from:-->
 <!--https://www.puresourcecode.com/dotnet/blazor/create-an-accordion-component-with-blazor/-->
 
-<div class="collapsable">
+<div class="collapsible">
     @if (!string.IsNullOrEmpty(Value))
     {
         <div class="value">
             <span class="badge badge-success">@Value</span>
         </div>
     }
+
     <div class="title" @onclick="@Toggle">
 
         @Title
 
         @if (Collapsed)
         {
-            <span class="oi oi-chevron-bottom mr-1"></span>
+            <div class="arrow">
+                <span class="oi oi-chevron-bottom mr-1"></span>
+            </div>
+            
         }
         else
         {
-            <span class="oi oi-chevron-top mr-1"></span>
+            <div class="arrow">
+                <span class="oi oi-chevron-top mr-1"></span>
+            </div>
+        
         }
-
-
     </div>
 
 </div>
 
 @if (!Collapsed)
 {
-    <div class="collapsable-panel" style="@BgColor">
+    <div class="collapsible-panel" style="@BgColor">
         @ChildContent
     </div>
 }
@@ -39,6 +44,8 @@
     [Parameter] public string? Title { get; set; }
     [Parameter] public string? Value { get; set; }
     [Parameter] public string? BgColor { get; set; }
+    [Parameter] public bool Semester { get; set; }
+
     void Toggle()
     {
         Collapsed = !Collapsed;

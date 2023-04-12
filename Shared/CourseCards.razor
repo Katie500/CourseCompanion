@@ -31,6 +31,8 @@
 @code {
     [Parameter]
     public CourseDetails? Course { get; set; }
+    //[CascadingParameter] public int counter { get; set; }
+    public int counter = 0;
 
     private string? CardColor(string semester)
     {
@@ -54,6 +56,8 @@
     private void SendCourse()
     {
         CourseService.SendCourse(Course);
+        counter++;
+        //MainLayout.YellowVal = counter * 3; //attempt to send number of courses to main layout page
     }
 
     // TODO: send the removed course to CourseSearch

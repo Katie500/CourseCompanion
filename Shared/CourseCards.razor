@@ -1,0 +1,72 @@
+﻿@using Syncfusion.Blazor.Cards
+@using Microsoft.AspNetCore.Components
+@using CourseCompanion.Shared.Model
+@using CourseCompanion.Shared.State
+@using CourseCompanion.Shared.Services
+@namespace CourseCompanion.Shared.CourseCards
+
+@inject HttpClient Http
+@inject StateContainer State
+@inject ICourseService CourseService
+
+<div class="e-card" style="background-color:@CardColor(Course.Semester); border-left:1rem solid @BarColor(Course.Category)">
+    <SfCard @key="@Course">
+        <div class="plus-btn" @onclick="AddCourse"><i class="fa fa-plus"></i></div>
+        <span class="right" style="padding-right:1rem">@Course.Semester</span>
+        <div class="e-card-header"> @Course.Id </div>
+
+        <Collapsible Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
+            <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
+
+                <p class="p-card-content">
+                    <b>Description:</b> @Course.Description<br>
+                    <b>Inbstructor:</b> @Course.Instructor<br>
+                    <b>Prerequisite(s):</b> @Course.Prerequisites <br>
+                    <b>Antirequisite(s):</b> @Course.Antirequisites<br>
+                    <b>Credits:</b> @Course.Credits
+                </p>
+            </div>
+        </Collapsible>
+    </SfCard>
+</div>
+
+@code {
+    [Parameter]
+    public CourseDetails? Course { get; set; }
+
+    private string? CardColor(string semester)
+    {
+        if (semester.Contains("Fall")) { return "lightcyan"; }
+        if (semester.Contains("Winter")) { return "cornsilk"; }
+        if (semester.Contains("Spring")) { return "thistle"; }
+        if (semester.Contains("Summer")) { return "lightsalmon"; }
+        else { return "antiquewhite"; }
+    }
+
+    private string? BarColor(string category)
+    {
+        if (category.Contains("Major")) { return "midnightblue"; }
+        if (category.Contains("Other")) { return "orchid"; }
+        if (category.Contains("Open")) { return "lightgreen"; }
+        if (category.Contains("Faculty")) { return "goldenrod"; }
+        else { return "antiquewhite"; }
+    }
+
+    // course added to semesters
+    // then removed from the filtered list
+    private void AddCourse()
+    {
+        Console.WriteLine("sent " + Course.Id + " from CourseCards");
+        State.RemoveCourse_fromFilteredList(Course);
+        State.AddCourse_toSemesterList(Course);     // send the course to the semester list
+        CourseService.CourseEvent(Course);          // notify SemesterContainers that the list was updated
+    }
+
+    // TODO: send the removed course to CourseSearch
+    private void RemoveCourse()
+    {
+        // do stuff
+    }
+
+}
+

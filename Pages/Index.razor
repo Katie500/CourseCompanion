@@ -1,0 +1,30 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.Web
+@using System.Linq
+@using Syncfusion.Blazor
+@using CourseCompanion.Shared
+
+@inject HttpClient Http
+
+<PageTitle>Course Companion</PageTitle>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4 col-md-6" style="flex-direction: column">
+            <!-- Left section -->
+            <!--Course Search-->
+            <CourseSearch />
+        </div>
+
+        <div class="col-lg-8 col-md-6">
+            <!-- Right section -->
+            <SemesterContainers />
+        </div>
+    </div>
+</div>
+
+@code {
+
+}
+
+

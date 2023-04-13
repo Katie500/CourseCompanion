@@ -1,0 +1,95 @@
+@using System.Linq
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Navigations
+@using Microsoft.AspNetCore.Components
+@using CourseCompanion.Shared.State
+@using CourseCompanion.Shared.Model
+@using CourseCompanion.Shared.Services
+
+@inject HttpClient Http
+@inject StateContainer State
+@inject ICourseService CourseService
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="row">
+    <div class="col-lg-6">
+        <!-- Left semester container -->
+        <div class="card bg-gradient bg-opacity-25 bg-info" style="padding-bottom:0.1rem">
+            <h5 class="card-title bg-gradient bg-opacity-50 bg-info text-center"><b>@sem1</b></h5>
+            <div class="container" style="position:relative; max-height:70vh; overflow-y:scroll">
+                @foreach (var fallCourse in State.fallList)
+                {
+                    <SemesterCards Course="@fallCourse" />
+                }
+            </div>
+            <p style="position:relative; color:grey; bottom:-1rem; text-align:right; padding-right: 0.2rem">
+                @State.fall_TotalCredits units
+            </p>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <!-- Right semester container -->
+        <div class="card bg-opacity-25 bg-warning" style="padding-bottom:0.1rem">
+            <h5 class="card-title bg-opacity-50 bg-warning text-center"><b>@sem2</b></h5>
+            <div class="container" style="position:relative; max-height:70vh; overflow-y:scroll">
+                @foreach (var winterCourse in State.winterList)
+                {
+                    <SemesterCards Course="@winterCourse" />
+                }
+            </div>
+            <p style="position:relative; color:grey; bottom:-1rem; text-align:right; padding-right: 0.2rem">
+                @State.winter_TotalCredits units
+            </p>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="col-lg-6 text-center">
+        <button type="button" @onclick="SwitchSem" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 2rem; right: 25rem; margin-left: inherit">@sem_button</button>
+        <button type="button" @onclick="State.ClearLists" class="btn btn-danger text-center" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
+        <button type="button" class="btn btn-danger text-center" style="position: absolute; bottom: 2rem; right: 10rem; margin-left: inherit">Export</button>
+    </div>
+
+</div>
+
+
+@code{
+
+    //semesters
+    String sem1 = "Fall 2023";
+    String sem2 = "Winter 2024";
+    String sem_button = "Go To Spring/Summer";
+
+    protected override void OnInitialized()
+    {
+        // subscribe to OnCourseEvent
+        CourseService.OnCourseEvent += CourseHandler;
+    }
+
+    private void CourseHandler(CourseDetails course)
+    {
+        StateHasChanged();
+    }
+
+    public void SwitchSem()
+    {
+        // TODO: change lists shown, container colors and semester filter
+
+        // clear semesters
+        State.ClearLists();
+
+        //change label of semesters
+        if (sem1 == "Spring 2024") { sem1 = "Fall 2023"; }
+        else { sem1 = "Spring 2024"; }
+
+        if (sem2 == "Summer 2024")
+        { sem2 = "Winter 2024"; }
+        else { sem2 = "Summer 2024"; }
+
+        if (sem_button == "Go To Fall/Winter") { sem_button = "Go To Spring/Summer"; }
+        else { sem_button = "Go To Fall/Winter"; }
+    }
+
+}

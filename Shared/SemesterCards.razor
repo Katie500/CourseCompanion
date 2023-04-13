@@ -1,33 +1,40 @@
 ﻿@using Syncfusion.Blazor.Cards
 @using Microsoft.AspNetCore.Components
+@using CourseCompanion.Shared
 @using CourseCompanion.Shared.Model
-@using CourseCompanion.Shared.Services
-@namespace CourseCompanion.Shared.CourseCards
+@using CourseCompanion.Shared.State
 
 @inject HttpClient Http
-@inject ICourseService CourseService
+@inject StateContainer State
 
-<div class="e-card" style="background-color:@CardColor(@Course.Semester)">
-    <SfCard @bind-courseKey="@Course">
-        <button class="plus-btn" @onclick="SendCourse">+</button>
-        <span class="right" style="padding-right:1rem">@Course.Semester</span>
-        <div class="e-card-header">
-            @Course.Id
+<div class="container" style="padding:0; padding-top:0.5rem; padding-bottom:0.5rem">
+    <div class="e-card" style="background-color:ghostwhite; border-left:1rem solid @BarColor(@Course.Category)">
+
+        <div class="error-icon" @onclick="ShowError">
+            <i class="fa fa-exclamation"> </i>
+
         </div>
-        <Collapsable Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
-            <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
 
-                <p class="p-card-content">
-                    <b>Description:</b> @Course.Description<br>
-                    <b>Instructor:</b> @Course.Instructor<br>
-                    <b>Prerequisite(s):</b> @Course.Prerequisites <br>
-                    <b>Antirequisite(s):</b> @Course.Antirequisites<br>
-                    <b>Credits:</b> @Course.Credits
-                </p>
-            </div>
-        </Collapsable>
-    </SfCard>
+        <SfCard @key="@Course">
+            <div class="e-card-header"> @Course.Id </div>
+
+            <!--Semester Card Content (contains delete function)-->
+            <CollapsibleSemester Course=@Course Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
+                <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
+
+                    <p class="p-card-content">
+                        <b>Description:</b> @Course.Description<br>
+                        <b>Instructor:</b> @Course.Instructor<br>
+                        <b>Prerequisite(s):</b> @Course.Prerequisites <br>
+                        <b>Antirequisite(s):</b> @Course.Antirequisites<br>
+                        <b>Credits:</b> @Course.Credits
+                    </p>
+                </div>
+            </CollapsibleSemester>
+        </SfCard>
+    </div>
 </div>
+
 
 @code {
     [Parameter]
@@ -35,24 +42,26 @@
 
     private string? CardColor(string semester)
     {
-
-        if (semester.Contains("Fall")) { return "lightcyan"; }
-        if (semester.Contains("Winter")) { return "cornsilk"; }
-        if (semester.Contains("Spring")) { return "thistle"; }
-        if (semester.Contains("Summer")) { return "lightsalmon"; }
+        if (semester.Contains("Fall")) { return "ghostwhite"; }
+        if (semester.Contains("Winter")) { return "ghostwhite"; }
+        if (semester.Contains("Spring")) { return "ghostwhite"; }
+        if (semester.Contains("Summer")) { return "ghostwhite"; }
         else { return "antiquewhite"; }
-
     }
 
-    // send the added course
-    private void SendCourse()
+    private string? BarColor(string category)
     {
-        CourseService.SendCourse(Course);
-
+        if (category.Contains("Major")) { return "midnightblue"; }
+        if (category.Contains("Other")) { return "orchid"; }
+        if (category.Contains("Open")) { return "lightgreen"; }
+        if (category.Contains("Faculty")) { return "goldenrod"; }
+        else { return "antiquewhite"; }
     }
 
-    private void RemoveCourse()
+    // TODO: implement this (see ErrorMessage.razor)
+        private void ShowError()
     {
-        CourseService.RemoveCourse(Course);
+        Console.WriteLine("show error message clicked");
     }
+
 }

@@ -31,4 +31,9 @@
     <None Remove="Shared\Model\" />
     <None Remove="Shared\Services\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Shared\CourseCards.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </None>
+  </ItemGroup>
 </Project>

@@ -13,14 +13,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\assets\" />
     <Content Remove="wwwroot\favicon.ico" />
     <Content Remove="Shared\Temp.razor" />
+    <Content Remove="wwwroot\assets\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\assets\" />
     <Folder Include="Shared\Model\" />
     <Folder Include="Shared\Services\" />
+    <Folder Include="wwwroot\assets\" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Properties\appsettings.json">

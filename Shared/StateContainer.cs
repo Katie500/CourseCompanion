@@ -4,8 +4,10 @@
  */
 
 using System;
-using CourseCompanion.Shared.Model;
 using CourseCompanion.Shared;
+using CourseCompanion.Shared.Model;
+using CourseCompanion.Shared.Services;
+
 
 namespace CourseCompanion.Shared.State
 {
@@ -13,6 +15,8 @@ namespace CourseCompanion.Shared.State
     public class StateContainer
     {
         public event Action OnStateChange;
+
+        public CourseService courseService = new CourseService();
 
         public List<CourseDetails> fullList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> filteredList { get; set; } = new List<CourseDetails>();
@@ -122,10 +126,13 @@ namespace CourseCompanion.Shared.State
         }
 
         // user clicked the reset button
-        public void ClearLists()
+        public List<CourseDetails> ResetState()
         {
+            Console.WriteLine("State reset has been called");
+
             // TODO: UI popup with confirmation
-            // clear all the semester lists and place them back into the main list (resetting it is also fine)
+
+            // clear all the semester lists
             fallList.Clear();
             winterList.Clear();
             springList.Clear();
@@ -135,7 +142,16 @@ namespace CourseCompanion.Shared.State
             winter_TotalCredits = 0;
             spring_TotalCredits = 0;
             summer_TotalCredits = 0;
-            NotifyStateChanged();
+
+            // reset the main list back to default
+            filteredList = fullList;
+
+            //foreach (var course in (filteredList).OrderBy(x => x.Id))
+            //    Console.WriteLine(course.Id);
+
+
+            return filteredList;
+
 
         }
         private void NotifyStateChanged() => OnStateChange?.Invoke();

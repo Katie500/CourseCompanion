@@ -59,13 +59,7 @@
         Console.WriteLine("sent " + Course.Id + " from CourseCards");
         State.RemoveCourse_fromFilteredList(Course);
         State.AddCourse_toSemesterList(Course);     // send the course to the semester list
-        CourseService.CourseEvent(Course);          // notify SemesterContainers that the list was updated
-    }
-
-    // TODO: send the removed course to CourseSearch
-    private void RemoveCourse()
-    {
-        // do stuff
+        CourseService.CourseEvent();          // notify SemesterContainers that the list was updated
     }
 
 }

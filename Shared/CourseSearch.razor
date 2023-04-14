@@ -46,12 +46,12 @@
 
     public string? SearchText = "";
 
-    public List<CourseDetails>? filterCourses;
+    public List<CourseDetails>? filterCourses { get; set; }
     private List<CourseDetails>? courses;
 
     private string[] split = { "", "" };
-    public string dept = "";
-    public string level = "";
+    private string dept = "";
+    private string level = "";
 
     // handle input for searches
     private void HandleInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
@@ -65,20 +65,26 @@
     {
         Console.WriteLine("Updated full course list");
         courses = await Http.GetFromJsonAsync<List<CourseDetails>>("sample-data/courses.json");
-        State.fullList = courses;
+        State.fullList = new List<CourseDetails>(courses);
+        filterCourses = new List<CourseDetails>(courses);
 
-        filterCourses = courses;
+        // DEBUG
+        //foreach (var course in (State.fullList).OrderBy(x => x.Id))
+        //    Console.WriteLine(course.Id);
+
         State.filteredList = filterCourses;
     }
 
     protected override void OnInitialized()
     {
+
         // subscribe to OnCourseEvent
         CourseService.OnCourseEvent += CourseHandler;
     }
 
-    private void CourseHandler(CourseDetails removedCourse)
+    private void CourseHandler()
     {
+        Console.WriteLine("coursesearch state changed");
         StateHasChanged();
     }
 
@@ -172,9 +178,8 @@
                     State.filteredList = filterCourses = courses;
                 }
             }
-
+            State.filteredList = filterCourses;
         }
-        State.fullList = filterCourses;
     }
 
 }

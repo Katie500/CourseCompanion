@@ -48,7 +48,7 @@
     <!-- Buttons -->
     <div class="col-lg-6 text-center">
         <button type="button" @onclick="SwitchSem" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 2rem; right: 25rem; margin-left: inherit">@sem_button</button>
-        <button type="button" @onclick="State.ClearLists" class="btn btn-danger text-center" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
+        <button type="button" @onclick="ResetButton" class="btn btn-danger text-center" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
         <button type="button" class="btn btn-danger text-center" style="position: absolute; bottom: 2rem; right: 10rem; margin-left: inherit">Export</button>
     </div>
 
@@ -68,7 +68,7 @@
         CourseService.OnCourseEvent += CourseHandler;
     }
 
-    private void CourseHandler(CourseDetails course)
+    private void CourseHandler()
     {
         StateHasChanged();
     }
@@ -76,9 +76,7 @@
     public void SwitchSem()
     {
         // TODO: change lists shown, container colors and semester filter
-
-        // clear semesters
-        State.ClearLists();
+        // keep the current state of the lists
 
         //change label of semesters
         if (sem1 == "Spring 2024") { sem1 = "Fall 2023"; }
@@ -90,6 +88,22 @@
 
         if (sem_button == "Go To Fall/Winter") { sem_button = "Go To Spring/Summer"; }
         else { sem_button = "Go To Fall/Winter"; }
+
+        StateHasChanged();
+    }
+
+    // user clicked the reset button
+    public void ResetButton()
+    {
+        Console.WriteLine("Reset button pressed");
+
+        // TODO: UI popup with confirmation
+
+        State.ResetState();
+
+        CourseService.CourseEvent();
+        StateHasChanged();
+
     }
 
 }

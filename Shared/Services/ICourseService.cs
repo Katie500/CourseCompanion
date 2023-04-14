@@ -10,17 +10,17 @@ namespace CourseCompanion.Shared.Services
 {
     public interface ICourseService
     {
-        event Action<CourseDetails> OnCourseEvent;
-        void CourseEvent(CourseDetails course);
+        event Action OnCourseEvent;
+        void CourseEvent();
     }
 
     public class CourseService : ICourseService
     {
-        public event Action<CourseDetails> OnCourseEvent;
+        public event Action OnCourseEvent;
 
-        public void CourseEvent(CourseDetails courseAdded)
+        public void CourseEvent()
         {
-            OnCourseEvent?.Invoke(courseAdded);
+            OnCourseEvent?.Invoke();
         }
 
     }

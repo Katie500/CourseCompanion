@@ -26,26 +26,22 @@
     }
     void FilterSemester(string semester)
     {
-
-        Console.WriteLine("FilterSemester({0}) called...", semester);
-
         List<CourseDetails> courseSemester = State.filteredList.Where(c =>
-                c.Semester.Contains(semester, StringComparison.OrdinalIgnoreCase)).ToList();
+            c.Semester.Contains(semester, StringComparison.OrdinalIgnoreCase)).ToList();
 
-        @* State.filteredList = courseSemester; *@
-        
-        Console.WriteLine("courseSemester");
+        Console.WriteLine("Before Update:");
 
-        foreach(var course in courseSemester) {
+        foreach(var course in State.filteredList) {
             Console.WriteLine(course.Semester);
         }
 
-        Console.WriteLine("State.filteredList");
+        State.ReplaceFilteredList(courseSemester);
+
+        Console.WriteLine("Updated filtered courses:");
 
         foreach(var course in State.filteredList) {
             Console.WriteLine(course.Semester);
         }
 
     }
-
 }

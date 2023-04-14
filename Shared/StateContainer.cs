@@ -138,6 +138,13 @@ namespace CourseCompanion.Shared.State
             NotifyStateChanged();
 
         }
+
+        public void ReplaceFilteredList(List<CourseDetails> newList) {
+            filteredList.Clear();
+            filteredList.AddRange(newList);
+            NotifyStateChanged();  
+        }
+
         private void NotifyStateChanged() => OnStateChange?.Invoke();
     }
 }

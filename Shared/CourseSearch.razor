@@ -44,6 +44,7 @@
 
 @code {
 
+    
     public string? SearchText = "";
 
     public List<CourseDetails>? filterCourses;
@@ -73,12 +74,18 @@
 
     protected override void OnInitialized()
     {
-        // subscribe to OnCourseEvent
+        // subscribe to OnCourseEvent and OnStateChange
         CourseService.OnCourseEvent += CourseHandler;
+        State.OnStateChange += StateChangeHandler;
     }
 
     private void CourseHandler(CourseDetails removedCourse)
     {
+        StateHasChanged();
+    }
+    public void StateChangeHandler()
+    {
+        // Update the UI to reflect the new state
         StateHasChanged();
     }
 

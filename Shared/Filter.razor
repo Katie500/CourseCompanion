@@ -1,0 +1,51 @@
+<!--Filter Bar-->
+@using System.Linq
+@using CourseCompanion.Shared.Model
+@using System.Collections.Generic
+@using CourseCompanion.Shared.State
+@inject StateContainer State
+
+<div>
+    <button @onclick='ToggleSemester'>Semester</button>
+    <Collapsable Title="Semester" Collapsed="@isSemesterCollapsed" Value="50%">
+        <div>
+            <button @onclick='() => FilterSemester("Fall 2023")'>Fall 2023</button>
+            <button @onclick='() => FilterSemester("Winter 2024")'>Winter 2024</button>
+        </div>
+    </Collapsable>
+</div>
+
+@code {
+
+    bool isSemesterCollapsed = true;
+    bool isSemesterVisible = false;
+
+    void ToggleSemester()
+    {
+        isSemesterCollapsed = !isSemesterCollapsed;
+    }
+    void FilterSemester(string semester)
+    {
+
+        Console.WriteLine("FilterSemester({0}) called...", semester);
+
+        List<CourseDetails> courseSemester = State.filteredList.Where(c =>
+                c.Semester.Contains(semester, StringComparison.OrdinalIgnoreCase)).ToList();
+
+        @* State.filteredList = courseSemester; *@
+        
+        Console.WriteLine("courseSemester");
+
+        foreach(var course in courseSemester) {
+            Console.WriteLine(course.Semester);
+        }
+
+        Console.WriteLine("State.filteredList");
+
+        foreach(var course in State.filteredList) {
+            Console.WriteLine(course.Semester);
+        }
+
+    }
+
+}

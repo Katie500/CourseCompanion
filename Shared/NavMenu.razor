@@ -1,7 +1,7 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand">
-            <img src="/assets/UC-horz-rgb.png" title="University of Calgary" style='position: absolute; left:0px; top:0px; height: 100%; width: 100%; object-fit: contain'/>
+       <a class="navbar-brand">
+            <img src="/assets/UC-horz-rgb.png" title="University of Calgary" style='backgroud-color:orange;position: absolute; left:0px; top:0px; height: 115% ;padding-bottom:10px; width:100%; object-fit: contain' />
         </a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
@@ -16,57 +16,120 @@
             <a href="#" class="btn btn-white btn-animate"><b>Filters</b></a>
         </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-plus" aria-hidden="true"></span> Semester
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Eligible
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-plus" aria-hidden="true"></span> Major Field
-            </NavLink>
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-plus" aria-hidden="true"></span> Faculty Breadth
-            </NavLink>
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-plus" aria-hidden="true"></span> Other Requirements
-            </NavLink>
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-plus" aria-hidden="true"></span> Open Options
-            </NavLink>
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-plus" aria-hidden="true"></span> Level
-            </NavLink>
-        </div>
 
-        <div class="fixed-bottom px-4">
-            <button type="button" class="btn btn-secondary btn-outline-light text-center" data-toggle="modal" data-target="#myModal">Need Help? Click Here!</button>
-            <div class="modal" id="myModal" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Modal Header</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Some text in the modal.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
+
+
+        <div class="nav-item px-3">
+    <input type="checkbox" id="semesterToggle" class="semester-toggle" />
+    <label for="semesterToggle">
+        <NavLink class="nav-link">
+            <span class="semester-text" aria-hidden="true">
+                <span>Semester</span>
+                <span>▼</span>
+            </span>
+        </NavLink>
+    </label>
+    <div class="semester-collapse">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="#">
+                <span class=" " aria-hidden="true">Fall</span>
+            </NavLink>
         </div>
-    </nav>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="#">
+                <span class=" " aria-hidden="true">Spring</span>
+            </NavLink>
+        </div>
+ </div>
 </div>
 
 
+
+
+
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <span class=" " aria-hidden="true">Eligible</span> 
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class=" " aria-hidden="true">Major Field</span> 
+            </NavLink>
+            </div>
+            <div class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class=" " aria-hidden="true"> Faculty Breadth</span>
+            </NavLink></div><div class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class=" " aria-hidden="true">Other Requirements</span> 
+            </NavLink></div><div class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class=" " aria-hidden="true"> Open Options</span>
+            </NavLink></div>
+           
+         
+         
+         
+         
+<div class="nav-item px-3">
+    <input type="checkbox" id="levelToggle" class="level-toggle" />
+    <label for="levelToggle">
+        <NavLink class="nav-link">
+            <span class="level-text" aria-hidden="true">
+                <span>Level</span>
+                <span>▼</span>
+            </span>
+        </NavLink>
+    </label>
+
+    <div class="level-collapse">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="#">
+                <span class=" " aria-hidden="true">200</span>
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="#">
+                <span class=" " aria-hidden="true">300</span>
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="#">
+                <span class=" " aria-hidden="true">400</span>
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="#">
+                <span class=" " aria-hidden="true">500</span>
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="#">
+                <span class=" " aria-hidden="true">600</span>
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="#">
+                <span class=" " aria-hidden="true">700</span>
+            </NavLink>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+        <div class="px-3">
+            <button type="button" class="btn btn-secondary btn-outline-light text-center" href="#">Need Help? Click Here!</button>
+        </div>
+    </nav>
+</div>
 
 @code {
     private bool collapseNavMenu = true;

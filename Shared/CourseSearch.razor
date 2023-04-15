@@ -3,8 +3,10 @@
 @using CourseCompanion.Shared.Model
 @using CourseCompanion.Shared.CourseCards
 @using CourseCompanion.Shared.Services
+@using CourseCompanion.Shared.State
 
 @inject HttpClient Http
+@inject StateContainer State
 @inject ICourseService CourseService
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -24,14 +26,14 @@
         {
             <p><em>Loading...</em></p>
         }
-        else if (filterCourses.Length == 0)
+        else if (filterCourses.Count == 0)
         {
             <p><em>No Courses Found.</em></p>
         }
         else
         {
-            @foreach (var course in filterCourses)
-            {
+            @foreach (var course in State.filteredList)
+                {
                 <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
                     <CourseCards Course="@course" />
                 </div>
@@ -44,12 +46,12 @@
 
     public string? SearchText = "";
 
-    public CourseDetails[]? filterCourses;
-    private CourseDetails[]? courses;
+    public List<CourseDetails>? filterCourses { get; set; }
+    private List<CourseDetails>? courses;
 
     private string[] split = { "", "" };
-    public string dept = "";
-    public string level = "";
+    private string dept = "";
+    private string level = "";
 
     // handle input for searches
     private void HandleInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
@@ -58,34 +60,32 @@
         FilterCourses(SearchText);
     }
 
+    // get the full course list
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("OnInitializedAsync() called...");
-        courses = await Http.GetFromJsonAsync<CourseDetails[]>("sample-data/courses.json");
-        filterCourses = courses;
+        Console.WriteLine("Updated full course list");
+        courses = await Http.GetFromJsonAsync<List<CourseDetails>>("sample-data/courses.json");
+        State.fullList = new List<CourseDetails>(courses);
+        filterCourses = new List<CourseDetails>(courses);
+
+        // DEBUG
+        //foreach (var course in (State.fullList).OrderBy(x => x.Id))
+        //    Console.WriteLine(course.Id);
+
+        State.filteredList = filterCourses;
     }
 
     protected override void OnInitialized()
     {
+
         // subscribe to OnCourseEvent
         CourseService.OnCourseEvent += CourseHandler;
     }
 
-    private void CourseHandler(CourseDetails removedCourse)
+    private void CourseHandler()
     {
-        RemoveAddedCourse(removedCourse);
+        Console.WriteLine("coursesearch state changed");
         StateHasChanged();
-    }
-
-    private void RemoveAddedCourse(CourseDetails removedCourse)
-    {
-        Console.WriteLine("removed course " + removedCourse.Id);
-        CourseDetails[] newList = (filterCourses
-            .Where(c => c != removedCourse))
-            .ToArray();
-
-        filterCourses = newList;
-
     }
 
     /*
@@ -99,26 +99,26 @@
         // general search
         if (!string.IsNullOrEmpty(searchText) && searchText.Length != 8)
         {
-            CourseDetails[] courseIDs = courses.Where(c =>
-                    c.Id.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToArray();
-            filterCourses = filterCourses.Concat(courseIDs).ToArray();
+            List<CourseDetails> courseIDs = courses.Where(c =>
+                    c.Id.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+            State.filteredList = State.filteredList.Concat(courseIDs).ToList();
 
-            CourseDetails[] courseTitles = courses.Where(c =>
-                    c.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToArray();
-            filterCourses = courseIDs.Concat(courseTitles).ToArray();
+            List<CourseDetails> courseTitles = courses.Where(c =>
+                c.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+            State.filteredList = courseIDs.Concat(courseTitles).ToList();
 
-            CourseDetails[] courseLevel = courses.Where(c =>
-                     (c.Level.ToString()).Contains(searchText.TrimEnd(new Char[] { '0' }))).ToArray();
-            filterCourses = filterCourses.Concat(courseLevel).ToArray();
+            List<CourseDetails> courseLevel = courses.Where(c =>
+                 (c.Level.ToString()).Contains(searchText.TrimEnd(new Char[] { '0' }))).ToList();
+            State.filteredList = State.filteredList.Concat(courseLevel).ToList();
 
-            CourseDetails[] courseSemester = courses.Where(c =>
-                     c.Semester.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToArray();
-            filterCourses = filterCourses.Concat(courseSemester).ToArray();
+            List<CourseDetails> courseSemester = courses.Where(c =>
+                 c.Semester.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+            State.filteredList = State.filteredList.Concat(courseSemester).ToList();
 
         }
         if (string.IsNullOrEmpty(searchText))
         {
-            filterCourses = courses;
+            State.filteredList = courses;
         }
 
         // very dumb way for string entries like "cpsc 400" to show all 400 lvl cpsc courses
@@ -126,9 +126,9 @@
         {
 
             // create a list of possible exact matches
-            CourseDetails[] exactMatch = courses
+            List<CourseDetails> exactMatch = courses
                 .Where(c => c.Id.Equals(searchText, StringComparison.OrdinalIgnoreCase))
-                .ToArray();
+                .ToList();
 
             // check if the courses exists in the main list
             bool exactSearch = courses
@@ -164,10 +164,10 @@
                     // otherwise we search for dept and level only
                     if (Int32.Parse(level) % 100 == 0)
                     {
-                        filterCourses = (courses
+                        State.filteredList = (courses
                         .Where(c => c.Id.StartsWith(dept, StringComparison.OrdinalIgnoreCase))
                         .Where(c => c.Level.ToString().Equals(level)))
-                        .ToArray();
+                        .ToList();
                     }
 
 
@@ -175,10 +175,10 @@
                 // the last case is that we have a search that's not in the list at all and not a level search
                 else
                 {
-                    filterCourses = courses;
+                    State.filteredList = filterCourses = courses;
                 }
             }
-
+            State.filteredList = filterCourses;
         }
     }
 

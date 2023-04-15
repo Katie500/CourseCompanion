@@ -1,7 +1,9 @@
 ﻿@using CourseCompanion.Shared.Model
 @using CourseCompanion.Shared.Services
+@using CourseCompanion.Shared.State
 
 @inject ICourseService CourseService
+@inject StateContainer State
 
 <!--Referenced from:-->
 <!--https://www.puresourcecode.com/dotnet/blazor/create-an-accordion-component-with-blazor/-->
@@ -28,7 +30,6 @@
             <div class="trash-icon" @onclick="DeleteCourse">
                 <i class="fa fa-trash" style="padding-left:0.2rem; font-size:1.5rem"></i>
             </div>
-
 
 
         }
@@ -68,11 +69,19 @@
         Collapsed = !Collapsed;
     }
 
-    // send the removed course to the semester containers
+    // remove the course from the appropriate semester list and place it back into the main list
     private void DeleteCourse()
     {
-        Console.WriteLine("deleted " + Course.Id + " from collapsibleSem");
-        CourseService.RemoveCourse(Course);
+
+        Console.WriteLine("removed " + Course.Id + " while in SemesterCards");
+        State.RemoveCourse_fromSemesterList(Course);
+
+        Console.WriteLine("re-added " + Course.Id + " to the main list");
+        State.AddCourse_toFilteredList(Course);
+
+        // send a notification that lists were changed
+        CourseService.CourseEvent();
 
     }
+
 }

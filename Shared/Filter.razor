@@ -29,41 +29,45 @@
 
 @code {
 
-    // get the full course list
-    private List<CourseDetails>? courses;
-
-    protected override async Task OnInitializedAsync()
-    {
-        Console.WriteLine("Updated full course list");
-        courses = await Http.GetFromJsonAsync<List<CourseDetails>>("sample-data/courses.json");
-        State.fullList = courses;
-    }
-
+    int filterNum = 0;
     void FilterCourses() {
-        Console.WriteLine("->   FilterCourses() called");
 
-        IEnumerable<CourseDetails> existingFilteredList = State.filteredList;
+        // DEBUG
+        @* Console.WriteLine("\n\n     FilterCourses() - State.searchedList before filtering:");
+        Console.WriteLine("       --------  searchList  -------");
+        foreach (var course in State.searchedList) {
+            Console.WriteLine("    " + course.Semester);
+        } *@
+        // DEBUG
+
+        List<CourseDetails> searched = new List<CourseDetails>(State.searchedList);
+        IEnumerable<CourseDetails> filtered = searched.Cast<CourseDetails>();
         IEnumerable<CourseDetails> temp;
+        filterNum = 0;
 
         temp = FilterBySemesters();         // filtered by semesters
-        existingFilteredList = existingFilteredList.Intersect(temp);        
+        filtered = filtered.Intersect(temp);        
 
         // DEBUG
-        Console.WriteLine("\n\n     RESULT:");
-        foreach(var course in existingFilteredList) {
-            Console.WriteLine("         " + course.Semester);
+        @* Console.WriteLine("\n\n     RESULT:");
+        Console.WriteLine("       --------  searchList  -------");
+        foreach (var course in State.searchedList) {
+            Console.WriteLine("    " + course.Semester);
         }
+        Console.WriteLine("\n       --------  filteredList  -------");
+        foreach(var course in filtered) {
+            Console.WriteLine("         " + course.Semester);
+        } *@
         // DEBUG
-        
-        State.UpdateFilteredList(existingFilteredList.ToList());
+
+        State.filterNum = filterNum;
+        State.UpdateFilteredList(filtered.ToList());
     }
-
-
 
     /***************************
     *         Semester
     ****************************/
-    bool noSemeterSelected = true;
+    bool noSelectedSemester = true;
 
     bool isSemesterCollapsed = true;    // Flag to keep track of whether the semester filter panel is collapsed or not
 
@@ -104,7 +108,7 @@
 
         // Filter the course list by the active semesters
         List<CourseDetails> filteredCourses = new List<CourseDetails>();
-        int notSelectedNum = 0;
+        noSelectedSemester = true;
 
         // Check all semester states
         for (int i = 0; i < semesterNames.Count(); i++) {
@@ -112,8 +116,9 @@
             int tempIndex = i;
             if (!semesterStates[i]) {
                 Console.WriteLine("       {0} is NOT activated.", semesterNames[tempIndex]);
-                notSelectedNum++;
             } else {
+                noSelectedSemester = false;
+                filterNum++;
                 Console.WriteLine("       {0} is activated.", semesterNames[tempIndex]);
 
                 List<CourseDetails> temp = State.fullList.Where(c =>
@@ -131,7 +136,7 @@
         // DEBUG
 
         // if all filters are not selected, course list should not be changed at all
-        if (notSelectedNum >= semesterNames.Count()) {
+        if (noSelectedSemester) {
             Console.WriteLine("     No semester filter is selected!");
             return State.fullList;
         }

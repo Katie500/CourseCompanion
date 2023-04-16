@@ -18,8 +18,8 @@
         <div style="width:101%" id="Benjamin" class="top-row px-2 dl-horizontal">
 
             @{
-                var totalClasses = @State.fall_TotalCredits + @State.winter_TotalCredits + State.spring_TotalCredits + State.summer_TotalCredits; //needs to be an imported number that tracks the accurate amount of classes
-                var GreenVal = 21;
+                var totalClasses = @State.fall_TotalCredits + @State.winter_TotalCredits + State.spring_TotalCredits + State.summer_TotalCredits; 
+                var GreenVal = 15;
                 var GreenWidth = $"{(GreenVal / 120.0) * 100}%";
                 var YellowVal = totalClasses;
                 var YellowWidth = $"{(YellowVal / 120.0) * 100}%";

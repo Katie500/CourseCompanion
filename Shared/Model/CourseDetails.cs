@@ -14,7 +14,7 @@ namespace CourseCompanion.Shared.Model
         public string? Faculty { get; set; }
         public string? Prerequisites { get; set; }
         public string? Antirequisites { get; set; }
-        public bool? Eligible { get; set; }
-        public bool? Required { get; set; }
+        public bool Eligible { get; set; }
+        public bool Required { get; set; }
     }
 }

@@ -11,14 +11,14 @@ namespace CourseCompanion.Shared.Services
     public interface ICourseService
     {
         event Action OnCourseEvent;
-        void CourseEvent();
+        void Update();
     }
 
     public class CourseService : ICourseService
     {
         public event Action OnCourseEvent;
 
-        public void CourseEvent()
+        public void Update()
         {
             OnCourseEvent?.Invoke();
         }

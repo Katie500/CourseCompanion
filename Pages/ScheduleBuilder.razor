@@ -1,20 +1,30 @@
-﻿@page "/ScheduleBuilder"
+﻿@inherits LayoutComponentBase
+@page "/ScheduleBuilder"
+
 @using Microsoft.AspNetCore.Components.Web
 @using System.Linq
 @using Syncfusion.Blazor
-@using CourseCompanion.Shared
 
-<PageTitle>Course Companion</PageTitle>
+<PageTitle>Schedule Builder</PageTitle>
 
-<!--Page Anchor-->
-<a asp-page="/PageExample">Page Example</a>
+<head>
+    <style>
+        .center-fit {
+            max-width: 100vw;
+            max-height: auto;
+            margin: 0;
+            top:0;
+            left:0;
+        }
+    </style>
+</head>
 
-<div>
-    <img src="/assets/ScheduleBuilder.png" />
-</div>
+<body>
+    <img class="center-fit" src="/assets/ScheduleBuilder.png">
+</body>
+    
 
 
 @code {
-
-
+    @layout EmptyLayout
 }

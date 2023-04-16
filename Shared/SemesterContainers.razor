@@ -15,87 +15,131 @@
 
 <div class="row">
     <div class="col-lg-6">
+
         <!-- Left semester container -->
-        <div class="card bg-gradient bg-opacity-25 bg-info" style="padding-bottom:0.1rem">
-            <h5 class="card-title bg-gradient bg-opacity-50 bg-info text-center"><b>@sem1</b></h5>
+        <div class="card bg-opacity-25 bg-@SemColor(sem1)" style="padding-bottom:0.1rem">
+            <h5 class="card-title bg-gradient bg-opacity-50 bg-@SemColor(sem1) text-center"><b>@sem1</b></h5>
+
             <div class="container" style="position:relative; max-height:70vh; overflow-y:scroll">
-                @foreach (var fallCourse in State.fallList)
+
+                @if (sem1.Contains("Fall"))
                 {
-                    <SemesterCards Course="@fallCourse" />
+                    @foreach (var fallCourse in State.fallList)
+                    {
+                        <SemesterCards Course="@fallCourse" />
+                    }
                 }
+
+                @if (sem1.Contains("Spring"))
+                {
+                    @foreach (var springCourse in State.springList)
+                    {
+                        <SemesterCards Course="@springCourse" />
+                    }
+                }
+
+
             </div>
+
             <p style="position:relative; color:grey; bottom:-1rem; text-align:right; padding-right: 0.2rem">
-                @State.fall_TotalCredits units
+                @SemUnits(sem1)
             </p>
+
         </div>
     </div>
 
     <div class="col-lg-6">
         <!-- Right semester container -->
-        <div class="card bg-opacity-25 bg-warning" style="padding-bottom:0.1rem">
-            <h5 class="card-title bg-opacity-50 bg-warning text-center"><b>@sem2</b></h5>
+        <div class="card bg-opacity-25 bg-@SemColor(sem2)" style="padding-bottom:0.1rem">
+            <h5 class="card-title bg-opacity-50 bg-@SemColor(sem2) text-center"><b>@sem2</b></h5>
             <div class="container" style="position:relative; max-height:70vh; overflow-y:scroll">
-                @foreach (var winterCourse in State.winterList)
+                @if (sem2.Contains("Winter"))
                 {
-                    <SemesterCards Course="@winterCourse" />
+                    @foreach (var winterCourse in State.winterList)
+                    {
+                        <SemesterCards Course="@winterCourse" />
+                    }
+                }
+
+                @if (sem2.Contains("Summer"))
+                {
+                    @foreach (var summerCourse in State.summerList)
+                    {
+                        <SemesterCards Course="@summerCourse" />
+                    }
                 }
             </div>
             <p style="position:relative; color:grey; bottom:-1rem; text-align:right; padding-right: 0.2rem">
-                @State.winter_TotalCredits units
+                @SemUnits(sem2)
             </p>
         </div>
     </div>
 
     <!-- Buttons -->
-    
+
     <div class="col-lg-6 text-center">
         <button type="button" @onclick="SwitchSem" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 2rem; right: 25rem; margin-left: inherit">@sem_button</button>
         <Modals></Modals>
     </div>
 
-    </div>
+</div>
 
+@code{
 
-    @code{
+    //semesters
+    String sem1 = "Fall 2023";
+    String sem2 = "Winter 2024";
+    String sem_button = "Go To Spring/Summer";
 
-        //semesters
-        String sem1 = "Fall 2023";
-        String sem2 = "Winter 2024";
-        String sem_button = "Go To Spring/Summer";
-
-        private string imageUrl;
-
-        protected override void OnInitialized()
-        {
-            // subscribe to OnCourseEvent
-            CourseService.OnCourseEvent += CourseHandler;
-        }
-
-        private void CourseHandler()
-        {
-            StateHasChanged();
-        }
-
-        public void SwitchSem()
-        {
-            // TODO: change lists shown, container colors and semester filter
-            // keep the current state of the lists
-
-            //change label of semesters
-            if (sem1 == "Spring 2024") { sem1 = "Fall 2023"; }
-            else { sem1 = "Spring 2024"; }
-
-            if (sem2 == "Summer 2024")
-            { sem2 = "Winter 2024"; }
-            else { sem2 = "Summer 2024"; }
-
-            if (sem_button == "Go To Fall/Winter") { sem_button = "Go To Spring/Summer"; }
-            else { sem_button = "Go To Fall/Winter"; }
-
-            StateHasChanged();
-        }
-
-
+    protected override void OnInitialized()
+    {
+        // subscribe to OnCourseEvent
+        CourseService.OnCourseEvent += CourseHandler;
     }
+
+    private void CourseHandler()
+    {
+        StateHasChanged();
+    }
+
+    private string SemColor(string semester)
+    {
+        if (semester.Contains("Fall")) { return "info"; }
+        if (semester.Contains("Winter")) { return "warning"; }
+        if (semester.Contains("Spring")) { return "success"; }
+        if (semester.Contains("Summer")) { return "primary"; }
+        else { return "antiquewhite"; }
+    }
+
+    private string SemUnits(string semester)
+    {
+        if (semester.Contains("Fall")) { return State.fall_TotalCredits + " units"; }
+        if (semester.Contains("Winter")) { return State.winter_TotalCredits + " units"; }
+        if (semester.Contains("Spring")) { return State.spring_TotalCredits + " units"; }
+        if (semester.Contains("Summer")) { return State.summer_TotalCredits + " units"; }
+        else { return "0"; }
+    }
+
+    public void SwitchSem()
+    {
+        // TODO: change lists shown, container colors and semester filter
+        // keep the current state of the lists
+
+        //change label of semesters
+        if (sem1 == "Spring 2024") { sem1 = "Fall 2023"; }
+        else { sem1 = "Spring 2024"; }
+
+        if (sem2 == "Summer 2024")
+        { sem2 = "Winter 2024"; }
+        else { sem2 = "Summer 2024"; }
+
+        if (sem_button == "Go To Fall/Winter") { sem_button = "Go To Spring/Summer"; }
+        else { sem_button = "Go To Fall/Winter"; }
+
+        StateHasChanged();
+    }
+
+
+}
 
 

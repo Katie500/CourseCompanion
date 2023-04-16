@@ -20,8 +20,8 @@
 
 
             <!--Semester Card Content-->
-            <CollapsibleSemester Course=@Course Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
-                <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
+            <CollapsibleSemester Course=@Course Title="@Course.Title" Collapsed="true" BgColor="ghostwhite">
+                <div class="card-content" style="background-color:ghostwhite">
 
                     <p class="p-card-content">
                         <b>Description:</b> @Course.Description<br>
@@ -40,15 +40,6 @@
 @code {
     [Parameter]
     public CourseDetails? Course { get; set; }
-
-    private string? CardColor(string semester)
-    {
-        if (semester.Contains("Fall")) { return "ghostwhite"; }
-        if (semester.Contains("Winter")) { return "ghostwhite"; }
-        if (semester.Contains("Spring")) { return "ghostwhite"; }
-        if (semester.Contains("Summer")) { return "ghostwhite"; }
-        else { return "antiquewhite"; }
-    }
 
     private string? BarColor(string category)
     {

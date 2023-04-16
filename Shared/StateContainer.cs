@@ -15,6 +15,7 @@ namespace CourseCompanion.Shared.State
         public event Action OnStateChange;
 
         public List<CourseDetails> fullList { get; set; } = new List<CourseDetails>();
+        public List<CourseDetails> searchedList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> filteredList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> fallList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> winterList { get; set; } = new List<CourseDetails>();
@@ -32,16 +33,16 @@ namespace CourseCompanion.Shared.State
             list.OrderBy(o => o.Id).ToList();
         }
 
-        public void AddCourse_toFilteredList(CourseDetails course)
+        public void AddCourse_toSearchedList(CourseDetails course)
         {
-            filteredList.Insert(0, course);
+            searchedList.Insert(0, course);
         }
 
         // course was added to semesters, remove from main list and add it to the semester list
-        public void RemoveCourse_fromFilteredList(CourseDetails course)
+        public void RemoveCourse_fromSearchedList(CourseDetails course)
         {
             Console.WriteLine("removed course " + course.Id + " from StateContainer");
-            filteredList.Remove(course);
+            searchedList.Remove(course);
             NotifyStateChanged();
 
         }
@@ -139,7 +140,7 @@ namespace CourseCompanion.Shared.State
 
         }
 
-        public void ReplaceFilteredList(List<CourseDetails> newList) {
+        public void UpdateSearchedList(List<CourseDetails> newList) {
             filteredList.Clear();
             filteredList.AddRange(newList);
             NotifyStateChanged();  

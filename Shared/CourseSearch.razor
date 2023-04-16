@@ -32,7 +32,7 @@
         }
         else
         {
-            @foreach (var course in State.filteredList) {
+            @foreach (var course in State.searchedList) {
                 <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
                     <CourseCards Course="@course" />
                 </div>
@@ -41,9 +41,8 @@
     </div>
 </div>
 
-@code {
 
-    
+@code {    
     public string? SearchText = "";
 
     public List<CourseDetails>? filterCourses;
@@ -68,7 +67,7 @@
         State.fullList = courses;
 
         filterCourses = courses;
-        State.filteredList = filterCourses;
+        State.searchedList = filterCourses;
     }
 
     protected override void OnInitialized()
@@ -101,24 +100,24 @@
         {
             List<CourseDetails> courseIDs = courses.Where(c =>
                     c.Id.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
-            State.filteredList = State.filteredList.Concat(courseIDs).ToList();
+            State.searchedList = State.searchedList.Concat(courseIDs).ToList();
 
             List<CourseDetails> courseTitles = courses.Where(c =>
                 c.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
-            State.filteredList = courseIDs.Concat(courseTitles).ToList();
+            State.searchedList = courseIDs.Concat(courseTitles).ToList();
 
             List<CourseDetails> courseLevel = courses.Where(c =>
                  (c.Level.ToString()).Contains(searchText.TrimEnd(new Char[] { '0' }))).ToList();
-            State.filteredList = State.filteredList.Concat(courseLevel).ToList();
+            State.searchedList = State.searchedList.Concat(courseLevel).ToList();
 
             List<CourseDetails> courseSemester = courses.Where(c =>
                  c.Semester.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
-            State.filteredList = State.filteredList.Concat(courseSemester).ToList();
+            State.searchedList = State.searchedList.Concat(courseSemester).ToList();
 
         }
         if (string.IsNullOrEmpty(searchText))
         {
-            State.filteredList = courses;
+            State.searchedList = courses;
         }
 
         // very dumb way for string entries like "cpsc 400" to show all 400 lvl cpsc courses
@@ -164,7 +163,7 @@
                     // otherwise we search for dept and level only
                     if (Int32.Parse(level) % 100 == 0)
                     {
-                        State.filteredList = (courses
+                        State.searchedList = (courses
                         .Where(c => c.Id.StartsWith(dept, StringComparison.OrdinalIgnoreCase))
                         .Where(c => c.Level.ToString().Equals(level)))
                         .ToList();
@@ -175,12 +174,12 @@
                 // the last case is that we have a search that's not in the list at all and not a level search
                 else
                 {
-                    State.filteredList = filterCourses = courses;
+                    State.searchedList = filterCourses = courses;
                 }
             }
 
         }
-        State.filteredList = filterCourses;
+        State.searchedList = filterCourses;
     }
 
 }

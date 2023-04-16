@@ -4,6 +4,7 @@
 @using System.Collections.Generic
 @using CourseCompanion.Shared.State
 @inject StateContainer State
+@inject HttpClient Http
 
 <!-- Filter by Semester -->
 <div>
@@ -28,33 +29,44 @@
 
 @code {
 
-    // Flag to keep track of whether the semester filter panel is collapsed or not
-    bool isSemesterCollapsed = true;
+    // get the full course list
+    private List<CourseDetails>? courses;
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("Updated full course list");
+        courses = await Http.GetFromJsonAsync<List<CourseDetails>>("sample-data/courses.json");
+        State.fullList = courses;
+    }
 
-    // Namesfor semesters
-    List<string> semesterNames = new List<string>() {
+
+    /***************************
+    *         Semester
+    ****************************/
+    bool noSemeterSelected = true;
+
+    bool isSemesterCollapsed = true;    // Flag to keep track of whether the semester filter panel is collapsed or not
+
+    List<string> semesterNames = new List<string>() {      // Names for semesters
         "fall",
         "winter",
         "spring",
         "summer"
     };
 
-    // Flags to keep track of whether each button is active or inactive
-    List<bool> semesterStates = new List<bool>() {false, false, false, false};
+    List<bool> semesterStates = new List<bool>() {false, false, false, false};  // Flags to keep track of whether each button is active or inactive
 
-    // Classes for semesters
-    List<string> semesterClasses = new List<string>() {
+    List<string> semesterClasses = new List<string>() {     // Classes for semesters
         "btn-light inactive btn btn-sm",
         "btn-light inactive btn btn-sm",
         "btn-light inactive btn btn-sm",
         "btn-light inactive btn btn-sm"
     };
 
-    // Filters the course list by the selected semesters
-    void FilterSemester(int semester)
+    void FilterSemester(int semester)       // Filters the course list by the selected semesters
     {
         // Toggles the state of the button between active and inactive
         semesterStates[semester] = !semesterStates[semester];
+        Console.WriteLine("============");
 
         // Change Class based on activity states
         if (semesterStates[semester]) {
@@ -65,15 +77,16 @@
 
         // Filter the course list by the active semesters
         List<CourseDetails> courseList = new List<CourseDetails>();
-
+        int notSelectedNum = 0;
         for (int i = 0; i < semesterNames.Count(); i++) {
             
             int tempIndex = i;
+            if (!semesterStates[i]) {
+                Console.WriteLine("       {0} is NOT activated.", semesterNames[tempIndex]);
+                notSelectedNum++;
+            } else {
 
-            if (semesterStates[i]) {
-
-                Console.WriteLine("\n       {0} is activated.\n", semesterNames[tempIndex]);
-        
+                Console.WriteLine("       {0} is activated.", semesterNames[tempIndex]);
                 Console.WriteLine("\n       Before Update:\n");
 
                 // Log the current semester for each course in the course list
@@ -85,25 +98,24 @@
                     c.Semester.Contains(semesterNames[i], StringComparison.OrdinalIgnoreCase)).ToList();
 
                 courseList = courseList.Concat(temp).ToList();
-
-                // Update the filtered course list with the filtered results
-                State.ReplaceFilteredList(courseList);
-
-                Console.WriteLine("\n\n     Updated filtered courses:\n");
-
-                // Log the updated semester for each course in the filtered course list
-                foreach(var course in State.filteredList) {
-                    Console.WriteLine(course.Semester);
-                }
             }
-
         }
 
+        // if all filters are not selected, course list should not be changed at all
+        if (notSelectedNum >= semesterNames.Count()) {
+            Console.WriteLine("No semester filter is selected!");
+        } else {
+            // Update the filtered course list with the filtered results
+            State.UpdateSearchedList(courseList);
+        }
 
+        Console.WriteLine("\n\n     Updated filtered courses:\n");
 
-
-
-
+        // Log the updated semester for each course in the filtered course list
+        foreach(var course in State.searchedList) {
+            Console.WriteLine(course.Semester);
+        }       
+        
     }
 
     // Toggles the collapsed state of the semester filter panel

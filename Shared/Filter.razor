@@ -5,43 +5,110 @@
 @using CourseCompanion.Shared.State
 @inject StateContainer State
 
+<!-- Filter by Semester -->
 <div>
-    <button @onclick='ToggleSemester'>Semester</button>
-    <Collapsable Title="Semester" Collapsed="@isSemesterCollapsed" Value="50%">
-        <div>
-            <button @onclick='() => FilterSemester("Fall 2023")'>Fall 2023</button>
-            <button @onclick='() => FilterSemester("Winter 2024")'>Winter 2024</button>
-        </div>
-    </Collapsable>
+    <div class="container px-4 text-center">
+    <!-- Button to toggle semester filter panel -->
+        @* <button @onclick='ToggleSemester' class="btn btn-primary btn-block">Semester</button> *@
+        <!-- Collapsable panel for semester filter options -->
+        <Collapsable Title="Semester" Collapsed="@isSemesterCollapsed">
+            <div class="row g-2">
+                @for (int i = 0; i <= semesterNames.Count(); i++) {
+                    <div class="col-6">
+                        <button @onclick='() => FilterSemester(i)' class="@semesterNames[i] @semesterClasses[i]">
+                            @semesterNames[i]</button>
+                    </div>
+                }
+            </div>
+
+            <div class="col-6">
+                <button @onclick='() => FilterSemester(0)' class="@semesterNames[0] @semesterClasses[0]">
+                    @semesterNames[0]</button>
+            </div>
+            <div class="row g-2"></div>
+
+        </Collapsable>
+        
+    </div>  
 </div>
 
 @code {
 
+    // Flag to keep track of whether the semester filter panel is collapsed or not
     bool isSemesterCollapsed = true;
-    bool isSemesterVisible = false;
 
+    // Namesfor semesters
+    List<string> semesterNames = new List<string>() {
+        "fall",
+        "winter",
+        "spring",
+        "summer"
+    };
+
+    // Flags to keep track of whether each button is active or inactive
+    List<bool> semesterStates = new List<bool>() {false, false, false, false};
+
+    // Classes for semesters
+    List<string> semesterClasses = new List<string>() {
+        "btn-light inactive btn btn-sm",
+        "btn-light inactive btn btn-sm",
+        "btn-light inactive btn btn-sm",
+        "btn-light inactive btn btn-sm"
+    };
+
+
+
+    // Filters the course list by the selected semesters
+    void FilterSemester(int semester)
+    {
+        // Toggles the state of the button between active and inactive
+        semesterStates[semester] = !semesterStates[semester];
+
+        // Change Class based on activity states
+        if (semesterStates[semester]) {
+            semesterClasses[semester] = "btn-info active btn btn-sm";
+        } else {
+            semesterClasses[semester] = "btn-light inactive btn btn-sm";
+        }
+
+        // Filter the course list by the active semesters
+        List<CourseDetails> courseList = new List<CourseDetails>();
+        if (semesterStates[0])
+        {
+            List<CourseDetails> temp = State.fullList.Where(c =>
+                c.Semester.Contains("Fall", StringComparison.OrdinalIgnoreCase)).ToList();
+            courseList = courseList.Concat(temp).ToList();
+        }
+
+        if (semesterStates[1])
+        {
+            List<CourseDetails> temp = State.fullList.Where(c =>
+                c.Semester.Contains("Winter", StringComparison.OrdinalIgnoreCase)).ToList();
+            courseList = courseList.Concat(temp).ToList();
+        }
+
+@*         
+        Console.WriteLine("\nBefore Update:");
+
+        // Log the current semester for each course in the course list
+        foreach(var course in State.filteredList) {
+            Console.WriteLine(course.Semester);
+        } *@
+
+        // Update the filtered course list with the filtered results
+        State.ReplaceFilteredList(courseList);
+
+        @* Console.WriteLine("\nUpdated filtered courses:");
+
+        // Log the updated semester for each course in the filtered course list
+        foreach(var course in State.filteredList) {
+            Console.WriteLine(course.Semester);
+        } *@
+    }
+
+    // Toggles the collapsed state of the semester filter panel
     void ToggleSemester()
     {
         isSemesterCollapsed = !isSemesterCollapsed;
-    }
-    void FilterSemester(string semester)
-    {
-        List<CourseDetails> courseSemester = State.filteredList.Where(c =>
-            c.Semester.Contains(semester, StringComparison.OrdinalIgnoreCase)).ToList();
-
-        Console.WriteLine("Before Update:");
-
-        foreach(var course in State.filteredList) {
-            Console.WriteLine(course.Semester);
-        }
-
-        State.ReplaceFilteredList(courseSemester);
-
-        Console.WriteLine("Updated filtered courses:");
-
-        foreach(var course in State.filteredList) {
-            Console.WriteLine(course.Semester);
-        }
-
     }
 }

@@ -10,15 +10,7 @@
 @inject StateContainer State
 @inject ICourseService CourseService
 
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<!--Fake Redirect to Schedule Builder-->
-<!--NEED TO CHANGE SIZING FOR VIDEO-->
-<div class="fixed-top">
-    <img src="@imageUrl" alt="My Image" />
-</div>
-
 
 <div class="row">
     <div class="col-lg-6">
@@ -56,213 +48,11 @@
     <!-- Buttons -->
     <div class="col-lg-6 text-center">
         <button type="button" @onclick="SwitchSem" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 2rem; right: 25rem; margin-left: inherit">@sem_button</button>
-        <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#resetModal" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
-        <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#exportModal" style="position: absolute; bottom: 2rem; right: 10rem; margin-left: inherit">Export</button>
+        <button type="button" @onclick="ResetButton" class="btn btn-danger text-center" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
+        <button type="button" class="btn btn-danger text-center" style="position: absolute; bottom: 2rem; right: 10rem; margin-left: inherit">Export</button>
     </div>
 
 </div>
-
-
-<!-- Export Confirmation Modal -->
-<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exportModalLabel">Export?</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to export this schedule? You will not be able to return to this schedule once you accept.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keep Editing</button>
-                <button type="button" @onclick="ExportButton" class="btn btn-success" data-bs-dismiss="modal">Yes, Export</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Export Redirect Modal -->
-
-<div class="modal fade" id="exportRedirectModal" tabindex="-1" role="dialog" aria-labelledby="exportRedirectModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exportRedirectModalLabel">Exporting to Schedule Builder...</h5>
-            </div>
-            <div class="modal-body">
-                You will be redirected shortly. <br />
-                <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> </div>
-            </div>
-            <div class="modal-footer"> 
-                <button type="button" @onclick="ExportButton" class="btn btn-success" data-bs-dismiss="modal">Continue</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
-
-
-<!-- Reset Modal -->
-<div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="resetModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="resetModalLabel">Reset?</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to reset this schedule? You will not be able to recover this schedule if you continue.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keep Editing</button>
-                <button type="button" @onclick="ResetButton" class="btn btn-danger" data-bs-dismiss="modal">Yes, Reset</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- helpModal1 Progress bar tutorial modal -->
-<div class="modal" id="helpModal1" tabindex="-1" role="dialog" aria-labelledby="helpModal1Label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Use the progress bar to check your units remaining.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#helpModal2">Next</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- helpModal2 filtered courses tutorial modal -->
-<div class="modal fade" id="helpModal2" tabindex="-1" role="dialog" aria-labelledby="helpModal2Label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Filtered courses will show up in this column.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#helpModal3">Next</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- helpModal3 filtered nav bar tutorial modal -->
-<div class="modal fade" id="helpModal3" tabindex="-1" role="dialog" aria-labelledby="helpModal3Label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Use the filters to look for courses based on your graduation requirements.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#helpModal4">Next</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- helpModal4 plus button tutorial modal -->
-<div class="modal fade" id="helpModal4" tabindex="-1" role="dialog" aria-labelledby="helpModal4Label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body"> <!--YVONNEEEEEEEEEEEEEE-->
-                Use the plus button to add a course to a semester, and the down button to see more information. 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#helpModal5">Next</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- helpModal5 Semester card tutorial modal -->
-<div class="modal fade" id="helpModal5" tabindex="-1" role="dialog" aria-labelledby="helpModal5Label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Planned courses will show up here. Use the trash icon to remove them.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#helpModal6">Next</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- helpModal6 reset tutorial modal -->
-<div class="modal fade" id="helpModal6" tabindex="-1" role="dialog" aria-labelledby="helpModal6Label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Use the Reset button to clear all filters and courses.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#helpModal7">Next</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- helpModal7 export tutorial modal -->
-<div class="modal fade" id="helpModal7" tabindex="-1" role="dialog" aria-labelledby="helpModal7Label" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Use the Export button when you're finished to send your changes to Schedule Builder.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">End</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 
 @code{
@@ -271,8 +61,6 @@
     String sem1 = "Fall 2023";
     String sem2 = "Winter 2024";
     String sem_button = "Go To Spring/Summer";
-
-    private string imageUrl;
 
     protected override void OnInitialized()
     {
@@ -317,70 +105,5 @@
         StateHasChanged();
 
     }
-    private ElementReference imageRef;
-    public async Task ExportButton()
-    {
-        Console.WriteLine("Reset button pressed");
-
-        State.ResetState();
-
-        CourseService.CourseEvent();
-        StateHasChanged();
-
-        imageUrl = "/assets/ScheduleBuilder.png";
-
-        //var script = @"
-            //function launchImage(imgRef) {
-                //var img = imgRef.current;
-                //var doc = window.document;
-                //var docEl = doc.documentElement;
-
-                //var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-
-                //img.onload = function () {
-                    //requestFullScreen.call(img);
-            //    };
-          //  }
-        //";
-
-        //await JSRuntime.InvokeVoidAsync("eval", script);
-        //await JSRuntime.InvokeVoidAsync("launchImage", imageRef);
-
-
-        
-        
-        
-    }
-
-
-    //protected override async Task OnAfterRenderAsync(bool firstRender)
-    //{
-        //if (firstRender)
-        //{
-            //int durationInSeconds = 10; // Change this to adjust the duration of the progress bar in seconds.
-            //int intervalInMilliseconds = 100; // Change this to adjust the interval between progress bar updates in milliseconds.
-
-            //for (int i = 0; i <= durationInSeconds * 10; i++)
-            //{
-                //await Task.Delay(intervalInMilliseconds);
-                //double progress = (double)i / (durationInSeconds * 10);
-                //await JSRuntime.InvokeVoidAsync("setProgress", progress);
-
-                //if (progress >= 1)
-                //{
-                    //NavigationManager.NavigateTo("https://example.com");
-                //}
-            //}
-        //}
-    //}
-
-    //[Inject]
-    //private IJSRuntime JSRuntime { get; set; }
-
-    //[Inject]
-    //private NavigationManager NavigationManager { get; set; }
 
 }
-
-
-

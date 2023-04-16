@@ -20,7 +20,6 @@ namespace CourseCompanion.Shared.State
 
         public List<CourseDetails> fullList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> filteredList { get; set; } = new List<CourseDetails>();
-        public List<CourseDetails> searchedList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> fallList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> winterList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> springList { get; set; } = new List<CourseDetails>();
@@ -153,11 +152,19 @@ namespace CourseCompanion.Shared.State
 
             return filteredList;
 
-
         }
 
-        public void UpdateSearchedList(List<CourseDetails> newList) {
-            ;
+        public void UpdateFilteredList(List<CourseDetails> newList) {
+
+            Console.WriteLine("\n       State.UpdateSearchedList()");
+
+            // foreach (var course in newList) {
+            //     Console.WriteLine(course.Id + " " + course.Semester);
+            // }
+            
+            filteredList.Clear();
+            filteredList.AddRange(newList);
+            NotifyStateChanged();
         }
         private void NotifyStateChanged() => OnStateChange?.Invoke();
     }

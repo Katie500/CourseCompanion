@@ -77,9 +77,9 @@
 
     protected override void OnInitialized()
     {
-
-        // subscribe to OnCourseEvent
+        // subscribe to OnCourseEvent and OnStateChange
         CourseService.OnCourseEvent += CourseHandler;
+        State.OnStateChange += CourseHandler;
     }
 
     private void CourseHandler()

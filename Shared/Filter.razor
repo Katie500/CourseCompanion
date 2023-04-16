@@ -41,7 +41,24 @@
 
     void FilterCourses() {
         Console.WriteLine("->   FilterCourses() called");
+
+        IEnumerable<CourseDetails> existingFilteredList = State.filteredList;
+        IEnumerable<CourseDetails> temp;
+
+        temp = FilterBySemesters();         // filtered by semesters
+        existingFilteredList = existingFilteredList.Intersect(temp);        
+
+        // DEBUG
+        Console.WriteLine("\n\n     RESULT:");
+        foreach(var course in existingFilteredList) {
+            Console.WriteLine("         " + course.Semester);
+        }
+        // DEBUG
+        
+        State.UpdateFilteredList(existingFilteredList.ToList());
     }
+
+
 
     /***************************
     *         Semester
@@ -69,24 +86,27 @@
     {
         // Toggles the state of the button between active and inactive
         semesterStates[semester] = !semesterStates[semester];
-        Console.WriteLine("============");
 
         // Change Class based on activity states
         if (semesterStates[semester]) {
             semesterClasses[semester] = "btn-info active btn btn-sm";
         } else {
             semesterClasses[semester] = "btn-light inactive btn btn-sm";
-        }
+        }      
 
-        
+        FilterCourses();
     }
 
+    List<CourseDetails> FilterBySemesters() {
 
-    void FilterBySemesters() {
+        Console.WriteLine("====================");
+        Console.WriteLine(" FilterBySemesters()");
 
         // Filter the course list by the active semesters
-        List<CourseDetails> courseList = new List<CourseDetails>();
+        List<CourseDetails> filteredCourses = new List<CourseDetails>();
         int notSelectedNum = 0;
+
+        // Check all semester states
         for (int i = 0; i < semesterNames.Count(); i++) {
             
             int tempIndex = i;
@@ -94,38 +114,30 @@
                 Console.WriteLine("       {0} is NOT activated.", semesterNames[tempIndex]);
                 notSelectedNum++;
             } else {
-
                 Console.WriteLine("       {0} is activated.", semesterNames[tempIndex]);
-                Console.WriteLine("\n       Before Update:\n");
 
-                // Log the current semester for each course in the course list
-                foreach(var course in State.fullList) {
-                    Console.WriteLine(course.Semester);
-                }
-            
                 List<CourseDetails> temp = State.fullList.Where(c =>
                     c.Semester.Contains(semesterNames[i], StringComparison.OrdinalIgnoreCase)).ToList();
 
-                courseList = courseList.Concat(temp).ToList();
+                filteredCourses = filteredCourses.Concat(temp).ToList();
             }
         }
 
+        // DEBUG
+        Console.WriteLine("\n\n     after filtered by semester:\n");
+        foreach(var course in filteredCourses) {
+            Console.WriteLine("         " + course.Semester);
+        }
+        // DEBUG
+
         // if all filters are not selected, course list should not be changed at all
         if (notSelectedNum >= semesterNames.Count()) {
-            Console.WriteLine("No semester filter is selected!");
-        } else {
-            // Update the filtered course list with the filtered results
-            State.UpdateSearchedList(courseList);
+            Console.WriteLine("     No semester filter is selected!");
+            return State.fullList;
         }
 
-        Console.WriteLine("\n\n     Updated filtered courses:\n");
-
-        // Log the updated semester for each course in the filtered course list
-        foreach(var course in State.searchedList) {
-            Console.WriteLine(course.Semester);
-        }       
+        return filteredCourses;
     }
-    
 
     // Toggles the collapsed state of the semester filter panel
     void ToggleSemester()

@@ -10,6 +10,7 @@
 @inject StateContainer State
 @inject ICourseService CourseService
 
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div class="row">
@@ -48,11 +49,55 @@
     <!-- Buttons -->
     <div class="col-lg-6 text-center">
         <button type="button" @onclick="SwitchSem" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 2rem; right: 25rem; margin-left: inherit">@sem_button</button>
-        <button type="button" @onclick="ResetButton" class="btn btn-danger text-center" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
-        <button type="button" class="btn btn-danger text-center" style="position: absolute; bottom: 2rem; right: 10rem; margin-left: inherit">Export</button>
+        <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#resetModal" style="position:absolute; bottom:2rem; right:16rem; margin-left:inherit">Reset</button>
+        <button type="button" class="btn btn-danger text-center" data-bs-toggle="modal" data-bs-target="#exportModal" style="position: absolute; bottom: 2rem; right: 10rem; margin-left: inherit">Export</button>
     </div>
 
 </div>
+
+
+<!-- Export Modal -->
+<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exportModalLabel">Export?</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to export this schedule? You will not be able to return to this schedule once you accept.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keep Editing</button>
+                <button type="button" @onclick="ExportButton" class="btn btn-success" data-bs-dismiss="modal" >Yes, Export</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reset Modal -->
+<div class="modal fade" id="resetModal" tabindex="-1" role="dialog" aria-labelledby="resetModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="resetModalLabel">Reset?</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to reset this schedule? You will not be able to recover this schedule if you continue.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Keep Editing</button>
+                <button type="button" @onclick="ResetButton" class="btn btn-danger" data-bs-dismiss="modal">Yes, Reset</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 @code{
@@ -104,6 +149,18 @@
         CourseService.CourseEvent();
         StateHasChanged();
 
+    }
+
+    public void ExportButton()
+    {
+        Console.WriteLine("Reset button pressed");
+
+        State.ResetState();
+
+        CourseService.CourseEvent();
+        StateHasChanged();
+        
+        
     }
 
 }

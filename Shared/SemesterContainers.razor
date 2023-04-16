@@ -309,7 +309,6 @@
     {
         Console.WriteLine("Reset button pressed");
 
-        // TODO: UI popup with confirmation
 
         State.ResetState();
 
@@ -317,6 +316,7 @@
         StateHasChanged();
 
     }
+    //user clicked export button
     private ElementReference imageRef;
     public async Task ExportButton()
     {
@@ -328,57 +328,8 @@
         StateHasChanged();
 
         imageUrl = "/assets/ScheduleBuilder.png";
-
-        //var script = @"
-            //function launchImage(imgRef) {
-                //var img = imgRef.current;
-                //var doc = window.document;
-                //var docEl = doc.documentElement;
-
-                //var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-
-                //img.onload = function () {
-                    //requestFullScreen.call(img);
-            //    };
-          //  }
-        //";
-
-        //await JSRuntime.InvokeVoidAsync("eval", script);
-        //await JSRuntime.InvokeVoidAsync("launchImage", imageRef);
-
-
-        
-        
-        
+  
     }
-
-
-    //protected override async Task OnAfterRenderAsync(bool firstRender)
-    //{
-        //if (firstRender)
-        //{
-            //int durationInSeconds = 10; // Change this to adjust the duration of the progress bar in seconds.
-            //int intervalInMilliseconds = 100; // Change this to adjust the interval between progress bar updates in milliseconds.
-
-            //for (int i = 0; i <= durationInSeconds * 10; i++)
-            //{
-                //await Task.Delay(intervalInMilliseconds);
-                //double progress = (double)i / (durationInSeconds * 10);
-                //await JSRuntime.InvokeVoidAsync("setProgress", progress);
-
-                //if (progress >= 1)
-                //{
-                    //NavigationManager.NavigateTo("https://example.com");
-                //}
-            //}
-        //}
-    //}
-
-    //[Inject]
-    //private IJSRuntime JSRuntime { get; set; }
-
-    //[Inject]
-    //private NavigationManager NavigationManager { get; set; }
 
 }
 

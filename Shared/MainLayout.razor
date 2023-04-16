@@ -1,10 +1,11 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
 
 @using CourseCompanion.Shared.State
 @using CourseCompanion.Shared.Services
 
 @inject StateContainer State
 @inject ICourseService CourseService
+
 
 
 <div class="page">
@@ -17,20 +18,20 @@
         <div style="width:101%" id="Benjamin" class="top-row px-2 dl-horizontal">
 
 
-            <div id="classBar" style="position:relative; left: 300px; width:700px;" class="progress position-static top-10">
+        <div id="classBar" style="position:relative; left: 300px; width:700px;" class="progress position-static top-10">
 
-                @{
-                    var totalClasses = State.fall_TotalCredits + State.winter_TotalCredits + State.spring_TotalCredits + State.summer_TotalCredits;
-                    var GreenVal = 15;
-                    var GreenWidth = $"{(GreenVal / 120.0) * 100}%";
-                    var YellowVal = totalClasses;
-                    var YellowWidth = $"{(YellowVal / 120.0) * 100}%";
-                }
+            @{
+                var totalClasses = State.fall_TotalCredits + State.winter_TotalCredits + State.spring_TotalCredits + State.summer_TotalCredits;
+                var GreenVal = 15;
+                var GreenWidth = $"{(GreenVal / 120.0) * 100}%";
+                var YellowVal = totalClasses;
+                var YellowWidth = $"{(YellowVal / 120.0) * 100}%";
+            }
 
-                <div class="progress-bar bg-success" role="progressbar" style="width: @GreenWidth" aria-valuenow="@GreenVal" aria-valuemin="0" aria-valuemax="100">@GreenWidth</div>
-                <div class="progress-bar bg-warning" role="progressbar" style="width: @YellowWidth" aria-valuenow="@YellowVal" aria-valuemin="0" aria-valuemax="100">@YellowWidth</div>
+            <div class="progress-bar bg-success" role="progressbar" style="width: @GreenWidth" aria-valuenow="@GreenVal" aria-valuemin="0" aria-valuemax="100">@GreenWidth</div>
+            <div class="progress-bar bg-warning" role="progressbar" style="width: @YellowWidth" aria-valuenow="@YellowVal" aria-valuemin="0" aria-valuemax="100">@YellowWidth</div>
 
-            </div>
+        </div>
 
             <p style="margin-left:10px;margin-top:15px;text-align:right; width:200px"><b style="font-size:120%">Course Companion</b><br /> Benjamin Z, CPSC</p>
 
@@ -41,8 +42,6 @@
         </article>
     </main>
 </div>
-
-
 
 
 @code{

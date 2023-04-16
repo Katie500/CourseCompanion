@@ -7,18 +7,19 @@
 @inject HttpClient Http
 @inject StateContainer State
 
+
 <div class="container" style="padding:0; padding-top:0.5rem; padding-bottom:0.5rem">
     <div class="e-card" style="background-color:ghostwhite; border-left:1rem solid @BarColor(@Course.Category)">
 
-        <div class="error-icon" @onclick="ShowError">
-            <i class="fa fa-exclamation"> </i>
-
+        <div class="error-icon" style="visibility:@CheckEligible(Course.Eligible)">
+            <i class="fa fa-exclamation"></i>
         </div>
 
         <SfCard @key="@Course">
             <div class="e-card-header"> @Course.Id </div>
 
-            <!--Semester Card Content (contains delete function)-->
+
+            <!--Semester Card Content-->
             <CollapsibleSemester Course=@Course Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
                 <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
 
@@ -58,10 +59,32 @@
         else { return "antiquewhite"; }
     }
 
-    // TODO: implement this (see ErrorMessage.razor)
-        private void ShowError()
+    private string ErrorMessage(CourseDetails course)
     {
-        Console.WriteLine("show error message clicked");
+        // get a random number from 0, 1, and 2
+        Random rnd = new Random();
+        int random = rnd.Next(3);
+
+        switch (random)
+        {
+            case 0:
+                return "heheehe #0";
+            case 1:
+                return "heheehe #1";
+            case 2:
+                return "heheehe #2";
+            default:
+                return "hehehehe default";
+        }
+
     }
 
-}
+    private string CheckEligible(bool eligible)
+    {
+
+        if(!eligible) { return "visible"; }
+        else { return "hidden"; }
+
+    }
+
+    }

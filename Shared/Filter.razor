@@ -1,0 +1,135 @@
+<!--Filter Bar-->
+@using System.Linq
+@using CourseCompanion.Shared.Model
+@using System.Collections.Generic
+@using CourseCompanion.Shared.State
+@inject StateContainer State
+@inject HttpClient Http
+@namespace CourseCompanion.Shared.Filter
+<!-- Filter by Semester -->
+<div>
+    <div class="container px-4 text-center">
+    <!-- Button to toggle semester filter panel -->
+        @* <button @onclick='ToggleSemester' class="btn btn-primary btn-block">Semester</button> *@
+        <!-- Collapsable panel for semester filter options -->
+        <Collapsable Title="Semester" Collapsed="@isSemesterCollapsed">
+            <div class="row g-2">
+                @for (int i = 0; i < semesterNames.Count(); i++) {
+                    int tempIndex = i; // create a temporary variable to capture the current value of i
+                    <div class="col-6">
+                        <button @onclick='() => HandleSemesterFilter(tempIndex)' 
+                            class="@semesterNames[tempIndex] @semesterClasses[tempIndex]">@semesterNames[tempIndex]</button>
+                    </div>
+                }
+            </div>
+        </Collapsable>
+        
+    </div>  
+</div>
+
+@code {
+
+    // get the full course list
+    private List<CourseDetails>? courses;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("Updated full course list");
+        courses = await Http.GetFromJsonAsync<List<CourseDetails>>("sample-data/courses.json");
+        State.fullList = courses;
+    }
+
+    void FilterCourses() {
+        Console.WriteLine("->   FilterCourses() called");
+    }
+
+    /***************************
+    *         Semester
+    ****************************/
+    bool noSemeterSelected = true;
+
+    bool isSemesterCollapsed = true;    // Flag to keep track of whether the semester filter panel is collapsed or not
+
+    List<string> semesterNames = new List<string>() {      // Names for semesters
+        "fall",
+        "winter",
+        "spring",
+        "summer"
+    };
+
+    List<bool> semesterStates = new List<bool>() {false, false, false, false};  // Flags to keep track of whether each button is active or inactive
+    List<string> semesterClasses = new List<string>() {     // Classes for semesters
+        "btn-light inactive btn btn-sm",
+        "btn-light inactive btn btn-sm",
+        "btn-light inactive btn btn-sm",
+        "btn-light inactive btn btn-sm"
+    };
+
+    void HandleSemesterFilter(int semester)       // Filters the course list by the selected semesters
+    {
+        // Toggles the state of the button between active and inactive
+        semesterStates[semester] = !semesterStates[semester];
+        Console.WriteLine("============");
+
+        // Change Class based on activity states
+        if (semesterStates[semester]) {
+            semesterClasses[semester] = "btn-info active btn btn-sm";
+        } else {
+            semesterClasses[semester] = "btn-light inactive btn btn-sm";
+        }
+
+        
+    }
+
+
+    void FilterBySemesters() {
+
+        // Filter the course list by the active semesters
+        List<CourseDetails> courseList = new List<CourseDetails>();
+        int notSelectedNum = 0;
+        for (int i = 0; i < semesterNames.Count(); i++) {
+            
+            int tempIndex = i;
+            if (!semesterStates[i]) {
+                Console.WriteLine("       {0} is NOT activated.", semesterNames[tempIndex]);
+                notSelectedNum++;
+            } else {
+
+                Console.WriteLine("       {0} is activated.", semesterNames[tempIndex]);
+                Console.WriteLine("\n       Before Update:\n");
+
+                // Log the current semester for each course in the course list
+                foreach(var course in State.fullList) {
+                    Console.WriteLine(course.Semester);
+                }
+            
+                List<CourseDetails> temp = State.fullList.Where(c =>
+                    c.Semester.Contains(semesterNames[i], StringComparison.OrdinalIgnoreCase)).ToList();
+
+                courseList = courseList.Concat(temp).ToList();
+            }
+        }
+
+        // if all filters are not selected, course list should not be changed at all
+        if (notSelectedNum >= semesterNames.Count()) {
+            Console.WriteLine("No semester filter is selected!");
+        } else {
+            // Update the filtered course list with the filtered results
+            State.UpdateSearchedList(courseList);
+        }
+
+        Console.WriteLine("\n\n     Updated filtered courses:\n");
+
+        // Log the updated semester for each course in the filtered course list
+        foreach(var course in State.searchedList) {
+            Console.WriteLine(course.Semester);
+        }       
+    }
+    
+
+    // Toggles the collapsed state of the semester filter panel
+    void ToggleSemester()
+    {
+        isSemesterCollapsed = !isSemesterCollapsed;
+    }
+}

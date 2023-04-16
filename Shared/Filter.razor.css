@@ -1,0 +1,15 @@
+.active.fall {
+    background-color: lightcyan;
+}
+
+.active.winter {
+    background-color: cornsilk;
+}
+
+.active.spring {
+    background-color: thistle;
+}
+
+.active.summer {
+    background-color: lightsalmon;
+}

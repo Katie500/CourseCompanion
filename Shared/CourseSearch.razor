@@ -32,8 +32,7 @@
         }
         else
         {
-            @foreach (var course in State.filteredList)
-                {
+            @foreach (var course in State.filteredList) {
                 <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
                     <CourseCards Course="@course" />
                 </div>
@@ -181,7 +180,7 @@
             }
 
         }
-        State.fullList = filterCourses;
+        State.filteredList = filterCourses;
     }
 
 }

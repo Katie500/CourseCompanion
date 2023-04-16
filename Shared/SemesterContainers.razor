@@ -13,6 +13,13 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<!--Fake Redirect to Schedule Builder-->
+<!--NEED TO CHANGE SIZING FOR VIDEO-->
+<div class="fixed-top">
+    <img src="@imageUrl" alt="My Image" />
+</div>
+
+
 <div class="row">
     <div class="col-lg-6">
         <!-- Left semester container -->
@@ -78,9 +85,8 @@
 </div>
 
 
-
 <!-- Export Redirect Modal -->
-<!--
+
 <div class="modal fade" id="exportRedirectModal" tabindex="-1" role="dialog" aria-labelledby="exportRedirectModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -96,7 +102,7 @@
             </div>
         </div>
     </div>
-</div>-->
+</div>
 
 
 
@@ -125,7 +131,7 @@
 
 
 <!-- helpModal1 Progress bar tutorial modal -->
-<div class="modal fade" id="helpModal1" tabindex="-1" role="dialog" aria-labelledby="helpModal1Label" aria-hidden="true">
+<div class="modal" id="helpModal1" tabindex="-1" role="dialog" aria-labelledby="helpModal1Label" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -266,6 +272,8 @@
     String sem2 = "Winter 2024";
     String sem_button = "Go To Spring/Summer";
 
+    private string imageUrl;
+
     protected override void OnInitialized()
     {
         // subscribe to OnCourseEvent
@@ -309,8 +317,8 @@
         StateHasChanged();
 
     }
-
-    public void ExportButton()
+    private ElementReference imageRef;
+    public async Task ExportButton()
     {
         Console.WriteLine("Reset button pressed");
 
@@ -319,10 +327,31 @@
         CourseService.CourseEvent();
         StateHasChanged();
 
+        imageUrl = "/assets/ScheduleBuilder.png";
+
+        //var script = @"
+            //function launchImage(imgRef) {
+                //var img = imgRef.current;
+                //var doc = window.document;
+                //var docEl = doc.documentElement;
+
+                //var requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+
+                //img.onload = function () {
+                    //requestFullScreen.call(img);
+            //    };
+          //  }
+        //";
+
+        //await JSRuntime.InvokeVoidAsync("eval", script);
+        //await JSRuntime.InvokeVoidAsync("launchImage", imageRef);
+
 
         
         
+        
     }
+
 
     //protected override async Task OnAfterRenderAsync(bool firstRender)
     //{

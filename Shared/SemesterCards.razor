@@ -7,20 +7,22 @@
 @inject HttpClient Http
 @inject StateContainer State
 
+
 <div class="container" style="padding:0; padding-top:0.5rem; padding-bottom:0.5rem">
     <div class="e-card" style="background-color:ghostwhite; border-left:1rem solid @BarColor(@Course.Category)">
 
-        <div class="error-icon" @onclick="ShowError">
-            <i class="fa fa-exclamation"> </i>
-
+        <div class="error-icon" style="visibility:@CheckEligible(Course.Eligible)">
+            <i class="fa fa-exclamation"></i>
+            <span class="error-message">@ErrorMessage(Course)</span>
         </div>
 
         <SfCard @key="@Course">
             <div class="e-card-header"> @Course.Id </div>
 
-            <!--Semester Card Content (contains delete function)-->
-            <CollapsibleSemester Course=@Course Title="@Course.Title" Collapsed="true" BgColor="@CardColor(@Course.Semester)">
-                <div class="card-content" style="background-color:@CardColor(@Course.Semester)">
+
+            <!--Semester Card Content-->
+            <CollapsibleSemester Course=@Course Title="@Course.Title" Collapsed="true" BgColor="ghostwhite">
+                <div class="card-content" style="background-color:ghostwhite">
 
                     <p class="p-card-content">
                         <b>Description:</b> @Course.Description<br>
@@ -40,15 +42,6 @@
     [Parameter]
     public CourseDetails? Course { get; set; }
 
-    private string? CardColor(string semester)
-    {
-        if (semester.Contains("Fall")) { return "ghostwhite"; }
-        if (semester.Contains("Winter")) { return "ghostwhite"; }
-        if (semester.Contains("Spring")) { return "ghostwhite"; }
-        if (semester.Contains("Summer")) { return "ghostwhite"; }
-        else { return "antiquewhite"; }
-    }
-
     private string? BarColor(string category)
     {
         if (category.Contains("Major")) { return "midnightblue"; }
@@ -58,10 +51,32 @@
         else { return "antiquewhite"; }
     }
 
-    // TODO: implement this (see ErrorMessage.razor)
-        private void ShowError()
+    private string ErrorMessage(CourseDetails course)
     {
-        Console.WriteLine("show error message clicked");
+        // get a random number from 0, 1, and 2
+        Random rnd = new Random();
+        int random = rnd.Next(3);
+
+        switch (random)
+        {
+            case 0:
+                return "You are missing the following prerequisite(s): CPSC 231.";
+            case 1:
+                return "This course conflicts with: CPSC 231.";
+            case 2:
+                return "This course requires consent of the department.";
+            default:
+                return "You are ineligible for this course.";
+        }
+
     }
 
-}
+    private string CheckEligible(bool eligible)
+    {
+
+        if(!eligible) { return "visible"; }
+        else { return "hidden"; }
+
+    }
+
+    }

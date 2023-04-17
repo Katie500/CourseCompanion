@@ -33,6 +33,7 @@
 @code {
     [Parameter]
     public CourseDetails? Course { get; set; }
+    
 
     private string? CardColor(string semester)
     {
@@ -59,7 +60,7 @@
         Console.WriteLine("sent " + Course.Id + " from CourseCards");
         State.RemoveCourse_fromSearchedList(Course);
         State.AddCourse_toSemesterList(Course);     // send the course to the semester list
-        CourseService.CourseEvent();          // notify SemesterContainers that the list was updated
+        CourseService.Update();                     // notify SemesterContainers that the list was updated
     }
 
 }

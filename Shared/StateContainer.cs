@@ -42,7 +42,8 @@ namespace CourseCompanion.Shared.State
 
         public void AddCourse_toSearchedList(CourseDetails course)
         {
-            Console.WriteLine("add course " + course.Id + " to searhList");
+            Console.WriteLine("add course " + course.Id + " to searchList");
+
             searchedList.Insert(0, course);
         }
 

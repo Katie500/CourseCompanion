@@ -11,108 +11,7 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
 
-        <!--Semester Button-->
-        <div class="nav-item px-3">
-            <input type="checkbox" id="semesterToggle" class="semester-toggle" />
-
-            <!--Toggle-->
-            <label for="semesterToggle">
-                <NavLink class="nav-link">
-                    <span class="semester-text" aria-hidden="true">
-                        <span>Semester</span>
-                        <span>▼</span>
-                    </span>
-                </NavLink>
-            </label>
-
-            <!--Semester Options-->
-            <div class="semester-collapse">
-                @for (int i = 0; i < semesterNames.Count(); i++) {
-                    int tempIndex = i; // create a temporary variable to capture the current value of i
-                    <div class="nav-item px-3">
-                        <NavLink class="nav-link" @onclick='() => HandleSemesterFilter(tempIndex)'>
-                            <span class="@semesterNames[tempIndex] @semesterClasses[tempIndex]">@semesterNames[tempIndex]</span>
-                        </NavLink>
-                    </div>
-                }
-            </div>
-
-        </div>
-
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">Eligible</span> 
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">Major Field</span> 
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true"> Faculty Breadth</span>
-            </NavLink>
-        </div><div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">Other Requirements</span> 
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true"> Open Options</span>
-            </NavLink>
-        </div>
-           
-         
-         
-         
-<!--Level Filter-->         
-<div class="nav-item px-3">
-    <input type="checkbox" id="levelToggle" class="level-toggle" />
-    <label for="levelToggle">
-        <NavLink class="nav-link">
-            <span class="level-text" aria-hidden="true">
-                <span>Level</span>
-                <span>▼</span>
-            </span>
-        </NavLink>
-    </label>
-
-    <div class="level-collapse">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">200</span>
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">300</span>
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">400</span>
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">500</span>
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">600</span>
-            </NavLink>
-        </div>
-    </div>
-</div>
-
-
-
-
-
+       
 
 
         <div class="fixed-bottom px-4">
@@ -127,9 +26,9 @@
 <div>
     <!-- Semester -->
     <div class="container px-4 text-center">
-        <button class="btn btn-primary btn-block w-100 " data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style="border-radius: 1rem">Semester</button>
+        <button class="btn btn-primary btn-block w-100 " data-bs-toggle="collapse" data-bs-target="#collapseSemester" aria-expanded="false" aria-controls="collapseSemester" style="border-radius: 1rem">Semester</button>
         <!-- Collapsable panel for semester filter options -->
-        <div id="collapseThree" class="collapse" aria-labelledby="headingThree">
+        <div id="collapseSemester" class="collapse">
             <div class="card-body row g-2">
                 @for (int i = 0; i < semesterNames.Count(); i++) {
                     int tempIndex = i; // create a temporary variable to capture the current value of i
@@ -141,8 +40,10 @@
                     </div>
                 }
             </div>
-            </div>
+        </div>
     </div>
+
+    <br />
 
     <!-- Only Eligible -->
     <div class="container px-4 text-center">
@@ -151,6 +52,8 @@
             Only Eligible
         </button>
     </div>
+
+    <br />
     
     <!-- Major Fields -->
     <div class="container px-4 text-center">
@@ -160,12 +63,15 @@
         </button>
     </div>
 
+    <br />
+
     <!-- Other Requirements -->
     <div class="container px-4 text-center">
-        <button @onclick='ToggleOthers' class="btn btn-primary btn-block w-100" style="border-radius: 1rem">Other Requirements</button>
+        <button @onclick='ToggleOthers' class="btn btn-primary btn-block w-100" data-bs-toggle="collapse" data-bs-target="#collapseOther" aria-expanded="false" aria-controls="collapseOther" style="border-radius: 1rem">Other Requirements</button>
         <!-- Collapsable panel for major filter options -->
-        <Collapsable Title="Others" Collapsed="@isOthersCollapsed">
-            <div class="row g-2">
+        <div id="collapseOther" class="collapse">
+            <br />
+            <div class="card-body row g-2">
                 @for (int i = 0; i < othersNames.Count(); i++) {
                     int tempIndex = i; // create a temporary variable to capture the current value of i
                     <div class="col-6">
@@ -176,15 +82,18 @@
                     </div>
                 }
             </div>
-        </Collapsable>
+        </div>
     </div>
+
+    <br />
 
     <!-- Open Options -->
     <div class="container px-4 text-center">
-        <button @onclick='ToggleOpen' class="btn btn-primary btn-block w-100" style="border-radius: 1rem">Open Options</button>
+        <button @onclick='ToggleOpen' class="btn btn-primary btn-block w-100" data-bs-toggle="collapse" data-bs-target="#collapseOptions" aria-expanded="false" aria-controls="collapseOptions" style="border-radius: 1rem">Open Options</button>
         <!-- Collapsable panel for open filter options -->
-        <Collapsable Title="Open" Collapsed="@isOpenCollapsed">
-            <div class="row g-2">
+        <div id="collapseOptions" class="collapse">
+            <br />
+            <div class="card-body row g-2">
                 @for (int i = 0; i < openNames.Count(); i++) {
                     int tempIndex = i; // create a temporary variable to capture the current value of i
                     <div class="col-6">
@@ -195,15 +104,18 @@
                     </div>
                 }
             </div>
-        </Collapsable>
+        </div>
     </div>
+
+    <br />
 
     <!-- By Levels -->
     <div class="container px-4 text-center">
-        <button @onclick='ToggleLevel' class="btn btn-primary btn-block w-100" style="border-radius: 1rem">By Levels</button>
+        <button @onclick='ToggleLevel' class="btn btn-primary btn-block w-100" data-bs-toggle="collapse" data-bs-target="#collapseLevels" aria-expanded="false" aria-controls="collapseLevels" style="border-radius: 1rem">By Levels</button>
         <!-- Collapsable panel for Level filter options -->
-        <Collapsable Title="Level" Collapsed="@isLevelCollapsed">
-            <div class="row g-2">
+        <div id="collapseLevels" class="collapse">
+            <br />
+            <div class="card-body row g-2">
                 @for (int i = 0; i < levelNames.Count(); i++) {
                     int tempIndex = i; // create a temporary variable to capture the current value of i
                     <div class="col-6">
@@ -214,9 +126,11 @@
                     </div>
                 }
             </div>
-        </Collapsable>
+        </div>
     </div>
 </div>
+
+<br />
 
 @code {
     const string inactiveButton = "btn-light inactive btn btn-sm";

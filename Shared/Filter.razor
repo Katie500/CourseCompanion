@@ -70,7 +70,7 @@
 
     <!-- Open Options -->
     <div class="container px-4 text-center">
-        <button @onclick='ToggleOpen' class="btn btn-primary btn-block">Open Fields</button>
+        <button @onclick='ToggleOpen' class="btn btn-primary btn-block">Open Options</button>
         <!-- Collapsable panel for open filter options -->
         <Collapsable Title="Open" Collapsed="@isOpenCollapsed">
             <div class="row g-2">
@@ -141,6 +141,10 @@
         // filtered by other requirements
         IEnumerable<CourseDetails> oth = FilterByOthers();         
         filtered = filtered.Intersect(oth); 
+
+        // filtered by open options
+        IEnumerable<CourseDetails> ope = FilterByOpen();         
+        filtered = filtered.Intersect(ope); 
 
         // filtered by levels
         IEnumerable<CourseDetails> lev = FilterByLevel();         
@@ -502,7 +506,7 @@
         }
         //      for another option selected
         else {
-            for (int i = 0; i < levelNames.Count(); i++) {
+            for (int i = 0; i < openNames.Count(); i++) {
                 if (i == open) {
                     openStates[i] = true;
                     openClasses[i] = activeButton;
@@ -540,8 +544,8 @@
                 if (openNames[i] == "MAJOR") {
                     
                     List<CourseDetails> temp = State.fullList.Where(c =>
-                        (c.Id.Contains("CPSC", StringComparison.OrdinalIgnoreCase))
-                        && (c.Id.Contains("SENG", StringComparison.OrdinalIgnoreCase))
+                        ((c.Id.Contains("CPSC", StringComparison.OrdinalIgnoreCase))
+                        || (c.Id.Contains("SENG", StringComparison.OrdinalIgnoreCase)))
                         && (c.Category == "Open Options")).ToList();
 
                     filteredCourses = filteredCourses.Concat(temp).ToList();

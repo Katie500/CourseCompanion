@@ -13,6 +13,7 @@
 
         <div class="error-icon" style="visibility:@CheckEligible(Course.Eligible)">
             <i class="fa fa-exclamation"></i>
+            <span class="error-message">@ErrorMessage(Course)</span>
         </div>
 
         <SfCard @key="@Course">
@@ -59,13 +60,13 @@
         switch (random)
         {
             case 0:
-                return "heheehe #0";
+                return "You are missing the following prerequisite(s): CPSC 231.";
             case 1:
-                return "heheehe #1";
+                return "This course conflicts with: CPSC 231.";
             case 2:
-                return "heheehe #2";
+                return "This course requires consent of the department.";
             default:
-                return "hehehehe default";
+                return "You are ineligible for this course.";
         }
 
     }

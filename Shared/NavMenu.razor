@@ -1,4 +1,7 @@
+
 ﻿@using CourseCompanion.Shared.Filter
+
+<!--NavBar Top Section-->
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -11,6 +14,7 @@
     </div>
 </div>
 
+<!--Semester Button-->
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
 
@@ -18,18 +22,15 @@
             <a href="#" class="btn btn-white btn-animate"><b>Filters</b></a>
         </div>
 
+
         <Filter />
 
-        <div class="px-3">
-            <button type="button" class="btn btn-secondary btn-outline-light text-center" href="#">Need Help? Click Here!</button>
+
+        <div class="fixed-bottom px-4">
+            <button type="button" class="btn btn-secondary btn-outline-light text-center" data-bs-toggle="modal" data-bs-target="#helpModal1">Need Help? Click Here!</button>
         </div>
     </nav>
 </div>
-
-
-
-
-
 
 
 

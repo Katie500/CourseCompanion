@@ -4,6 +4,7 @@
 
 .container {
     position: relative;
+    display:flex;
 }
 
 .error-icon {
@@ -18,52 +19,37 @@
     font-size: 150%;
     font-weight: bolder;
     border-radius: 3rem;
-    padding-bottom: 1rem;
     text-align: center;
     transition-duration: 0.2s;
 }
 
     .error-icon:hover {
         background-color: darkred;
-    }
-
-    .error-icon:hover:before {
-        opacity: 1;
         visibility: visible;
+
     }
 
-/* Container Tooltip */
-.tooltip {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 40px;
-    cursor: pointer;
-}
-
-/* Style text tooltip */
-.tooltipText {
-    background-color: #fff;
+.error-message {
+    visibility:hidden;
+    font-size: 65%;
+    font-stretch:condensed;
+    color: black;
+    height: auto;
+    padding: 0.2rem;
+    width: 16.5rem;
+    display: block;
     position: absolute;
-    bottom: 130%;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 14px;
-    opacity: 0;
-    transition: all .5s;
+    background-color: floralwhite;
+    border-radius: 0.5rem;
+    box-shadow: 0.2rem 0.3rem 0.5rem 0 rgba(0, 0, 0, 0.2);
+    overflow:visible;
+    z-index:50000;
 }
 
-    .tooltipText::after {
-        content: '';
-        border-width: 5px;
-        border-style: solid;
-        border-color: #fff transparent transparent transparent;
-        position: absolute;
-        top: 100%;
-        left: 40%;
-        margin-left: 5%;
-    }
+.error-icon:hover > .error-message {
+    position: absolute;
+    visibility:visible
+}
 
 .card-content {
     font-size: smaller;
@@ -73,7 +59,7 @@
 .e-card {
     border-radius:0.5rem;
     height: auto;
-    width: contain;
+    width: inherit;
     padding: 0.25rem;
     padding-left: 1rem;
     overflow: hidden;

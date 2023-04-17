@@ -32,11 +32,13 @@
         }
         else
         {
+
             @if (State.filterNum == 0) {
                 State.filteredList = new List<CourseDetails>(State.searchedList);
             }
             Console.WriteLine("State.filterNum: {0}", State.filterNum);
             @foreach (var course in State.filteredList) {
+
                 <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
                     <CourseCards Course="@course" />
                 </div>
@@ -60,7 +62,8 @@
     private void HandleInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
     {
         SearchText = e.Value.ToString();
-        SearchCourses(SearchText);
+        search(SearchText);
+
     }
 
     // get the full course list
@@ -95,9 +98,11 @@
     Main search function
     Takes in searchText and searchs the list based on certain criteria
     */
-    private void SearchCourses(string searchText)
+
+    private void search(string searchText)
     {
-        Console.WriteLine("SearchCourses({0}) called...", searchText);
+        Console.WriteLine("searchCourses({0}) called...", searchText);
+
 
         // general search
         if (!string.IsNullOrEmpty(searchText) && searchText.Length != 8)
@@ -121,7 +126,9 @@
         }
         if (string.IsNullOrEmpty(searchText))
         {
-            State.searchedList = State.fullList;
+
+            State.searchedList = courses;
+
         }
 
         // very dumb way for string entries like "cpsc 400" to show all 400 lvl cpsc courses
@@ -142,7 +149,9 @@
             split = searchText.Split(new char[0]);
 
             // if there's an exact match, just return that (to account for seng 300 case)
-            if (exactSearch) { searchCourses = exactMatch; }
+
+            if (exactSearch) { State.searchedList = exactMatch; }
+
 
             // otherwise we have a search that's not an exact match
             if (!exactSearch)
@@ -173,7 +182,6 @@
                         .ToList();
                     }
 
-
                 }
                 // the last case is that we have a search that's not in the list at all and not a level search
                 else
@@ -181,7 +189,7 @@
                     State.searchedList = searchCourses = courses;
                 }
             }
-            State.searchedList = searchCourses;
+
         }
     }
 

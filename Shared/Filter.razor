@@ -127,36 +127,42 @@
 <div>
     <!-- Semester -->
     <div class="container px-4 text-center">
-        <button @onclick='ToggleSemester' class="btn btn-primary btn-block">Semester</button>
+        <button class="btn btn-primary btn-block w-100 " data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" style="border-radius: 1rem">Semester</button>
         <!-- Collapsable panel for semester filter options -->
-        <Collapsable Title="Semester" Collapsed="@isSemesterCollapsed">
-            <div class="row g-2">
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree">
+            <div class="card-body row g-2">
                 @for (int i = 0; i < semesterNames.Count(); i++) {
                     int tempIndex = i; // create a temporary variable to capture the current value of i
                     <div class="col-6">
                         <button @onclick='() => HandleSemesterFilter(tempIndex)' 
-                            class="@semesterNames[tempIndex] @semesterClasses[tempIndex]">@semesterNames[tempIndex]</button>
+                                class="@semesterNames[tempIndex] @semesterClasses[tempIndex] w-100" style="border-radius: 1rem">
+                            @semesterNames[tempIndex]
+                        </button>
                     </div>
                 }
             </div>
-        </Collapsable>
+            </div>
     </div>
 
     <!-- Only Eligible -->
     <div class="container px-4 text-center">
-        <button @onclick='() => HandleEligibilityFilter()' 
-            class="eligibility @eligibilityClass">Only Eligible</button>
+        <button @onclick='() => HandleEligibilityFilter()'
+                class="eligibility @eligibilityClass w-100" style="border-radius: 1rem">
+            Only Eligible
+        </button>
     </div>
     
     <!-- Major Fields -->
     <div class="container px-4 text-center">
-        <button @onclick='() => HandleMajorFilter()' 
-            class="major @majorClass">Major Fields</button>
+        <button @onclick='() => HandleMajorFilter()'
+                class="major @majorClass w-100" style="border-radius: 1rem">
+            Major Fields
+        </button>
     </div>
 
     <!-- Other Requirements -->
     <div class="container px-4 text-center">
-        <button @onclick='ToggleOthers' class="btn btn-primary btn-block">Other Requirements</button>
+        <button @onclick='ToggleOthers' class="btn btn-primary btn-block w-100" style="border-radius: 1rem">Other Requirements</button>
         <!-- Collapsable panel for major filter options -->
         <Collapsable Title="Others" Collapsed="@isOthersCollapsed">
             <div class="row g-2">
@@ -164,7 +170,9 @@
                     int tempIndex = i; // create a temporary variable to capture the current value of i
                     <div class="col-6">
                         <button @onclick='() => HandleOthersFilter(tempIndex)' 
-                            class="@othersNames[tempIndex] @othersClasses[tempIndex]">@othersNames[tempIndex]</button>
+                                class="@othersNames[tempIndex] @othersClasses[tempIndex] w-100" style="border-radius: 1rem">
+                            @othersNames[tempIndex]
+                        </button>
                     </div>
                 }
             </div>
@@ -173,7 +181,7 @@
 
     <!-- Open Options -->
     <div class="container px-4 text-center">
-        <button @onclick='ToggleOpen' class="btn btn-primary btn-block">Open Options</button>
+        <button @onclick='ToggleOpen' class="btn btn-primary btn-block w-100" style="border-radius: 1rem">Open Options</button>
         <!-- Collapsable panel for open filter options -->
         <Collapsable Title="Open" Collapsed="@isOpenCollapsed">
             <div class="row g-2">
@@ -181,7 +189,9 @@
                     int tempIndex = i; // create a temporary variable to capture the current value of i
                     <div class="col-6">
                         <button @onclick='() => HandleOpenFilter(tempIndex)' 
-                            class="@openNames[tempIndex] @openClasses[tempIndex]">@openNames[tempIndex]</button>
+                                class="@openNames[tempIndex] @openClasses[tempIndex] w-100" style="border-radius: 1rem">
+                            @openNames[tempIndex]
+                        </button>
                     </div>
                 }
             </div>
@@ -190,7 +200,7 @@
 
     <!-- By Levels -->
     <div class="container px-4 text-center">
-        <button @onclick='ToggleLevel' class="btn btn-primary btn-block">By Levels</button>
+        <button @onclick='ToggleLevel' class="btn btn-primary btn-block w-100" style="border-radius: 1rem">By Levels</button>
         <!-- Collapsable panel for Level filter options -->
         <Collapsable Title="Level" Collapsed="@isLevelCollapsed">
             <div class="row g-2">
@@ -198,7 +208,9 @@
                     int tempIndex = i; // create a temporary variable to capture the current value of i
                     <div class="col-6">
                         <button @onclick='() => HandleLevelFilter(tempIndex)' 
-                            class="@levelNames[tempIndex] @levelClasses[tempIndex]">@levelNames[tempIndex]</button>
+                                class="@levelNames[tempIndex] @levelClasses[tempIndex] w-100" style="border-radius: 1rem">
+                            @levelNames[tempIndex]
+                        </button>
                     </div>
                 }
             </div>

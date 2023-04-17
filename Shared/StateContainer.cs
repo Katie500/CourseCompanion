@@ -19,7 +19,7 @@ namespace CourseCompanion.Shared.State
         public CourseService courseService = new CourseService();
 
         public List<CourseDetails> fullList { get; set; } = new List<CourseDetails>();
-        public List<CourseDetails> filteredList { get; set; } = new List<CourseDetails>();
+        public List<CourseDetails> searchedList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> fallList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> winterList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> springList { get; set; } = new List<CourseDetails>();
@@ -36,16 +36,16 @@ namespace CourseCompanion.Shared.State
             list.OrderBy(o => o.Id).ToList();
         }
 
-        public void AddCourse_toFilteredList(CourseDetails course)
+        public void AddCourse_toSearchedList(CourseDetails course)
         {
-            filteredList.Insert(0, course);
+            searchedList.Insert(0, course);
         }
 
         // course was added to semesters, remove from main list and add it to the semester list
-        public void RemoveCourse_fromFilteredList(CourseDetails course)
+        public void RemoveCourse_fromSearchedList(CourseDetails course)
         {
             Console.WriteLine("removed course " + course.Id + " from StateContainer");
-            filteredList.Remove(course);
+            searchedList.Remove(course);
             NotifyStateChanged();
 
         }
@@ -144,13 +144,13 @@ namespace CourseCompanion.Shared.State
             summer_TotalCredits = 0;
 
             // reset the main list back to default
-            filteredList = fullList;
+            searchedList = fullList;
 
-            //foreach (var course in (filteredList).OrderBy(x => x.Id))
+            //foreach (var course in (searchedList).OrderBy(x => x.Id))
             //    Console.WriteLine(course.Id);
 
 
-            return filteredList;
+            return searchedList;
 
 
         }

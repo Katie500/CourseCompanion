@@ -26,22 +26,29 @@
     .error-icon:hover {
         background-color: darkred;
         visibility: visible;
+
     }
 
-    .error-icon:hover:after {
-        content: "You are ineligible for this course.";
-        font-size: small;
-        font-stretch:narrower;
-        color: black;
-        padding: 0.5rem 0.5rem;
-        width: 15rem;
-        overflow: visible;
-        display: block;
-        position: absolute;
-        background-color: floralwhite;
-        border-radius: 0.5rem;
-        box-shadow: 0.2rem 0.3rem 0.5rem 0 rgba(0, 0, 0, 0.2);
-    }
+.error-message {
+    visibility:hidden;
+    font-size: 65%;
+    font-stretch:semi-condensed;
+    color: black;
+    height:fit-content;
+    padding: 0.2rem 0.2rem;
+    width: 16.5rem;
+    overflow: visible;
+    display: block;
+    position: absolute;
+    background-color: floralwhite;
+    border-radius: 0.5rem;
+    box-shadow: 0.2rem 0.3rem 0.5rem 0 rgba(0, 0, 0, 0.2);
+    overflow:visible;
+}
+
+.error-icon:hover > .error-message{
+    visibility:visible
+}
 
 .card-content {
     font-size: smaller;

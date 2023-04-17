@@ -77,7 +77,7 @@
         State.RemoveCourse_fromSemesterList(Course);
 
         Console.WriteLine("re-added " + Course.Id + " to the main list");
-        State.AddCourse_toFilteredList(Course);
+        State.AddCourse_toSearchedList(Course);
 
         // send a notification that lists were changed
         CourseService.Update();

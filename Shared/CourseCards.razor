@@ -58,7 +58,7 @@
     private void AddCourse()
     {
         Console.WriteLine("sent " + Course.Id + " from CourseCards");
-        State.RemoveCourse_fromFilteredList(Course);
+        State.RemoveCourse_fromSearchedList(Course);
         State.AddCourse_toSemesterList(Course);     // send the course to the semester list
         CourseService.Update();                     // notify SemesterContainers that the list was updated
     }

@@ -22,17 +22,17 @@
 <!--Course Results List-->
 <div style="height:84vh;overflow-y:scroll">
     <div class="container">
-        @if (filterCourses == null)
+        @if (searchCourses == null)
         {
             <p><em>Loading...</em></p>
         }
-        else if (filterCourses.Count == 0)
+        else if (searchCourses.Count == 0)
         {
             <p><em>No Courses Found.</em></p>
         }
         else
         {
-            @foreach (var course in State.filteredList)
+            @foreach (var course in State.searchedList)
                 {
                 <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
                     <CourseCards Course="@course" />
@@ -46,7 +46,7 @@
 
     public string? SearchText = "";
 
-    public List<CourseDetails>? filterCourses { get; set; }
+    public List<CourseDetails>? searchCourses { get; set; }
     private List<CourseDetails>? courses;
 
     private string[] split = { "", "" };
@@ -57,7 +57,7 @@
     private void HandleInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
     {
         SearchText = e.Value.ToString();
-        FilterCourses(SearchText);
+        search(SearchText);
     }
 
     // get the full course list
@@ -66,13 +66,13 @@
         Console.WriteLine("Updated full course list");
         courses = await Http.GetFromJsonAsync<List<CourseDetails>>("sample-data/courses.json");
         State.fullList = new List<CourseDetails>(courses);
-        filterCourses = new List<CourseDetails>(courses);
+        searchCourses = new List<CourseDetails>(courses);
 
         // DEBUG
         //foreach (var course in (State.fullList).OrderBy(x => x.Id))
         //    Console.WriteLine(course.Id);
 
-        State.filteredList = filterCourses;
+        State.searchedList = searchCourses;
     }
 
     protected override void OnInitialized()
@@ -92,33 +92,33 @@
     Main search function
     Takes in searchText and filters the list based on certain criteria
     */
-    private void FilterCourses(string searchText)
+    private void search(string searchText)
     {
-        Console.WriteLine("FilterCourses({0}) called...", searchText);
+        Console.WriteLine("searchCourses({0}) called...", searchText);
 
         // general search
         if (!string.IsNullOrEmpty(searchText) && searchText.Length != 8)
         {
             List<CourseDetails> courseIDs = courses.Where(c =>
                     c.Id.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
-            State.filteredList = State.filteredList.Concat(courseIDs).ToList();
+            State.searchedList = State.searchedList.Concat(courseIDs).ToList();
 
             List<CourseDetails> courseTitles = courses.Where(c =>
                 c.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
-            State.filteredList = courseIDs.Concat(courseTitles).ToList();
+            State.searchedList = courseIDs.Concat(courseTitles).ToList();
 
             List<CourseDetails> courseLevel = courses.Where(c =>
                  (c.Level.ToString()).Contains(searchText.TrimEnd(new Char[] { '0' }))).ToList();
-            State.filteredList = State.filteredList.Concat(courseLevel).ToList();
+            State.searchedList = State.searchedList.Concat(courseLevel).ToList();
 
             List<CourseDetails> courseSemester = courses.Where(c =>
                  c.Semester.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
-            State.filteredList = State.filteredList.Concat(courseSemester).ToList();
+            State.searchedList = State.searchedList.Concat(courseSemester).ToList();
 
         }
         if (string.IsNullOrEmpty(searchText))
         {
-            State.filteredList = courses;
+            State.searchedList = courses;
         }
 
         // very dumb way for string entries like "cpsc 400" to show all 400 lvl cpsc courses
@@ -139,7 +139,7 @@
             split = searchText.Split(new char[0]);
 
             // if there's an exact match, just return that (to account for seng 300 case)
-            if (exactSearch) { State.filteredList = exactMatch; }
+            if (exactSearch) { State.searchedList = exactMatch; }
 
             // otherwise we have a search that's not an exact match
             if (!exactSearch)
@@ -164,7 +164,7 @@
                     // otherwise we search for dept and level only
                     if (Int32.Parse(level) % 100 == 0)
                     {
-                        State.filteredList = (courses
+                        State.searchedList = (courses
                         .Where(c => c.Id.StartsWith(dept, StringComparison.OrdinalIgnoreCase))
                         .Where(c => c.Level.ToString().Equals(level)))
                         .ToList();
@@ -174,7 +174,7 @@
                 // the last case is that we have a search that's not in the list at all and not a level search
                 else
                 {
-                    State.filteredList = filterCourses = courses;
+                    State.searchedList = searchCourses = courses;
                 }
             }
         }

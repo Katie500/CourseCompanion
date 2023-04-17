@@ -20,6 +20,8 @@ namespace CourseCompanion.Shared.State
 
         public List<CourseDetails> fullList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> searchedList { get; set; } = new List<CourseDetails>();
+        public List<CourseDetails> filteredList { get; set; } = new List<CourseDetails>();
+
         public List<CourseDetails> fallList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> winterList { get; set; } = new List<CourseDetails>();
         public List<CourseDetails> springList { get; set; } = new List<CourseDetails>();
@@ -30,6 +32,8 @@ namespace CourseCompanion.Shared.State
         public int spring_TotalCredits = 0;
         public int summer_TotalCredits = 0;
 
+        public int filterNum = 0;
+
         // preliminary sort function
         public void sortList(List<CourseDetails> list)
         {
@@ -38,6 +42,8 @@ namespace CourseCompanion.Shared.State
 
         public void AddCourse_toSearchedList(CourseDetails course)
         {
+            Console.WriteLine("add course " + course.Id + " to searchList");
+
             searchedList.Insert(0, course);
         }
 
@@ -152,8 +158,40 @@ namespace CourseCompanion.Shared.State
 
             return searchedList;
 
-
         }
-        private void NotifyStateChanged() => OnStateChange?.Invoke();
+
+        public void UpdateFilteredList(List<CourseDetails> newList) {
+
+            // DEBUG
+            // Console.WriteLine("\n       State.UpdateFilteredList()");
+            // Console.WriteLine("\n       --------  searchList  -------");
+            // foreach (var course in searchedList) {
+            //     Console.WriteLine("    " + course.Semester);
+            // }
+            // Console.WriteLine("\n       --------  filteredList  -------");
+            // foreach (var course in newList) {
+            //     Console.WriteLine("    " + course.Semester);
+            // }
+            // DEBUG
+            
+            filteredList.Clear();
+            filteredList.AddRange(newList);
+            NotifyStateChanged();
+        }
+
+        // private void NotifyStateChanged() => OnStateChange?.Invoke();
+        private void NotifyStateChanged() {
+            
+            // DEBUG
+            // Console.WriteLine("\n       -----  NotifyStateChanged()  -----");
+            // Console.WriteLine("\n       --------  searchList  -------");
+            // foreach (var course in searchedList) {
+            //     Console.WriteLine("    " + course.Semester);
+            // }
+            // DEBUG
+
+            OnStateChange?.Invoke();
+        }
+
     }
 }

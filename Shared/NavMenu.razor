@@ -1,4 +1,8 @@
+
+﻿@using CourseCompanion.Shared.Filter
+
 <!--NavBar Top Section-->
+
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
        <a class="navbar-brand">
@@ -18,104 +22,8 @@
             <a href="#" class="btn btn-white btn-animate"><b>Filters</b></a>
         </div>
 
-        <div class="nav-item px-3">
-    <input type="checkbox" id="semesterToggle" class="semester-toggle" />
-    <label for="semesterToggle">
-        <NavLink class="nav-link">
-            <span class="semester-text" aria-hidden="true">
-                <span>Semester</span>
-                <span>▼</span>
-            </span>
-        </NavLink>
-    </label>
-    <div class="semester-collapse">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">Fall</span>
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">Spring</span>
-            </NavLink>
-        </div>
- </div>
-</div>
 
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">Eligible</span> 
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">Major Field</span> 
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true"> Faculty Breadth</span>
-            </NavLink>
-        </div><div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">Other Requirements</span> 
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true"> Open Options</span>
-            </NavLink>
-        </div>
-           
-         
-         
-         
-<!--Level Filter-->         
-<div class="nav-item px-3">
-    <input type="checkbox" id="levelToggle" class="level-toggle" />
-    <label for="levelToggle">
-        <NavLink class="nav-link">
-            <span class="level-text" aria-hidden="true">
-                <span>Level</span>
-                <span>▼</span>
-            </span>
-        </NavLink>
-    </label>
-
-    <div class="level-collapse">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">200</span>
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">300</span>
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">400</span>
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">500</span>
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="#">
-                <span class=" " aria-hidden="true">600</span>
-            </NavLink>
-        </div>
-    </div>
-</div>
-
-
-
-
-
+        <Filter />
 
 
         <div class="fixed-bottom px-4">

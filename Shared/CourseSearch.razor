@@ -32,8 +32,13 @@
         }
         else
         {
-            @foreach (var course in State.searchedList)
-                {
+
+            @if (State.filterNum == 0) {
+                State.filteredList = new List<CourseDetails>(State.searchedList);
+            }
+            Console.WriteLine("State.filterNum: {0}", State.filterNum);
+            @foreach (var course in State.filteredList) {
+
                 <div style="scroll-padding-top: 1rem; padding-bottom: 1rem; margin:0.7rem; position:relative">
                     <CourseCards Course="@course" />
                 </div>
@@ -58,12 +63,13 @@
     {
         SearchText = e.Value.ToString();
         search(SearchText);
+
     }
 
     // get the full course list
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("Updated full course list");
+        Console.WriteLine("**********Updated full course list**********");
         courses = await Http.GetFromJsonAsync<List<CourseDetails>>("sample-data/courses.json");
         State.fullList = new List<CourseDetails>(courses);
         searchCourses = new List<CourseDetails>(courses);
@@ -77,24 +83,26 @@
 
     protected override void OnInitialized()
     {
-
-        // subscribe to OnCourseEvent
+        // subscribe to OnCourseEvent and OnStateChange
         CourseService.OnCourseEvent += CourseHandler;
+        State.OnStateChange += CourseHandler;
     }
 
     private void CourseHandler()
     {
-        Console.WriteLine("coursesearch state changed");
+        Console.WriteLine("CourseSearch state changed");
         StateHasChanged();
     }
 
     /*
     Main search function
-    Takes in searchText and filters the list based on certain criteria
+    Takes in searchText and searchs the list based on certain criteria
     */
+
     private void search(string searchText)
     {
         Console.WriteLine("searchCourses({0}) called...", searchText);
+
 
         // general search
         if (!string.IsNullOrEmpty(searchText) && searchText.Length != 8)
@@ -118,7 +126,9 @@
         }
         if (string.IsNullOrEmpty(searchText))
         {
+
             State.searchedList = courses;
+
         }
 
         // very dumb way for string entries like "cpsc 400" to show all 400 lvl cpsc courses
@@ -139,7 +149,9 @@
             split = searchText.Split(new char[0]);
 
             // if there's an exact match, just return that (to account for seng 300 case)
+
             if (exactSearch) { State.searchedList = exactMatch; }
+
 
             // otherwise we have a search that's not an exact match
             if (!exactSearch)
@@ -177,6 +189,7 @@
                     State.searchedList = searchCourses = courses;
                 }
             }
+
         }
     }
 

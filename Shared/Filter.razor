@@ -19,7 +19,9 @@
                     int tempIndex = i; // create a temporary variable to capture the current value of i
                     <div class="col-6">
                         <button @onclick='() => HandleSemesterFilter(tempIndex)' 
+
                                 class="@semesterNames[tempIndex] @semesterClasses[tempIndex] w-100" style="border-radius: 1rem">
+
                             @semesterNames[tempIndex]
                         </button>
                     </div>

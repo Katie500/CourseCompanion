@@ -127,7 +127,8 @@
         if (string.IsNullOrEmpty(searchText))
         {
 
-            State.searchedList = courses;
+            State.searchedList = State.fullList;
+            CourseService.Update();
 
         }
 

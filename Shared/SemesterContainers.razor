@@ -78,7 +78,7 @@
     <!-- Buttons -->
 
     <div class="col-lg-6 text-center">
-        <button type="button" @onclick="SwitchSem" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 2rem; right: 25rem; margin-left: inherit">@sem_button</button>
+        <button type="button" @onclick="SwitchSem" class="btn btn-primary btn-outline-primary text-center" style="position: absolute; bottom: 1.5rem; right: 25rem; margin-left: inherit">@sem_button</button>
         <Modals></Modals>
     </div>
 
@@ -122,9 +122,6 @@
 
     public void SwitchSem()
     {
-        // TODO: change lists shown, container colors and semester filter
-        // keep the current state of the lists
-
         //change label of semesters
         if (sem1 == "Spring 2024") { sem1 = "Fall 2023"; }
         else { sem1 = "Spring 2024"; }

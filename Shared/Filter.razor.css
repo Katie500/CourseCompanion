@@ -1,3 +1,13 @@
+.btn-primary{
+    background-color: rgb(210, 224, 224);
+    color: black;
+}
+
+.active.btn-primary{
+    background-color: rgb(152, 183, 183);
+    color: black;
+}
+
 /* Semester */
 
 .active.Fall {
@@ -30,9 +40,8 @@
 
 /* Faculty Breadth */
 .active.Faculty {
-    background-color: goldenrod;
+    background-color: rgb(122, 245, 225);
 }
-
 
 /* Other Requirement */
 .active.MATH {

@@ -5,23 +5,8 @@
 @using CourseCompanion.Shared.State
 @inject StateContainer State
 @inject HttpClient Http
+
 @namespace CourseCompanion.Shared.Filter
-
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-
-       
-
-
-        <div class="fixed-bottom px-4">
-            <button type="button" class="btn btn-secondary btn-outline-light text-center" data-bs-toggle="modal" data-bs-target="#helpModal1">Need Help? Click Here!</button>
-        </div>
-    </nav>
-</div>
-
-
-
 
 <div>
     <!-- Semester -->
@@ -64,7 +49,6 @@
     </div>
 
     <br />
-
     <!-- Other Requirements -->
     <div class="container px-4 text-center">
         <button @onclick='ToggleOthers' class="btn btn-primary btn-block w-100" data-bs-toggle="collapse" data-bs-target="#collapseOther" aria-expanded="false" aria-controls="collapseOther" style="border-radius: 1rem">Other Requirements</button>
@@ -83,6 +67,14 @@
                 }
             </div>
         </div>
+    </div>
+
+    <br />
+
+    <!-- Faculty Breadth -->
+    <div class="container px-4 text-center">
+        <button @onclick='() => HandleFacultyFilter()' 
+            class="Faculty @facultyClass w-100" style="border-radius: 1rem">Faculty Breadth</button>
     </div>
 
     <br />
@@ -140,12 +132,24 @@
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    public void ResetFilter(){
+
+        Console.WriteLine(" ResetFilter()");
+
+        // reset semester
+        for (int i = 0; i < semesterStates.Count(); i++) {
+            int temp = i;
+            Console.WriteLine(" {0} ", semesterStates[temp]);
+            semesterStates[temp] = false;
+        }
+
+        StateHasChanged();
+    }
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
     }
-
 
     void FilterCourses() {
 
@@ -181,6 +185,10 @@
         // filtered by other requirements
         IEnumerable<CourseDetails> oth = FilterByOthers();         
         filtered = filtered.Intersect(oth); 
+
+        // filtered by faculty
+        IEnumerable<CourseDetails> fac = FilterByFaculty();         
+        filtered = filtered.Intersect(fac); 
 
         // filtered by open options
         IEnumerable<CourseDetails> ope = FilterByOpen();         
@@ -491,6 +499,65 @@
         isOthersCollapsed = !isOthersCollapsed;
     }
 
+
+    /***************************
+    *         Faculty Breadth
+    ****************************/
+    bool noSelectedFaculty = true;
+    string facultyClass = inactiveButton;
+    void HandleFacultyFilter()       // Filters the course list by the selected facultys
+    {
+        // Toggles the state of the button between active and inactive
+        noSelectedFaculty = !noSelectedFaculty;
+
+        // Change Class based on activity states
+        if (noSelectedFaculty) {
+            facultyClass = inactiveButton;
+        } else {
+            facultyClass = activeButton;
+        }      
+
+        FilterCourses();
+    }
+
+    List<CourseDetails> FilterByFaculty() {
+
+        Console.WriteLine("====================");
+        Console.WriteLine(" FilterByFaculty()");
+
+        // Filter the course list by the active faculty
+        List<CourseDetails> filteredCourses = new List<CourseDetails>();
+
+        // Check faculty state
+        if (noSelectedFaculty) {
+            Console.WriteLine("       Faculty is NOT activated.");
+        } else {
+            noSelectedFaculty = false;
+            filterNum++;
+            Console.WriteLine("       Faculty is activated.");
+
+            List<CourseDetails> temp = State.fullList.Where(c =>
+                (c.Faculty != "Science") && (c.Category != "Other Requirements")
+                && (c.Category != "Major Field")).ToList();
+
+            filteredCourses = filteredCourses.Concat(temp).ToList();
+        }
+
+        // DEBUG
+        Console.WriteLine("\n\n     after filtered by faculty:\n");
+        foreach(var course in filteredCourses) {
+            Console.WriteLine("         " + course.Eligible);
+        }
+        // DEBUG
+
+        // if all filters are not selected, course list should not be changed at all
+        if (noSelectedFaculty) {
+            Console.WriteLine("     No faculty filter is selected!");
+            return State.fullList;
+        }
+
+        return filteredCourses;
+    }
 
     /***************************
     *         Open Options

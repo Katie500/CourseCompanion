@@ -5,61 +5,215 @@
 @using CourseCompanion.Shared.State
 @inject StateContainer State
 @inject HttpClient Http
+
 @namespace CourseCompanion.Shared.Filter
-<!-- Filter by Semester -->
+
 <div>
+    <!-- Semester -->
     <div class="container px-4 text-center">
-    <!-- Button to toggle semester filter panel -->
-        @* <button @onclick='ToggleSemester' class="btn btn-primary btn-block">Semester</button> *@
+        <button class="btn btn-primary btn-block w-100 " data-bs-toggle="collapse" data-bs-target="#collapseSemester" aria-expanded="false" aria-controls="collapseSemester" style="border-radius: 1rem">Semester</button>
         <!-- Collapsable panel for semester filter options -->
-        <Collapsable Title="Semester" Collapsed="@isSemesterCollapsed">
-            <div class="row g-2">
+        <div id="collapseSemester" class="collapse">
+            <div class="card-body row g-2">
                 @for (int i = 0; i < semesterNames.Count(); i++) {
                     int tempIndex = i; // create a temporary variable to capture the current value of i
                     <div class="col-6">
                         <button @onclick='() => HandleSemesterFilter(tempIndex)' 
-                                class=" btn btn-light btn-outline-secondary w-100 @semesterNames[tempIndex] @semesterClasses[tempIndex]">
+
+                                class="@semesterNames[tempIndex] @semesterClasses[tempIndex] w-100" style="border-radius: 1rem">
+
                             @semesterNames[tempIndex]
                         </button>
                     </div>
                 }
             </div>
-        </Collapsable>
-        
-    </div>  
+        </div>
+    </div>
+
+    <br />
+
+    <!-- Only Eligible -->
+    <div class="container px-4 text-center">
+        <button @onclick='() => HandleEligibilityFilter()'
+                class="eligibility @eligibilityClass w-100" style="border-radius: 1rem">
+            Only Eligible
+        </button>
+    </div>
+
+    <br />
+    
+    <!-- Major Fields -->
+    <div class="container px-4 text-center">
+        <button @onclick='() => HandleMajorFilter()'
+                class="major @majorClass w-100" style="border-radius: 1rem">
+            Major Fields
+        </button>
+    </div>
+
+    <br />
+    <!-- Other Requirements -->
+    <div class="container px-4 text-center">
+        <button @onclick='ToggleOthers' class="btn btn-primary btn-block w-100" data-bs-toggle="collapse" data-bs-target="#collapseOther" aria-expanded="false" aria-controls="collapseOther" style="border-radius: 1rem">Other Requirements</button>
+        <!-- Collapsable panel for major filter options -->
+        <div id="collapseOther" class="collapse">
+            <br />
+            <div class="card-body row g-2">
+                @for (int i = 0; i < othersNames.Count(); i++) {
+                    int tempIndex = i; // create a temporary variable to capture the current value of i
+                    <div class="col-6">
+                        <button @onclick='() => HandleOthersFilter(tempIndex)' 
+                                class="@othersNames[tempIndex] @othersClasses[tempIndex] w-100" style="border-radius: 1rem">
+                            @othersNames[tempIndex]
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <!-- Faculty Breadth -->
+    <div class="container px-4 text-center">
+        <button @onclick='() => HandleFacultyFilter()' 
+            class="Faculty @facultyClass w-100" style="border-radius: 1rem">Faculty Breadth</button>
+    </div>
+
+    <br />
+
+    <!-- Open Options -->
+    <div class="container px-4 text-center">
+        <button @onclick='ToggleOpen' class="btn btn-primary btn-block w-100" data-bs-toggle="collapse" data-bs-target="#collapseOptions" aria-expanded="false" aria-controls="collapseOptions" style="border-radius: 1rem">Open Options</button>
+        <!-- Collapsable panel for open filter options -->
+        <div id="collapseOptions" class="collapse">
+            <br />
+            <div class="card-body row g-2">
+                @for (int i = 0; i < openNames.Count(); i++) {
+                    int tempIndex = i; // create a temporary variable to capture the current value of i
+                    <div class="col-6">
+                        <button @onclick='() => HandleOpenFilter(tempIndex)' 
+                                class="@openNames[tempIndex] @openClasses[tempIndex] w-100" style="border-radius: 1rem">
+                            @openNames[tempIndex]
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <!-- By Levels -->
+    <div class="container px-4 text-center">
+        <button @onclick='ToggleLevel' class="btn btn-primary btn-block w-100" data-bs-toggle="collapse" data-bs-target="#collapseLevels" aria-expanded="false" aria-controls="collapseLevels" style="border-radius: 1rem">By Levels</button>
+        <!-- Collapsable panel for Level filter options -->
+        <div id="collapseLevels" class="collapse">
+            <br />
+            <div class="card-body row g-2">
+                @for (int i = 0; i < levelNames.Count(); i++) {
+                    int tempIndex = i; // create a temporary variable to capture the current value of i
+                    <div class="col-6">
+                        <button @onclick='() => HandleLevelFilter(tempIndex)' 
+                                class="@levelNames[tempIndex] @levelClasses[tempIndex] w-100" style="border-radius: 1rem">
+                            @levelNames[tempIndex]
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
-@code {
+<br />
 
+@code {
+    const string inactiveButton = "btn-light inactive btn btn-sm";
+    const string activeButton = "btn-info active btn btn-sm";
     int filterNum = 0;
+
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    public void ResetFilter(){
+
+        Console.WriteLine(" ResetFilter()");
+
+        // reset semester
+        for (int i = 0; i < semesterStates.Count(); i++) {
+            int temp = i;
+            Console.WriteLine(" {0} ", semesterStates[temp]);
+            semesterStates[temp] = false;
+        }
+
+        StateHasChanged();
+    }
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
     void FilterCourses() {
 
-        // DEBUG
-        @* Console.WriteLine("\n\n     FilterCourses() - State.searchedList before filtering:");
-        Console.WriteLine("       --------  searchList  -------");
-        foreach (var course in State.searchedList) {
-            Console.WriteLine("    " + course.Semester);
-        } *@
-        // DEBUG
 
         List<CourseDetails> searched = new List<CourseDetails>(State.searchedList);
         IEnumerable<CourseDetails> filtered = searched.Cast<CourseDetails>();
-        IEnumerable<CourseDetails> temp;
         filterNum = 0;
 
-        temp = FilterBySemesters();         // filtered by semesters
-        filtered = filtered.Intersect(temp);        
-
         // DEBUG
-        @* Console.WriteLine("\n\n     RESULT:");
+        Console.WriteLine("\n\n     FilterCourses() - State.searchedList before filtering:");
         Console.WriteLine("       --------  searchList  -------");
         foreach (var course in State.searchedList) {
-            Console.WriteLine("    " + course.Semester);
+            Console.WriteLine("    " + course.Id + " | "+ course.Semester + " | " + course.Eligible + " | " + course.Category);
+        }
+        // DEBUG
+
+
+
+
+
+        // filtered by semesters
+        IEnumerable<CourseDetails> sem = FilterBySemesters();         
+        filtered = filtered.Intersect(sem);        
+
+        // filtered by eligibility
+        IEnumerable<CourseDetails> elig = FilterByEligibility();         
+        filtered = filtered.Intersect(elig);        
+
+        // filtered by majors
+        IEnumerable<CourseDetails> maj = FilterByMajor();         
+        filtered = filtered.Intersect(maj); 
+
+        // filtered by other requirements
+        IEnumerable<CourseDetails> oth = FilterByOthers();         
+        filtered = filtered.Intersect(oth); 
+
+        // filtered by faculty
+        IEnumerable<CourseDetails> fac = FilterByFaculty();         
+        filtered = filtered.Intersect(fac); 
+
+        // filtered by open options
+        IEnumerable<CourseDetails> ope = FilterByOpen();         
+        filtered = filtered.Intersect(ope); 
+
+        // filtered by levels
+        IEnumerable<CourseDetails> lev = FilterByLevel();         
+        filtered = filtered.Intersect(lev); 
+
+
+
+
+
+        // DEBUG
+        Console.WriteLine("\n\n     RESULT:");
+        Console.WriteLine("       --------  searchList  -------");
+        foreach (var course in State.searchedList) {
+            Console.WriteLine("    " + course.Id + " | "+ course.Semester + " | " + course.Eligible + " | " + course.Category);
         }
         Console.WriteLine("\n       --------  filteredList  -------");
         foreach(var course in filtered) {
-            Console.WriteLine("         " + course.Semester);
-        } *@
+            Console.WriteLine("    " + course.Id + " | "+ course.Semester + " | " + course.Eligible + " | " + course.Category);
+        }
         // DEBUG
 
         State.filterNum = filterNum;
@@ -82,10 +236,7 @@
 
     List<bool> semesterStates = new List<bool>() {false, false, false, false};  // Flags to keep track of whether each button is active or inactive
     List<string> semesterClasses = new List<string>() {     // Classes for semesters
-        "btn-light inactive btn btn-sm",
-        "btn-light inactive btn btn-sm",
-        "btn-light inactive btn btn-sm",
-        "btn-light inactive btn btn-sm"
+        inactiveButton, inactiveButton, inactiveButton, inactiveButton
     };
 
     void HandleSemesterFilter(int semester)       // Filters the course list by the selected semesters
@@ -95,9 +246,9 @@
 
         // Change Class based on activity states
         if (semesterStates[semester]) {
-            semesterClasses[semester] = "btn-info active btn btn-sm";
+            semesterClasses[semester] = activeButton;
         } else {
-            semesterClasses[semester] = "btn-light inactive btn btn-sm";
+            semesterClasses[semester] = inactiveButton;
         }      
 
         FilterCourses();
@@ -151,4 +302,471 @@
     {
         isSemesterCollapsed = !isSemesterCollapsed;
     }
+
+    /***************************
+    *         Eligibility
+    ****************************/
+    bool noSelectedEligibility = true;
+    string eligibilityClass = inactiveButton;
+    void HandleEligibilityFilter()       // Filters the course list by the selected eligibilitys
+    {
+        // Toggles the state of the button between active and inactive
+        noSelectedEligibility = !noSelectedEligibility;
+
+        // Change Class based on activity states
+        if (noSelectedEligibility) {
+            eligibilityClass = inactiveButton;
+        } else {
+            eligibilityClass = activeButton;
+        }      
+
+        FilterCourses();
+    }
+
+    List<CourseDetails> FilterByEligibility() {
+
+        Console.WriteLine("====================");
+        Console.WriteLine(" FilterByEligibility()");
+
+        // Filter the course list by the active eligibility
+        List<CourseDetails> filteredCourses = new List<CourseDetails>();
+
+        // Check eligibility state
+        if (noSelectedEligibility) {
+            Console.WriteLine("       Eligibility is NOT activated.");
+        } else {
+            noSelectedEligibility = false;
+            filterNum++;
+            Console.WriteLine("       Eligibility is activated.");
+
+            List<CourseDetails> temp = State.fullList.Where(c =>
+                (c.Eligible == true)).ToList();
+
+            filteredCourses = filteredCourses.Concat(temp).ToList();
+        }
+
+        // DEBUG
+        Console.WriteLine("\n\n     after filtered by eligibility:\n");
+        foreach(var course in filteredCourses) {
+            Console.WriteLine("         " + course.Eligible);
+        }
+        // DEBUG
+
+        // if all filters are not selected, course list should not be changed at all
+        if (noSelectedEligibility) {
+            Console.WriteLine("     No eligibility filter is selected!");
+            return State.fullList;
+        }
+
+        return filteredCourses;
+    }
+
+
+    /***************************
+    *         Major Fields
+    ****************************/
+    bool noSelectedMajor = true;
+    string majorClass = inactiveButton;
+    void HandleMajorFilter()       // Filters the course list by the selected majors
+    {
+        // Toggles the state of the button between active and inactive
+        noSelectedMajor = !noSelectedMajor;
+
+        // Change Class based on activity states
+        if (noSelectedMajor) {
+            majorClass = inactiveButton;
+        } else {
+            majorClass = activeButton;
+        }      
+
+        FilterCourses();
+    }
+
+    List<CourseDetails> FilterByMajor() {
+
+        Console.WriteLine("====================");
+        Console.WriteLine(" FilterByMajor()");
+
+        // Filter the course list by the active major
+        List<CourseDetails> filteredCourses = new List<CourseDetails>();
+
+        // Check major state
+        if (noSelectedMajor) {
+            Console.WriteLine("       Major is NOT activated.");
+        } else {
+            noSelectedMajor = false;
+            filterNum++;
+            Console.WriteLine("       Major is activated.");
+
+            List<CourseDetails> temp = State.fullList.Where(c =>
+                (c.Category == "Major Field")).ToList();
+
+            filteredCourses = filteredCourses.Concat(temp).ToList();
+        }
+
+        // DEBUG
+        Console.WriteLine("\n\n     after filtered by major:\n");
+        foreach(var course in filteredCourses) {
+            Console.WriteLine("         " + course.Eligible);
+        }
+        // DEBUG
+
+        // if all filters are not selected, course list should not be changed at all
+        if (noSelectedMajor) {
+            Console.WriteLine("     No major filter is selected!");
+            return State.fullList;
+        }
+
+        return filteredCourses;
+    }
+
+    /***************************
+    *         Other Requirements
+    ****************************/
+    bool noSelectedOthers = true;
+
+    bool isOthersCollapsed = true;    // Flag to keep track of whether the others filter panel is collapsed or not
+
+    List<string> othersNames = new List<string>() {      // Names for otherss
+        "MATH",
+        "PHIL"
+    };
+    List<bool> othersStates = new List<bool>() {false, false};  // Flags to keep track of whether each button is active or inactive
+    List<string> othersClasses = new List<string>() {     // Classes for otherss
+        inactiveButton, inactiveButton
+    };
+
+    void HandleOthersFilter(int others)       // Filters the course list by the selected otherss
+    {
+        // Toggles the state of the button between active and inactive
+        othersStates[others] = !othersStates[others];
+
+        // Change Class based on activity states
+        if (othersStates[others]) {
+            othersClasses[others] = activeButton;
+        } else {
+            othersClasses[others] = inactiveButton;
+        }      
+
+        FilterCourses();
+    }
+
+    List<CourseDetails> FilterByOthers() {
+
+        Console.WriteLine("====================");
+        Console.WriteLine(" FilterByOtherss()");
+
+        // Filter the course list by the active otherss
+        List<CourseDetails> filteredCourses = new List<CourseDetails>();
+        noSelectedOthers = true;
+
+        // Check all others states
+        for (int i = 0; i < othersNames.Count(); i++) {
+            
+            int tempIndex = i;
+            if (!othersStates[i]) {
+                Console.WriteLine("       {0} is NOT activated.", othersNames[tempIndex]);
+            } else {
+                noSelectedOthers = false;
+                filterNum++;
+                Console.WriteLine("       {0} is activated.", othersNames[tempIndex]);
+
+                List<CourseDetails> temp = State.fullList.Where(c =>
+                    (c.Category == "Other Requirements") &&
+                    (c.Id.Contains(othersNames[i], StringComparison.OrdinalIgnoreCase))).ToList();
+
+                filteredCourses = filteredCourses.Concat(temp).ToList();
+            }
+        }
+
+        // DEBUG
+        Console.WriteLine("\n\n     after filtered by others:\n");
+        foreach(var course in filteredCourses) {
+            Console.WriteLine("         " + course.Category);
+        }
+        // DEBUG
+
+        // if all filters are not selected, course list should not be changed at all
+        if (noSelectedOthers) {
+            Console.WriteLine("     No others filter is selected!");
+            return State.fullList;
+        }
+
+        return filteredCourses;
+    }
+
+    // Toggles the collapsed state of the others filter panel
+    void ToggleOthers()
+    {
+        isOthersCollapsed = !isOthersCollapsed;
+    }
+
+
+    /***************************
+    *         Faculty Breadth
+    ****************************/
+    bool noSelectedFaculty = true;
+    string facultyClass = inactiveButton;
+    void HandleFacultyFilter()       // Filters the course list by the selected facultys
+    {
+        // Toggles the state of the button between active and inactive
+        noSelectedFaculty = !noSelectedFaculty;
+
+        // Change Class based on activity states
+        if (noSelectedFaculty) {
+            facultyClass = inactiveButton;
+        } else {
+            facultyClass = activeButton;
+        }      
+
+        FilterCourses();
+    }
+
+    List<CourseDetails> FilterByFaculty() {
+
+        Console.WriteLine("====================");
+        Console.WriteLine(" FilterByFaculty()");
+
+        // Filter the course list by the active faculty
+        List<CourseDetails> filteredCourses = new List<CourseDetails>();
+
+        // Check faculty state
+        if (noSelectedFaculty) {
+            Console.WriteLine("       Faculty is NOT activated.");
+        } else {
+            noSelectedFaculty = false;
+            filterNum++;
+            Console.WriteLine("       Faculty is activated.");
+
+            List<CourseDetails> temp = State.fullList.Where(c =>
+                (c.Faculty != "Science") && (c.Category != "Other Requirements")
+                && (c.Category != "Major Field")).ToList();
+
+            filteredCourses = filteredCourses.Concat(temp).ToList();
+        }
+
+        // DEBUG
+        Console.WriteLine("\n\n     after filtered by faculty:\n");
+        foreach(var course in filteredCourses) {
+            Console.WriteLine("         " + course.Eligible);
+        }
+        // DEBUG
+
+        // if all filters are not selected, course list should not be changed at all
+        if (noSelectedFaculty) {
+            Console.WriteLine("     No faculty filter is selected!");
+            return State.fullList;
+        }
+
+        return filteredCourses;
+    }
+
+    /***************************
+    *         Open Options
+    ****************************/
+
+    bool noSelectedOpen = true;
+
+    bool isOpenCollapsed = true;    // Flag to keep track of whether the open filter panel is collapsed or not
+
+    List<string> openNames = new List<string>() {      // Names for opens
+        "Major",
+        "Non-major"
+    };
+    List<bool> openStates = new List<bool>() {false, false};  // Flags to keep track of whether each button is active or inactive
+    List<string> openClasses = new List<string>() {     // Classes for opens
+        inactiveButton, inactiveButton
+    };
+
+    void HandleOpenFilter(int open)       // Filters the course list by the selected opens
+    {
+        // Toggles the state of the button between active and inactive
+        //      for no selected level
+        if (noSelectedOpen) {
+            openStates[open] = true;
+            openClasses[open] = activeButton;
+        } 
+        //      for deselecting
+        else if (openStates[open] == true) {
+            openStates[open] = false;
+            openClasses[open] = inactiveButton;
+        }
+        //      for another option selected
+        else {
+            for (int i = 0; i < openNames.Count(); i++) {
+                if (i == open) {
+                    openStates[i] = true;
+                    openClasses[i] = activeButton;
+                } else {
+                    openStates[i] = false;
+                    openClasses[i] = inactiveButton;
+                }
+            }
+        }
+
+        FilterCourses();
+    }
+
+    List<CourseDetails> FilterByOpen() {
+
+        Console.WriteLine("====================");
+        Console.WriteLine(" FilterByOpen()");
+
+        // Filter the course list by the active opens
+        List<CourseDetails> filteredCourses = new List<CourseDetails>();
+        noSelectedOpen = true;
+
+        // Check all open states
+        for (int i = 0; i < openNames.Count(); i++) {
+            
+            int tempIndex = i;
+            if (!openStates[i]) {
+                Console.WriteLine("       {0} is NOT activated.", openNames[tempIndex]);
+            } else {
+                noSelectedOpen = false;
+                filterNum++;
+                Console.WriteLine("       {0} is activated.", openNames[tempIndex]);
+
+                // for major
+                if (openNames[i] == "Major") {
+                    
+                    List<CourseDetails> temp = State.fullList.Where(c =>
+                        ((c.Id.Contains("CPSC", StringComparison.OrdinalIgnoreCase))
+                        || (c.Id.Contains("SENG", StringComparison.OrdinalIgnoreCase)))
+                        && (c.Category == "Open Options")).ToList();
+
+                    filteredCourses = filteredCourses.Concat(temp).ToList();
+
+                } else if (openNames[i] == "Non-major") {
+
+                    List<CourseDetails> temp = State.fullList.Where(c =>
+                        (!c.Id.Contains("CPSC", StringComparison.OrdinalIgnoreCase))
+                        && (!c.Id.Contains("SENG", StringComparison.OrdinalIgnoreCase))
+                        && (c.Category == "Open Options")).ToList();
+
+                    filteredCourses = filteredCourses.Concat(temp).ToList();
+                    
+                }
+            }
+        }
+
+        // DEBUG
+        Console.WriteLine("\n\n     after filtered by open:\n");
+        foreach(var course in filteredCourses) {
+            Console.WriteLine("         " + course.Id);
+        }
+        // DEBUG
+
+        // if all filters are not selected, course list should not be changed at all
+        if (noSelectedOpen) {
+            Console.WriteLine("     No open filter is selected!");
+            return State.fullList;
+        }
+
+        return filteredCourses;
+    }
+
+    // Toggles the collapsed state of the open filter panel
+    void ToggleOpen()
+    {
+        isOpenCollapsed = !isOpenCollapsed;
+    }
+
+
+    /***************************
+    *         By Levels
+    ****************************/
+    bool noSelectedLevel = true;
+
+    bool isLevelCollapsed = true;    // Flag to keep track of whether the level filter panel is collapsed or not
+
+    List<string> levelNames = new List<string>() {      // Names for levels
+        "≥ 300 level",
+        "≥ 400 level",
+        "≥ 500 level"
+    };
+
+    List<int> levels = new List<int>() {300, 400, 500};
+    List<bool> levelStates = new List<bool>() {false, false, false};  // Flags to keep track of whether each button is active or inactive
+    List<string> levelClasses = new List<string>() {     // Classes for levels
+        inactiveButton, inactiveButton, inactiveButton
+    };
+
+    void HandleLevelFilter(int level)       // Filters the course list by the selected levels
+    {
+        // Toggles the state of the button between active and inactive
+        //      for no selected level
+        if (noSelectedLevel) {
+            levelStates[level] = true;
+            levelClasses[level] = activeButton;
+        } 
+        //      for deselecting
+        else if (levelStates[level] == true) {
+            levelStates[level] = false;
+            levelClasses[level] = inactiveButton;
+        }
+        //      for other level(s) selected
+        else {
+            for (int i = 0; i < levelNames.Count(); i++) {
+                if (i == level) {
+                    levelStates[i] = true;
+                    levelClasses[i] = activeButton;
+                } else {
+                    levelStates[i] = false;
+                    levelClasses[i] = inactiveButton;
+                }
+            }
+        }
+
+        FilterCourses();
+    }
+    List<CourseDetails> FilterByLevel() {
+
+        Console.WriteLine("====================");
+        Console.WriteLine(" FilterByLevels()");
+
+        // Filter the course list by the active level
+        List<CourseDetails> filteredCourses = new List<CourseDetails>();
+        noSelectedLevel = true;
+
+        // Check all level states
+        for (int i = 0; i < levelNames.Count(); i++) {
+            
+            int tempIndex = i;
+            if (!levelStates[i]) {
+                Console.WriteLine("       {0} is NOT activated.", levelNames[tempIndex]);
+            } else {
+                noSelectedLevel = false;
+                filterNum++;
+                Console.WriteLine("       {0} is activated.", levelNames[tempIndex]);
+
+                List<CourseDetails> temp = State.fullList.Where(c =>
+                    (c.Level >= levels[i])).ToList();
+
+                filteredCourses = filteredCourses.Concat(temp).ToList();
+            }
+        }
+
+        // DEBUG
+        Console.WriteLine("\n\n     after filtered by level:\n");
+        foreach(var course in filteredCourses) {
+            Console.WriteLine("         " + course.Category);
+        }
+        // DEBUG
+
+        // if all filters are not selected, course list should not be changed at all
+        if (noSelectedLevel) {
+            Console.WriteLine("     No level filter is selected!");
+            return State.fullList;
+        }
+
+        return filteredCourses;
+    }
+
+    // Toggles the collapsed state of the level filter panel
+    void ToggleLevel()
+    {
+        isLevelCollapsed = !isLevelCollapsed;
+    }
 }
+

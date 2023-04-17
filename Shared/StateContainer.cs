@@ -7,8 +7,7 @@ using System;
 using CourseCompanion.Shared;
 using CourseCompanion.Shared.Model;
 using CourseCompanion.Shared.Services;
-
-
+using CourseCompanion.Shared.Filter;
 namespace CourseCompanion.Shared.State
 {
 
@@ -154,7 +153,8 @@ namespace CourseCompanion.Shared.State
 
             //foreach (var course in (searchedList).OrderBy(x => x.Id))
             //    Console.WriteLine(course.Id);
-
+            
+            // reset filter
 
             return searchedList;
 

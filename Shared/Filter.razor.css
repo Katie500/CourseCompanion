@@ -1,15 +1,64 @@
-.active.fall {
+.btn-primary{
+    background-color: rgb(210, 224, 224);
+    color: black;
+}
+
+.active.btn-primary{
+    background-color: rgb(152, 183, 183);
+    color: black;
+}
+
+/* Semester */
+
+.active.Fall {
     background-color: lightcyan;
 }
 
-.active.winter {
+.active.Winter {
     background-color: cornsilk;
 }
 
-.active.spring {
+.active.Spring {
     background-color: thistle;
 }
 
-.active.summer {
+.active.Summer {
     background-color: lightsalmon;
 }
+
+/* Eligible */
+
+.active.eligibility {
+    background-color: rgb(102, 192, 84);
+}
+
+/* Major Field */
+.active.major {
+    color: rgb(225, 225, 225);
+    background-color: midnightblue;
+}
+
+/* Faculty Breadth */
+.active.Faculty {
+    background-color: rgb(122, 245, 225);
+}
+
+/* Other Requirement */
+.active.MATH {
+    background-color: orchid;
+}
+
+.active.PHIL {
+    background-color: orchid;
+}
+
+/* Open Options */
+.active.Major {
+    background-color: lightgreen;
+}
+
+.active.Non-major {
+    background-color: lightgreen;
+}
+
+

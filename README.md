@@ -3,6 +3,8 @@ CPSC 481 W23 Project - Group 5
 
 A system to help students at the University of Calgary plan their courses.
 
+Video demo: https://youtu.be/ThN_2fZ7U9A
+
 ## Contributors:
   - Yvonne Ng
   - Kai Ho Chak

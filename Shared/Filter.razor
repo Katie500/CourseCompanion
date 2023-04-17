@@ -68,9 +68,22 @@
         </Collapsable>
     </div>
 
-/* Open Options */
-
-/* Non-Major */
+    <!-- Open Options -->
+    <div class="container px-4 text-center">
+        <button @onclick='ToggleOpen' class="btn btn-primary btn-block">Open Fields</button>
+        <!-- Collapsable panel for open filter options -->
+        <Collapsable Title="Open" Collapsed="@isOpenCollapsed">
+            <div class="row g-2">
+                @for (int i = 0; i < openNames.Count(); i++) {
+                    int tempIndex = i; // create a temporary variable to capture the current value of i
+                    <div class="col-6">
+                        <button @onclick='() => HandleOpenFilter(tempIndex)' 
+                            class="@openNames[tempIndex] @openClasses[tempIndex]">@openNames[tempIndex]</button>
+                    </div>
+                }
+            </div>
+        </Collapsable>
+    </div>
 
     <!-- By Levels -->
     <div class="container px-4 text-center">
@@ -461,6 +474,112 @@
     *         Open Options
     ****************************/
 
+    bool noSelectedOpen = true;
+
+    bool isOpenCollapsed = true;    // Flag to keep track of whether the open filter panel is collapsed or not
+
+    List<string> openNames = new List<string>() {      // Names for opens
+        "MAJOR",
+        "NON-MAJOR"
+    };
+    List<bool> openStates = new List<bool>() {false, false};  // Flags to keep track of whether each button is active or inactive
+    List<string> openClasses = new List<string>() {     // Classes for opens
+        inactiveButton, inactiveButton
+    };
+
+    void HandleOpenFilter(int open)       // Filters the course list by the selected opens
+    {
+        // Toggles the state of the button between active and inactive
+        //      for no selected level
+        if (noSelectedOpen) {
+            openStates[open] = true;
+            openClasses[open] = activeButton;
+        } 
+        //      for deselecting
+        else if (openStates[open] == true) {
+            openStates[open] = false;
+            openClasses[open] = inactiveButton;
+        }
+        //      for another option selected
+        else {
+            for (int i = 0; i < levelNames.Count(); i++) {
+                if (i == open) {
+                    openStates[i] = true;
+                    openClasses[i] = activeButton;
+                } else {
+                    openStates[i] = false;
+                    openClasses[i] = inactiveButton;
+                }
+            }
+        }
+
+        FilterCourses();
+    }
+
+    List<CourseDetails> FilterByOpen() {
+
+        Console.WriteLine("====================");
+        Console.WriteLine(" FilterByOpen()");
+
+        // Filter the course list by the active opens
+        List<CourseDetails> filteredCourses = new List<CourseDetails>();
+        noSelectedOpen = true;
+
+        // Check all open states
+        for (int i = 0; i < openNames.Count(); i++) {
+            
+            int tempIndex = i;
+            if (!openStates[i]) {
+                Console.WriteLine("       {0} is NOT activated.", openNames[tempIndex]);
+            } else {
+                noSelectedOpen = false;
+                filterNum++;
+                Console.WriteLine("       {0} is activated.", openNames[tempIndex]);
+
+                // for major
+                if (openNames[i] == "MAJOR") {
+                    
+                    List<CourseDetails> temp = State.fullList.Where(c =>
+                        (c.Id.Contains("CPSC", StringComparison.OrdinalIgnoreCase))
+                        && (c.Id.Contains("SENG", StringComparison.OrdinalIgnoreCase))
+                        && (c.Category == "Open Options")).ToList();
+
+                    filteredCourses = filteredCourses.Concat(temp).ToList();
+
+                } else if (openNames[i] == "NON-MAJOR") {
+
+                    List<CourseDetails> temp = State.fullList.Where(c =>
+                        (!c.Id.Contains("CPSC", StringComparison.OrdinalIgnoreCase))
+                        && (!c.Id.Contains("SENG", StringComparison.OrdinalIgnoreCase))
+                        && (c.Category == "Open Options")).ToList();
+
+                    filteredCourses = filteredCourses.Concat(temp).ToList();
+                    
+                }
+            }
+        }
+
+        // DEBUG
+        Console.WriteLine("\n\n     after filtered by open:\n");
+        foreach(var course in filteredCourses) {
+            Console.WriteLine("         " + course.Id);
+        }
+        // DEBUG
+
+        // if all filters are not selected, course list should not be changed at all
+        if (noSelectedOpen) {
+            Console.WriteLine("     No open filter is selected!");
+            return State.fullList;
+        }
+
+        return filteredCourses;
+    }
+
+    // Toggles the collapsed state of the open filter panel
+    void ToggleOpen()
+    {
+        isOpenCollapsed = !isOpenCollapsed;
+    }
 
 
     /***************************

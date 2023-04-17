@@ -1,4 +1,3 @@
-
 /* Semester */
 
 .active.Fall {
@@ -24,25 +23,33 @@
 }
 
 /* Major Field */
-
-.active.cpsc {
-    background-color: rgb(84, 192, 188);
-}
-
-.active.math {
-    background-color: rgb(225, 219, 106);
+.active.major {
+    color: rgb(225, 225, 225);
+    background-color: midnightblue;
 }
 
 /* Faculty Breadth */
-
-.active.math {
-    background-color: rgb(225, 219, 106);
+.active.Faculty {
+    background-color: goldenrod;
 }
 
-/* Other Requirement */
 
+/* Other Requirement */
+.active.MATH {
+    background-color: orchid;
+}
+
+.active.PHIL {
+    background-color: orchid;
+}
 
 /* Open Options */
+.active.Major {
+    background-color: lightgreen;
+}
 
-/* Levels */
+.active.Non-major {
+    background-color: lightgreen;
+}
+
 

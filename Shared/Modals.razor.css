@@ -1,0 +1,51 @@
+﻿
+
+#degreeReqModal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#helpModal1 {
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+}
+#helpModal2 {
+    position: absolute;
+    top: 60%;
+    left: 60%;
+    transform: translate(-50%, -40%);
+}
+#helpModal3 {
+    position: absolute;
+    top: 50%;
+    left: 35%;
+    transform: translate(-50%, -50%);
+}
+#helpModal4 {
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+}
+#helpModal5 {
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+}
+#helpModal6 {
+    position: absolute;
+    top: 90%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+}
+#helpModal7 {
+    position: absolute;
+    top: 90%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+}

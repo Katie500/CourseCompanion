@@ -18,7 +18,9 @@
                     int tempIndex = i; // create a temporary variable to capture the current value of i
                     <div class="col-6">
                         <button @onclick='() => HandleSemesterFilter(tempIndex)' 
-                            class="@semesterNames[tempIndex] @semesterClasses[tempIndex]">@semesterNames[tempIndex]</button>
+                                class=" btn btn-light w-100 @semesterNames[tempIndex] @semesterClasses[tempIndex]">
+                            @semesterNames[tempIndex]
+                        </button>
                     </div>
                 }
             </div>
@@ -72,10 +74,10 @@
     bool isSemesterCollapsed = true;    // Flag to keep track of whether the semester filter panel is collapsed or not
 
     List<string> semesterNames = new List<string>() {      // Names for semesters
-        "fall",
-        "winter",
-        "spring",
-        "summer"
+        "Fall",
+        "Winter",
+        "Spring",
+        "Summer"
     };
 
     List<bool> semesterStates = new List<bool>() {false, false, false, false};  // Flags to keep track of whether each button is active or inactive

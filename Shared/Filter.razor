@@ -31,25 +31,12 @@
         <button @onclick='() => HandleEligibilityFilter()' 
             class="eligibility @eligibilityClass">Only Eligible</button>
     </div>
-
-    <!-- Major Field -->
-    <div class="container px-4 text-center">
-        <button @onclick='ToggleMajor' class="btn btn-primary btn-block">Major Fields</button>
-        <!-- Collapsable panel for major filter options -->
-        <Collapsable Title="Major" Collapsed="@isMajorCollapsed">
-            <div class="row g-2">
-                @for (int i = 0; i < majorNames.Count(); i++) {
-                    int tempIndex = i; // create a temporary variable to capture the current value of i
-                    <div class="col-6">
-                        <button @onclick='() => HandleMajorFilter(tempIndex)' 
-                            class="@majorNames[tempIndex] @majorClasses[tempIndex]">@majorNames[tempIndex]</button>
-                    </div>
-                }
-            </div>
-        </Collapsable>
-    </div>
     
-/* Faculty Breadth */
+    <!-- Major Fields -->
+    <div class="container px-4 text-center">
+        <button @onclick='() => HandleMajorFilter()' 
+            class="major @majorClass">Major Fields</button>
+    </div>
 
     <!-- Other Requirements -->
     <div class="container px-4 text-center">
@@ -135,7 +122,7 @@
         filtered = filtered.Intersect(elig);        
 
         // filtered by majors
-        IEnumerable<CourseDetails> maj = FilterByMajors();         
+        IEnumerable<CourseDetails> maj = FilterByMajor();         
         filtered = filtered.Intersect(maj); 
 
         // filtered by other requirements
@@ -316,64 +303,48 @@
     *         Major Fields
     ****************************/
     bool noSelectedMajor = true;
-
-    bool isMajorCollapsed = true;    // Flag to keep track of whether the major filter panel is collapsed or not
-
-    List<string> majorNames = new List<string>() {      // Names for majors
-        "CPSC",
-        "MATH"
-    };
-    List<bool> majorStates = new List<bool>() {false, false};  // Flags to keep track of whether each button is active or inactive
-    List<string> majorClasses = new List<string>() {     // Classes for majors
-        inactiveButton, inactiveButton
-    };
-
-    void HandleMajorFilter(int major)       // Filters the course list by the selected majors
+    string majorClass = inactiveButton;
+    void HandleMajorFilter()       // Filters the course list by the selected majors
     {
         // Toggles the state of the button between active and inactive
-        majorStates[major] = !majorStates[major];
+        noSelectedMajor = !noSelectedMajor;
 
         // Change Class based on activity states
-        if (majorStates[major]) {
-            majorClasses[major] = activeButton;
+        if (noSelectedMajor) {
+            majorClass = inactiveButton;
         } else {
-            majorClasses[major] = inactiveButton;
+            majorClass = activeButton;
         }      
 
         FilterCourses();
     }
 
-    List<CourseDetails> FilterByMajors() {
+    List<CourseDetails> FilterByMajor() {
 
         Console.WriteLine("====================");
-        Console.WriteLine(" FilterByMajors()");
+        Console.WriteLine(" FilterByMajor()");
 
-        // Filter the course list by the active majors
+        // Filter the course list by the active major
         List<CourseDetails> filteredCourses = new List<CourseDetails>();
-        noSelectedMajor = true;
 
-        // Check all major states
-        for (int i = 0; i < majorNames.Count(); i++) {
-            
-            int tempIndex = i;
-            if (!majorStates[i]) {
-                Console.WriteLine("       {0} is NOT activated.", majorNames[tempIndex]);
-            } else {
-                noSelectedMajor = false;
-                filterNum++;
-                Console.WriteLine("       {0} is activated.", majorNames[tempIndex]);
+        // Check major state
+        if (noSelectedMajor) {
+            Console.WriteLine("       Major is NOT activated.");
+        } else {
+            noSelectedMajor = false;
+            filterNum++;
+            Console.WriteLine("       Major is activated.");
 
-                List<CourseDetails> temp = State.fullList.Where(c =>
-                    c.Id.Contains(majorNames[i], StringComparison.OrdinalIgnoreCase)).ToList();
+            List<CourseDetails> temp = State.fullList.Where(c =>
+                (c.Category == "Major Field")).ToList();
 
-                filteredCourses = filteredCourses.Concat(temp).ToList();
-            }
+            filteredCourses = filteredCourses.Concat(temp).ToList();
         }
 
         // DEBUG
         Console.WriteLine("\n\n     after filtered by major:\n");
         foreach(var course in filteredCourses) {
-            Console.WriteLine("         " + course.Id);
+            Console.WriteLine("         " + course.Eligible);
         }
         // DEBUG
 
@@ -384,12 +355,6 @@
         }
 
         return filteredCourses;
-    }
-
-    // Toggles the collapsed state of the major filter panel
-    void ToggleMajor()
-    {
-        isMajorCollapsed = !isMajorCollapsed;
     }
 
     /***************************
@@ -483,8 +448,8 @@
     bool isOpenCollapsed = true;    // Flag to keep track of whether the open filter panel is collapsed or not
 
     List<string> openNames = new List<string>() {      // Names for opens
-        "MAJOR",
-        "NON-MAJOR"
+        "Major",
+        "Non-major"
     };
     List<bool> openStates = new List<bool>() {false, false};  // Flags to keep track of whether each button is active or inactive
     List<string> openClasses = new List<string>() {     // Classes for opens
@@ -541,7 +506,7 @@
                 Console.WriteLine("       {0} is activated.", openNames[tempIndex]);
 
                 // for major
-                if (openNames[i] == "MAJOR") {
+                if (openNames[i] == "Major") {
                     
                     List<CourseDetails> temp = State.fullList.Where(c =>
                         ((c.Id.Contains("CPSC", StringComparison.OrdinalIgnoreCase))
@@ -550,7 +515,7 @@
 
                     filteredCourses = filteredCourses.Concat(temp).ToList();
 
-                } else if (openNames[i] == "NON-MAJOR") {
+                } else if (openNames[i] == "Non-major") {
 
                     List<CourseDetails> temp = State.fullList.Where(c =>
                         (!c.Id.Contains("CPSC", StringComparison.OrdinalIgnoreCase))

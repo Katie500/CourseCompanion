@@ -8,9 +8,10 @@
 @namespace CourseCompanion.Shared.Filter
 <!-- Filter by Semester -->
 <div>
+
+    <!-- Semester -->
     <div class="container px-4 text-center">
-    <!-- Button to toggle semester filter panel -->
-        @* <button @onclick='ToggleSemester' class="btn btn-primary btn-block">Semester</button> *@
+        <button @onclick='ToggleSemester' class="btn btn-primary btn-block">Semester</button>
         <!-- Collapsable panel for semester filter options -->
         <Collapsable Title="Semester" Collapsed="@isSemesterCollapsed">
             <div class="row g-2">
@@ -23,21 +24,37 @@
                 }
             </div>
         </Collapsable>
-        
-    </div>  
+    </div>
+
+    <!-- Eligible -->
+    <div class="container px-4 text-center">
+        <button @onclick='() => HandleEligibilityFilter()' 
+            class="eligibility @eligibilityClass">Only Eligible</button>
+    </div>
+
+    
+/* Major Field */
+
+/* Faculty Breadth */
+
+/* Other Requirement */
+
+/* Open Options */
+
+/* Levels */
 </div>
 
 @code {
-
+    const string inactiveButton = "btn-light inactive btn btn-sm";
     int filterNum = 0;
     void FilterCourses() {
 
         // DEBUG
-        @* Console.WriteLine("\n\n     FilterCourses() - State.searchedList before filtering:");
+        Console.WriteLine("\n\n     FilterCourses() - State.searchedList before filtering:");
         Console.WriteLine("       --------  searchList  -------");
         foreach (var course in State.searchedList) {
-            Console.WriteLine("    " + course.Semester);
-        } *@
+            Console.WriteLine("    " + course.Semester + " " + course.Eligible);
+        }
         // DEBUG
 
         List<CourseDetails> searched = new List<CourseDetails>(State.searchedList);
@@ -45,19 +62,24 @@
         IEnumerable<CourseDetails> temp;
         filterNum = 0;
 
-        temp = FilterBySemesters();         // filtered by semesters
+        // filtered by semesters
+        temp = FilterBySemesters();         
+        filtered = filtered.Intersect(temp);        
+
+        // filtered by eligibility
+        temp = FilterByEligibility();         
         filtered = filtered.Intersect(temp);        
 
         // DEBUG
-        @* Console.WriteLine("\n\n     RESULT:");
+        Console.WriteLine("\n\n     RESULT:");
         Console.WriteLine("       --------  searchList  -------");
         foreach (var course in State.searchedList) {
-            Console.WriteLine("    " + course.Semester);
+            Console.WriteLine("    " + course.Semester + " " + course.Eligible);
         }
         Console.WriteLine("\n       --------  filteredList  -------");
         foreach(var course in filtered) {
-            Console.WriteLine("         " + course.Semester);
-        } *@
+            Console.WriteLine("    " + course.Semester + " " + course.Eligible);
+        }
         // DEBUG
 
         State.filterNum = filterNum;
@@ -149,4 +171,64 @@
     {
         isSemesterCollapsed = !isSemesterCollapsed;
     }
+
+    /***************************
+    *         Eligibility
+    ****************************/
+    bool noSelectedEligibility = true;
+    string eligibilityClass = inactiveButton;
+    void HandleEligibilityFilter()       // Filters the course list by the selected eligibilitys
+    {
+        // Toggles the state of the button between active and inactive
+        noSelectedEligibility = !noSelectedEligibility;
+
+        // Change Class based on activity states
+        if (noSelectedEligibility) {
+            eligibilityClass = inactiveButton;
+        } else {
+            eligibilityClass = "btn-info active btn btn-sm";
+        }      
+
+        FilterCourses();
+    }
+
+    List<CourseDetails> FilterByEligibility() {
+
+        Console.WriteLine("====================");
+        Console.WriteLine(" FilterByEligibility()");
+
+        // Filter the course list by the active eligibility
+        List<CourseDetails> filteredCourses = new List<CourseDetails>();
+
+        // Check eligibility state
+        if (noSelectedEligibility) {
+            Console.WriteLine("       Eligibility is NOT activated.");
+        } else {
+            noSelectedEligibility = false;
+            filterNum++;
+            Console.WriteLine("       Eligibility is activated.");
+
+            List<CourseDetails> temp = State.fullList.Where(c =>
+                (c.Eligible == true)).ToList();
+
+            filteredCourses = filteredCourses.Concat(temp).ToList();
+        }
+
+        // DEBUG
+        Console.WriteLine("\n\n     after filtered by eligibility:\n");
+        foreach(var course in filteredCourses) {
+            Console.WriteLine("         " + course.Eligible);
+        }
+        // DEBUG
+
+        // if all filters are not selected, course list should not be changed at all
+        if (noSelectedEligibility) {
+            Console.WriteLine("     No eligibility filter is selected!");
+            return State.fullList;
+        }
+
+        return filteredCourses;
+    }
+
 }
+

@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigator
 @page "/ScheduleBuilder"
 
 @using Microsoft.AspNetCore.Components.Web
@@ -20,7 +21,7 @@
 </head>
 
 <body>
-    <img class="center-fit" src="/assets/ScheduleBuilder.png">
+    <img class="center-fit" src="@Navigator.BaseUri/assets/ScheduleBuilder.png">
 </body>
     
 

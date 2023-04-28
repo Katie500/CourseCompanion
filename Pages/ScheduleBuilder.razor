@@ -1,5 +1,7 @@
 ﻿@inherits LayoutComponentBase
-@inject NavigationManager Navigator
+@inject NavigationManager NavigationManager
+
+@page "/CourseCompanion/ScheduleBuilder"
 @page "/ScheduleBuilder"
 
 @using Microsoft.AspNetCore.Components.Web
@@ -12,18 +14,21 @@
     <style>
         .center-fit {
             max-width: 100vw;
-            max-height: auto;
+            max-height: 100vh;
+            background-size: cover;
+            overflow: hidden;
             margin: 0;
-            top:0;
-            left:0;
+            padding: 0;
         }
+
+        body {
+            background-image: url(@NavigationManager.BaseUri/assets/ScheduleBuilder.png);
+            background-size: cover;
+        }
+
+
     </style>
 </head>
-
-<body>
-    <img class="center-fit" src="@Navigator.BaseUri/assets/ScheduleBuilder.png">
-</body>
-    
 
 
 @code {

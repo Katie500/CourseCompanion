@@ -1,3 +1,5 @@
+[![Deploy to GitHub Pages](https://github.com/ng-yvonne/CourseCompanion/actions/workflows/main.yml/badge.svg)](https://github.com/ng-yvonne/CourseCompanion/actions/workflows/main.yml)
+
 # CourseCompanion
 CPSC 481 W23 Project - Group 5
 

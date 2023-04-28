@@ -105,7 +105,7 @@ namespace CourseCompanion.Shared.State
         {
             string sem = GetSemester(course);
 
-            // add courses based on semester
+            // remove courses based on semester
             switch (sem)
             {
                 case "fall":
@@ -121,7 +121,7 @@ namespace CourseCompanion.Shared.State
                     break;
 
                 case "summer":
-                    summerList.Remove(course); summer_TotalCredits += course.Credits;
+                    summerList.Remove(course); summer_TotalCredits -= course.Credits;
                     break;
             }
 

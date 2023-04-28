@@ -323,6 +323,8 @@ h1[b-gp6iftvpk8] {
     position: relative;
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    width: 100wh;
 }
 
 main[b-ni31l92u9a] {

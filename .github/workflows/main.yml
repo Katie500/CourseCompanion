@@ -11,26 +11,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     # uses GitHub's checkout action to checkout code form the master branch
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     
     # sets up .NET Core SDK
     - name: Setup .NET Core SDK
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
-
-    # gets the cached workload in wasm tools
-    - name: Install dotnet wasm builder
-      run: dotnet workload restore 
+        dotnet-version: 6.0.406
 
     # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
-      run: dotnet publish CourseCompanion.csproj -c Release -p GHPages=true -o dist/Web --nologo
+      run: dotnet publish CourseCompanion.csproj -c Release -o release --nologo
     
-    # commit the published page to gh-pages
+    # changes the base-tag in index.html from '/' to 'CourseCompanion' to match GitHub Pages repository subdirectory
+    - name: Change base-tag in index.html from / to CourseCompanion
+      run: sed -i 's/<base href="\/" \/>/<base href="\/CourseCompanion\/" \/>/g' release/wwwroot/index.html
+    
+    # copy index.html to 404.html to serve the same file when a file is not found
+    - name: copy index.html to 404.html
+      run: cp release/wwwroot/index.html release/wwwroot/404.html
+
+    # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
+    - name: Add .nojekyll file
+      run: touch release/wwwroot/.nojekyll
+      
     - name: Commit wwwroot to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
+      uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
-        FOLDER: dist/Web/wwwroot
+        FOLDER: release/wwwroot

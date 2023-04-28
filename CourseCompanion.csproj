@@ -6,7 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <GHPagesBase>/</GHPagesBase>
     <PublishTrimmed>true</PublishTrimmed>
-    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

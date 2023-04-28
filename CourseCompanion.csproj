@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <StaticWebAssetBasePath>"/assets/"</StaticWebAssetBasePath>
+    <StaticWebAssetBasePath>/assets/</StaticWebAssetBasePath>
     <RunAOTCompilation>true</RunAOTCompilation>
     <PublishTrimmed>true</PublishTrimmed>
   </PropertyGroup>
@@ -13,19 +13,9 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>anycpu</PlatformTarget>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.14" />
-    <PackageReference Include="Syncfusion.Blazor" Version="21.1.35" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Shared\Temp.razor" />
-    <Content Remove="Pages\Counter.razor" />
-    <Content Remove="Pages\FetchData.razor" />
-    <Content Remove="Shared\SurveyPrompt.razor" />
-    <Content Remove="wwwroot\sample-data\courses copy.json" />
-    <Content Remove="wwwroot\sample-data\weather.json" />
-    <Content Remove="wwwroot\sample-data\coursesTests.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Shared\Model\" />
@@ -47,4 +37,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.14" />
+    <PackageReference Include="Syncfusion.Blazor" Version="21.1.35" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.14" />
+  </ItemGroup>
 </Project>

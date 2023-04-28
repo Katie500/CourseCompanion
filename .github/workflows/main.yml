@@ -19,7 +19,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    # gets the cached workload
+    # gets the cached workload in wasm tools
     - name: Install dotnet wasm builder
       run: dotnet workload restore 
 

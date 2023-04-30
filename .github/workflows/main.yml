@@ -21,7 +21,7 @@ jobs:
 
     # installs wasm tools, needed for aot compilation
     - name: Install WASM Tools
-      run: dotnet workload install wasm-tools
+      run: dotnet workload install wasm-tools-net6
 
     # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
